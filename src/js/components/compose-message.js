@@ -1,5 +1,7 @@
 import React from 'react';
 import { addons } from 'react/addons';
+import ChannelActions from '../actions/channel-actions';
+import ChannelStore from '../stores/channel-store';
 
 const component = React.createClass({
   mixins: [addons.PureRenderMixin],
@@ -10,15 +12,25 @@ const component = React.createClass({
 
   handleFormSubmission(event) {
     event.preventDefault();
-    // TODO: fire action
+    ChannelActions.sendMessage({
+      channel: ChannelStore.getSelectedChannel().name,
+      message: this.state.message
+    });
+  },
+
+  setMessage(event) {
+    this.setState({
+      message: event.target.value
+    });
   },
 
   render() {
     return (
       <form className="form-panel" onSubmit={this.handleFormSubmission}>
         <input type="text"
-               placeholder="new message"
-               required />
+               placeholder="write message"
+               required
+               onChange={this.setMessage} />
       </form>
     );
   }

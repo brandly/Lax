@@ -24,11 +24,20 @@ const component = React.createClass({
     });
   },
 
+  scrollToBottom() {
+    const el = React.findDOMNode(this.refs.scroller);
+    el.scrollTop = el.scrollHeight;
+  },
+
+  componentDidUpdate() {
+    this.scrollToBottom();
+  },
+
   render() {
     const { channel, messages } = this.state;
 
     if (!channel) {
-      return <h4>no channel selected</h4>;
+      return null;
     }
 
     const messageElements = messages.map((msg, i) => {
@@ -42,9 +51,11 @@ const component = React.createClass({
     });
 
     return (
-      <ul className="scrolling-panel message-list">
-        {messageElements.toArray()}
-      </ul>
+      <div className="scrolling-panel" ref="scroller">
+        <ul className="message-list">
+          {messageElements.toArray()}
+        </ul>
+      </div>
     );
   }
 });

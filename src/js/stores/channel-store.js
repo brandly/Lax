@@ -1,4 +1,4 @@
-import Immutable from 'immutable';
+import { List } from 'immutable';
 import assign from 'object-assign';
 import EventEmitter from '../modules/event-emitter';
 import ircDispatcher from '../dispatchers/irc-dispatcher';
@@ -8,11 +8,20 @@ import ConnectionStore from './connection-store';
 class Channel {
   constructor(name) {
     this.name = name;
-    this.messages = Immutable.List();
+    this.messages = List();
+    this.people = List();
   }
 
   getMessages() {
     return this.messages;
+  }
+
+  getPeople() {
+    return this.people;
+  }
+
+  setPeople(names) {
+    this.people = List.of.apply(List, names);
   }
 
   addMessage(message) {
@@ -21,7 +30,7 @@ class Channel {
 }
 
 const ChannelStore = assign({}, EventEmitter, {
-  channels: Immutable.List(),
+  channels: List(),
   selectedChannelName: null,
 
   getChannels() {
@@ -45,7 +54,7 @@ const ChannelStore = assign({}, EventEmitter, {
   join(channelName) {
     if (!!this.getChannelByName(channelName)) return;
 
-    let connection = ConnectionStore.getConnection();
+    const connection = ConnectionStore.getConnection();
     connection.join(channelName);
 
     this.channels = this.channels.push(new Channel(channelName));
@@ -69,13 +78,28 @@ ChannelStore.dispatchToken = ircDispatcher.register(action => {
       ChannelStore.selectChannel(action.channelName);
       break;
 
+    case ActionTypes.RECEIVE_NAMES:
+      ChannelStore
+        .getChannelByName(singleOctothorpe(action.channel))
+        .setPeople(action.names);
+      ChannelStore.emitChange();
+      break;
+
     case ActionTypes.RECEIVE_MESSAGE:
       let { channel, from, message, when} = action;
       ChannelStore.addMessageToChannel(singleOctothorpe(channel), { from, message, when });
       break;
+
+    case ActionTypes.SEND_MESSAGE:
+      let connection = ConnectionStore.getConnection();
+      // TODO: figure out why this doesn't work
+      console.log('SENDING', action.channel, action.message);
+      connection.send(action.channel, action.message);
+      break;
   }
 });
 
+// TODO: figure out this single/double octothorpe business
 function singleOctothorpe(str) {
   return str.replace(/#+/g, '#');
 };

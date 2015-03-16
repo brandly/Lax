@@ -7,7 +7,7 @@ const component = React.createClass({
 
   getInitialState() {
     return {
-      channelName: null
+      channelName: ''
     };
   },
 
@@ -24,15 +24,16 @@ const component = React.createClass({
     ChannelActions.requestJoinChannel({
       channelName: this.state.channelName
     });
-    this.setChannelName(null);
+    this.setChannelName('');
   },
 
   render() {
     return (
-      <form className="form-panel" onSubmit={this.handleFormSubmission}>
+      <form className="form-panel join-channel" onSubmit={this.handleFormSubmission}>
         <input type="text"
                placeholder="join channel"
                required
+               value={this.state.channelName}
                onChange={this.handleChange} />
         <input type="submit" value="+" />
       </form>

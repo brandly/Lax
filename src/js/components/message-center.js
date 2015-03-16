@@ -1,6 +1,7 @@
 import React from 'react';
 import { addons } from 'react/addons';
 
+import ChannelHeader from './channel-header';
 import ChannelList from './channel-list';
 import JoinChannel from './join-channel';
 
@@ -27,7 +28,10 @@ const component = React.createClass({
         </div>
         <div className="right-panel">
           <div className="above-bottom-panel">
-            <MessageList />
+            <ChannelHeader />
+            <div className="below-channel-header">
+              <MessageList />
+            </div>
           </div>
           <div className="absolute-bottom-panel">
             <ComposeMessage />

@@ -7,6 +7,13 @@
     "start": "nw"
   },
   "main": "src/index.html",
+  "window": {
+    "icon": "link.png",
+    "toolbar": false,
+    "frame": true,
+    "min_width": 600,
+    "min_height": 300
+  },
   "author": "",
   "license": "MIT",
   "dependencies": {

@@ -38,6 +38,10 @@ ConnectionStore.dispatchToken = ircDispatcher.register(action => {
 
       connection.on('names', e => {
         console.log('names', e);
+        ChannelActions.receiveNames({
+          channel: e.channel,
+          names: e.names
+        })
       });
 
       connection.on('message', e => {
