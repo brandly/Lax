@@ -70,7 +70,9 @@ const component = React.createClass({
                  onChange={this.handleChange.bind(this, 'port')} />
         </div>
 
-        <input type="submit" disabled={this.state.isConnecting} />
+        <div className={inputGroupClass}>
+          <input type="submit" disabled={this.state.isConnecting} />
+        </div>
       </form>
     );
   }

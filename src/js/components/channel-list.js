@@ -31,7 +31,7 @@ const component = React.createClass({
   },
 
   render() {
-    const channelElements = this.state.channels.sort().map((channel, i) => {
+    const channelElements = this.state.channels.sortBy(c => c.name).map((channel, i) => {
       const classes = classNames({
         'channel-list-item': true,
         'is-selected': channel.name === this.state.selectedChannel.name

@@ -40,16 +40,30 @@ body,
   width: 100%;
   border: none;
   outline: none;
+  background: none;
   border-radius: 0;
+  -webkit-appearance: none;
 
   border-bottom: 1px solid #CCC;
   padding: 0.3rem;
   font-size: 1.0rem;
 }
 
+.input-group input[type="submit"] {
+  outline: none;
+  background: none;
+  border-radius: 3px;
+  border: 1px solid #CCC;
+  padding: 0.5rem 1.0rem;
+  font-size: 0.9rem;
+  color: #333;
+  cursor: pointer;
+}
+
 .input-group input:focus,
-.input-group select:focus {
-  border-bottom: 1px solid rgb(216, 197, 255);
+.input-group select:focus,
+.input-group input[type="submit"]:hover {
+  border-color: rgb(216, 197, 255);
 }
 
 .left-panel {
@@ -115,6 +129,10 @@ body,
 
 .channel-list-item.is-selected {
   border-left: 6px solid rgb(216, 197, 255);
+}
+
+.message-list {
+  padding: 1.0rem 0;
 }
 
 .message {
