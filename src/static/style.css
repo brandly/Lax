@@ -1,0 +1,133 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+/* make things more app-y */
+html,
+body,
+#main,
+.irc,
+.message-center,
+.left-panel,
+.right-panel {
+  height: 100%;
+}
+
+.connection-creator {
+  position: relative;
+  width: 220px;
+  margin: 0 auto;
+}
+
+.input-group {
+  margin: 1.4rem 0;
+}
+
+.input-group label {
+  display: block;
+  margin: 0.3rem;
+  font-size: 0.9rem;
+  line-height: 1.2;
+}
+
+.input-group input,
+.input-group select {
+  width: 100%;
+  border: none;
+  outline: none;
+  border-radius: 0;
+
+  border-bottom: 1px solid #CCC;
+  padding: 0.3rem;
+  font-size: 1.0rem;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+  border-bottom: 1px solid rgb(216, 197, 255);
+}
+
+.left-panel {
+  position: relative;
+  width: 220px;
+  float: left;
+}
+
+.right-panel {
+  position: relative;
+  width: calc(100% - 220px);
+  margin-left: 220px;
+}
+
+.above-bottom-panel {
+  position: relative;
+  height: calc(100% - 4.0rem);
+  margin-bottom: 4.0rem;
+}
+
+.absolute-bottom-panel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4.0rem;
+  width: 100%;
+}
+
+.scrolling-panel {
+  height: 100%;
+  overflow: auto;
+}
+
+.form-panel {
+  width: 100%;
+  height: 100%;
+  background-color: #F4F4F4;
+}
+
+.form-panel input[type="text"] {
+  background: none;
+  border: none;
+  outline: none;
+  height: 100%;
+  width: 100%;
+  padding: 0 1.0rem;
+  font-size: 0.8rem;
+}
+
+.form-panel input[type="submit"] {
+  display: none;
+}
+
+.channel-list {
+  font-size: 0.9rem;
+}
+
+.channel-list-item {
+  padding: 0.8rem 1.0rem;
+  cursor: pointer;
+}
+
+.channel-list-item.is-selected {
+  border-left: 6px solid rgb(216, 197, 255);
+}
+
+.message {
+  padding: 0.3rem;
+}
+
+.message .from {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #666;
+}
+
+.message .body {
+  padding: 0.3rem;
+  line-height: 1.3;
+}

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>IRC</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="./favicon.ico">
+    <link rel="stylesheet" href="static/reset.css">
+    <link rel="stylesheet" href="static/style.css">
+  </head>
+  <body>
+    <div id="main"></div>
+    <script>
+      // Prevents "document is not defined" error in React
+      // http://stackoverflow.com/questions/25402492/nw-reactjs-requring-in-multiple-files-does-not-work
+      global.document = window.document;
+      global.navigator = window.navigator;
+
+      require('babel/register');
+      require('./js/main');
+    </script>
+  </body>
+</html>
