@@ -239,6 +239,11 @@ body,
 }
 
 .message .action {
-  color: #CCC;
-  padding-right: 6px;
+  margin-right: 6px;
+  color: white;
+  background-color: #DDD;
+  font-size: 0.7rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  text-shadow: 0 1px 1px #CCC;
 }

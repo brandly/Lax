@@ -19,9 +19,9 @@ const component = React.createClass({
   render() {
     return (
       <div className="message-center">
-        <div className="left-panel scrolling-panel">
+        <div className="left-panel">
           <ConnectionHeader />
-          <div className="below-header">
+          <div className="below-header scrolling-panel">
             <ChannelList />
             <JoinChannel />
           </div>
