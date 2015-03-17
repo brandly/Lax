@@ -196,3 +196,8 @@ body,
   line-height: 1.3;
   padding-right: 8px;
 }
+
+.message .action {
+  color: #CCC;
+  padding-right: 6px;
+}

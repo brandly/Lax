@@ -27,7 +27,39 @@ const component = React.createClass({
 
   render() {
     const inputGroupClass = 'input-group';
-    const serverOptions = ['chat.freenode.net'];
+    const serverOptions = [
+      'chat.freenode.net',
+      'irc.abjects.net',
+      'irc.allnetwork.org',
+      'irc.dal.net',
+      'irc.darksin.net',
+      'irc.efnet.net',
+      'irc.esper.net',
+      'irc.foonetic.net',
+      'irc.galaxynet.org',
+      'irc.gamesurge.net',
+      'irc.icq.com',
+      'irc.za.ircnet.net',
+      'irc.us.ircnet.net',
+      'irc.fr.ircnet.net',
+      'irc.irchighway.net',
+      'irc.link-net.org',
+      'irc.macnn.com',
+      'irc.macgeneration.com',
+      'irc.oftc.net',
+      'irc.ogamenet.net',
+      'irc.quakenet.org',
+      'uk.quakenet.org',
+      'irc.rizon.net',
+      'irc.skyrock.com',
+      'irc.synirc.net',
+      'irc.swiftirc.net',
+      'eu.undernet.org',
+      'us.undernet.org',
+      'chat1.ustream.tv',
+      'irc.webchat.org',
+      'irc.wyldryde.org'
+    ];
 
     return (
       <form className="connection-creator" onSubmit={this.handleFormSubmission}>

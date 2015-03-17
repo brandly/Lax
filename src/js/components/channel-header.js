@@ -28,7 +28,6 @@ const component = React.createClass({
   render() {
     const peopleCount = this.state.channelPeople.size;
 
-
     if (this.state.channelName) {
       return (
         <div className="channel-header">

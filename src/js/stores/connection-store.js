@@ -28,29 +28,81 @@ ConnectionStore.dispatchToken = ircDispatcher.register(action => {
       connection.nick(action.nickname);
       connection.user(action.nickname, action.realName);
 
-      connection.on('data', e => {
-        console.log('data', e);
-      });
+      // connection.on('data', e => {
+      //   console.log('data', e);
+      // });
 
       connection.on('errors', e => {
         console.log('errors', e);
       });
 
+      connection.on('notice', e => {
+        console.log('notice', e);
+      });
+
+      connection.on('mode', e => {
+        console.log('mode', e);
+      });
+
+      connection.on('invite', e => {
+        console.log('invite', e);
+      });
+
+      connection.on('away', e => {
+        console.log('away', e);
+      });
+
+      connection.on('quit', e => {
+        // TODO: figure out how to get channel here
+        console.log('quit', e);
+      });
+
+      connection.on('part', e => {
+        console.log('part', e);
+      });
+
+      connection.on('kick', e => {
+        console.log('kick', e);
+      });
+
+      connection.on('motd', e => {
+        console.log('motd', e);
+      });
+
+      connection.on('nick', e => {
+        console.log('nick', e);
+      });
+
+      connection.on('welcome', e => {
+        console.log('welcome', e);
+      });
+
+      connection.on('topic', e => {
+        ChannelActions.receiveTopic({
+          channel: singleOctothorpe(e.channel),
+          topic: e.topic
+        });
+      });
+
+      connection.on('join', e => {
+        ChannelActions.receiveJoin({
+          channel: singleOctothorpe(e.channel),
+          from: e.nick
+        });
+      });
+
       connection.on('names', e => {
-        console.log('names', e);
         ChannelActions.receiveNames({
-          channel: e.channel,
+          channel: singleOctothorpe(e.channel),
           names: e.names
-        })
+        });
       });
 
       connection.on('message', e => {
-        console.log('message', e);
         ChannelActions.receiveMessage({
-          channel: e.to,
+          channel: singleOctothorpe(e.to),
           from: e.from,
-          message: e.message,
-          when: new Date() // TODO: use moment?
+          message: e.message
         });
       });
 
@@ -61,3 +113,8 @@ ConnectionStore.dispatchToken = ircDispatcher.register(action => {
 });
 
 module.exports = ConnectionStore;
+
+// TODO: figure out this single/double octothorpe business
+function singleOctothorpe(str) {
+  return str.replace(/#+/g, '#');
+};

@@ -23,10 +23,10 @@ module.exports = {
     })
   },
 
-  receiveMessage({channel, from, message, when}) {
+  receiveMessage({channel, from, message}) {
     ircDispatcher.dispatch({
       type: ActionTypes.RECEIVE_MESSAGE,
-      channel, from, message, when
+      channel, from, message
     });
   },
 
@@ -34,6 +34,20 @@ module.exports = {
     ircDispatcher.dispatch({
       type: ActionTypes.SEND_MESSAGE,
       channel, message
+    })
+  },
+
+  receiveJoin({channel, from}) {
+    ircDispatcher.dispatch({
+      type: ActionTypes.RECEIVE_JOIN,
+      channel, from
+    })
+  },
+
+  receiveTopic({channel, topic}) {
+    ircDispatcher.dispatch({
+      type: ActionTypes.RECEIVE_TOPIC,
+      channel, topic
     })
   }
 };

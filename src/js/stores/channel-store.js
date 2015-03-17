@@ -25,6 +25,7 @@ class Channel {
   }
 
   addMessage(message) {
+    message.when = new Date();
     this.messages = this.messages.push(message);
   }
 }
@@ -80,14 +81,17 @@ ChannelStore.dispatchToken = ircDispatcher.register(action => {
 
     case ActionTypes.RECEIVE_NAMES:
       ChannelStore
-        .getChannelByName(singleOctothorpe(action.channel))
+        .getChannelByName(action.channel)
         .setPeople(action.names);
       ChannelStore.emitChange();
       break;
 
     case ActionTypes.RECEIVE_MESSAGE:
-      let { channel, from, message, when} = action;
-      ChannelStore.addMessageToChannel(singleOctothorpe(channel), { from, message, when });
+      let { channel, from, message } = action;
+      ChannelStore.addMessageToChannel(channel, {
+        type: 'priv',
+        from, message
+      });
       break;
 
     case ActionTypes.SEND_MESSAGE:
@@ -96,12 +100,25 @@ ChannelStore.dispatchToken = ircDispatcher.register(action => {
       console.log('SENDING', action.channel, action.message);
       connection.send(action.channel, action.message);
       break;
+
+    case ActionTypes.RECEIVE_JOIN:
+      ChannelStore.addMessageToChannel(action.channel, {
+        type: 'join',
+        from: action.from,
+        message: ''
+      });
+      ChannelStore.emitChange();
+      break;
+
+    case ActionTypes.RECEIVE_TOPIC:
+      ChannelStore.addMessageToChannel(action.channel, {
+        type: 'topic',
+        from: action.channel,
+        message: action.topic
+      });
+      ChannelStore.emitChange();
+      break;
   }
 });
-
-// TODO: figure out this single/double octothorpe business
-function singleOctothorpe(str) {
-  return str.replace(/#+/g, '#');
-};
 
 module.exports = ChannelStore;
