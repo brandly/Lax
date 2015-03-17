@@ -30,9 +30,9 @@ const component = React.createClass({
 
     if (this.state.channelName) {
       return (
-        <div className="channel-header">
-          <h2 className="channel-name">{this.state.channelName}</h2>
-          <p className="channel-people-count">{peopleCount} people</p>
+        <div className="header channel-header">
+          <h2 className="channel-name vertical-center">{this.state.channelName}</h2>
+          <p className="channel-people-count vertical-center">{peopleCount} people</p>
         </div>
       );
     } else {

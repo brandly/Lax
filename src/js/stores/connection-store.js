@@ -8,6 +8,7 @@ import ChannelActions from '../actions/channel-actions';
 
 const ConnectionStore = assign({}, EventEmitter, {
   connection: null,
+  server: null,
   nickname: null,
   realName: null,
 
@@ -115,6 +116,7 @@ ConnectionStore.dispatchToken = ircDispatcher.register(action => {
       ConnectionStore.connection = connection;
       ConnectionStore.nickname = action.nickname;
       ConnectionStore.realName = action.realName;
+      ConnectionStore.server = action.server;
       ConnectionStore.emitChange();
       break;
   }

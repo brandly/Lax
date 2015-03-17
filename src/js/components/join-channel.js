@@ -29,9 +29,10 @@ const component = React.createClass({
 
   render() {
     return (
-      <form className="form-panel join-channel" onSubmit={this.handleFormSubmission}>
+      <form className="join-channel" onSubmit={this.handleFormSubmission}>
         <input type="text"
                placeholder="join channel"
+               className="channel-list-item"
                required
                value={this.state.channelName}
                onChange={this.handleChange} />

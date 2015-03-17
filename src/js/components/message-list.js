@@ -41,7 +41,7 @@ const component = React.createClass({
     }
 
     const messageElements = messages.map((msg, i) => {
-      const action = (msg.type !== 'priv') ? <span className="action">{msg.type}</span> : '';
+      const action = (msg.type !== 'priv') ? <span className="action">{msg.type}</span> : null;
       const showFrom = (i === 0 || messages.get(i - 1).from !== msg.from);
 
       return (
