@@ -7,6 +7,12 @@ import ChannelHeader from './channel-header';
 import MessageList from './message-list';
 import ComposeMessage from './compose-message';
 
+function getChannel() {
+  return {
+    channel: ChannelStore.getSelectedChannel()
+  }
+}
+
 const component = React.createClass({
   mixins: [addons.PureRenderMixin],
 
@@ -15,16 +21,11 @@ const component = React.createClass({
   },
 
   getInitialState() {
-    return {
-      channel: null
-    };
+    return getChannel();
   },
 
   _onChange() {
-    const channel = ChannelStore.getSelectedChannel();
-    this.setState({
-      channel: channel
-    });
+    this.setState(getChannel());
   },
 
   render() {
