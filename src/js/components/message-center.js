@@ -8,6 +8,8 @@ import JoinChannel from './join-channel';
 import MessageList from './message-list';
 import ComposeMessage from './compose-message';
 
+import Channel from './channel';
+
 const component = React.createClass({
   mixins: [addons.PureRenderMixin],
 
@@ -26,17 +28,7 @@ const component = React.createClass({
             <JoinChannel />
           </div>
         </div>
-        <div className="right-panel">
-          <div className="above-bottom-panel">
-            <ChannelHeader />
-            <div className="below-channel-header">
-              <MessageList />
-            </div>
-          </div>
-          <div className="absolute-bottom-panel">
-            <ComposeMessage />
-          </div>
-        </div>
+        <Channel />
       </div>
     );
   }
