@@ -157,19 +157,24 @@ body,
 }
 
 .channel-list-item {
-  height: 3.0rem;
-  line-height: 3.0rem;
+  height: 2.0rem;
+  line-height: 2.0rem;
   letter-spacing: 0.6px;
+  color: #777;
   padding: 0 1.0rem;
+  border-left: 0px solid rgb(216, 197, 255);
+  transition: border-width 100ms ease-in-out;
 }
 
 .channel-list-item.is-selected {
-  border-left: 6px solid rgb(216, 197, 255);
+  border-width: 6px;
+  color: #333;
 }
 
 .message-list {
   display: table;
   width: 100%;
+  max-width: 100%;
   border-spacing: 0 6px;
 }
 
@@ -194,7 +199,17 @@ body,
   display: table-cell;
   vertical-align: top;
   line-height: 1.3;
-  padding-right: 8px;
+  padding-right: 12px;
+}
+
+.message .when {
+  display: table-cell;
+  vertical-align: top;
+  line-height: 1.3;
+  color: #CCC;
+  width: 56px;
+  font-size: 0.7rem;
+  padding-top: 3px;
 }
 
 .message .action {

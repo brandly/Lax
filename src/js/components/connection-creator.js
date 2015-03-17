@@ -5,13 +5,25 @@ import ConnectionActions from '../actions/connection-actions';
 const component = React.createClass({
   mixins: [addons.PureRenderMixin],
 
+  storedKeys: ['realName', 'nickname', 'server', 'port'],
+
   getInitialState() {
-    return {isConnecting: false};
+    const state = {isConnecting: false};
+    this.storedKeys.forEach(key => {
+      state[key] = window.localStorage[key] || ''
+    });
+    return state;
   },
 
   handleChange(key, event) {
+    const { value } = event.target;
+
+    if (contains(this.storedKeys, key)) {
+      window.localStorage[key] = value;
+    }
+
     this.setState({
-      [key]: event.target.value
+      [key]: value
     });
   },
 
@@ -68,6 +80,7 @@ const component = React.createClass({
           <input type="text"
                  autoFocus
                  required
+                 value={this.state.realName}
                  onChange={this.handleChange.bind(this, 'realName')} />
         </div>
 
@@ -75,6 +88,7 @@ const component = React.createClass({
           <label>Nickname</label>
           <input type="text"
                  required
+                 value={this.state.nickname}
                  onChange={this.handleChange.bind(this, 'nickname')} />
         </div>
 
@@ -87,6 +101,7 @@ const component = React.createClass({
         <div className={inputGroupClass}>
           <label>Server</label>
           <select required
+                  value={this.state.server}
                   onChange={this.handleChange.bind(this, 'server')}>
             <option value=""></option>
             {serverOptions.map((n, i) => {
@@ -99,6 +114,7 @@ const component = React.createClass({
           <label>Port</label>
           <input type="number"
                  required
+                 value={this.state.port}
                  onChange={this.handleChange.bind(this, 'port')} />
         </div>
 
@@ -111,3 +127,7 @@ const component = React.createClass({
 });
 
 module.exports = component;
+
+function contains(arr, thing) {
+  return (arr.indexOf(thing) !== -1);
+}

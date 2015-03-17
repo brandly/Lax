@@ -39,7 +39,7 @@ const component = React.createClass({
 
       return (
         <li className={classes}
-            key={i}
+            key={channel.name}
             onClick={this.selectChannel.bind(this, channel.name)}>{channel.name}</li>
       );
     });

@@ -48,7 +48,7 @@ const component = React.createClass({
         <li className="message" key={i}>
           <h3 className="from">{showFrom ? msg.from : ''}</h3>
           <p className="body">{action}{msg.message}</p>
-          <span className="when">{msg.when}</span>
+          <p className="when">{formatDate(msg.when)}</p>
         </li>
       );
     });
@@ -62,5 +62,14 @@ const component = React.createClass({
     );
   }
 });
+
+function formatDate(d) {
+  return `${twoDigits(d.getHours())}:${twoDigits(d.getMinutes())}:${twoDigits(d.getSeconds())}`;
+}
+
+function twoDigits(str) {
+  str = '' + str;
+  return (str.length < 2) ? ('0' + str) : str;
+}
 
 module.exports = component;
