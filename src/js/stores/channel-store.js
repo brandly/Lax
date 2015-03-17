@@ -4,6 +4,7 @@ import EventEmitter from '../modules/event-emitter';
 import ircDispatcher from '../dispatchers/irc-dispatcher';
 import ActionTypes from '../constants/action-types';
 import ConnectionStore from './connection-store';
+import ChannelActions from '../actions/channel-actions';
 
 class Channel {
   constructor(name) {
@@ -96,9 +97,13 @@ ChannelStore.dispatchToken = ircDispatcher.register(action => {
 
     case ActionTypes.SEND_MESSAGE:
       let connection = ConnectionStore.getConnection();
-      // TODO: figure out why this doesn't work
-      console.log('SENDING', action.channel, action.message);
-      connection.send(action.channel, action.message);
+      // TODO: figure out this octothorpe situation!!!!
+      connection.send('#' + action.channel, action.message);
+      ChannelStore.addMessageToChannel(action.channel, {
+        type: 'priv',
+        message: action.message,
+        from: ConnectionStore.nickname
+      });
       break;
 
     case ActionTypes.RECEIVE_JOIN:

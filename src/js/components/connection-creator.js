@@ -10,7 +10,7 @@ const component = React.createClass({
   getInitialState() {
     const state = {isConnecting: false};
     this.storedKeys.forEach(key => {
-      state[key] = window.localStorage[key] || ''
+      state[key] = window.localStorage[key] || '';
     });
     return state;
   },

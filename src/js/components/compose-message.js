@@ -7,7 +7,9 @@ const component = React.createClass({
   mixins: [addons.PureRenderMixin],
 
   getInitialState() {
-    return {};
+    return {
+      message: ''
+    };
   },
 
   handleFormSubmission(event) {
@@ -16,12 +18,15 @@ const component = React.createClass({
       channel: ChannelStore.getSelectedChannel().name,
       message: this.state.message
     });
+    this.setMessage('');
   },
 
-  setMessage(event) {
-    this.setState({
-      message: event.target.value
-    });
+  setMessage(message) {
+    this.setState({ message });
+  },
+
+  handleChange(event) {
+    this.setMessage(event.target.value);
   },
 
   render() {
@@ -30,7 +35,8 @@ const component = React.createClass({
         <input type="text"
                placeholder="write message"
                required
-               onChange={this.setMessage} />
+               value={this.state.message}
+               onChange={this.handleChange} />
       </form>
     );
   }

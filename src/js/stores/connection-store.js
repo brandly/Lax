@@ -8,9 +8,15 @@ import ChannelActions from '../actions/channel-actions';
 
 const ConnectionStore = assign({}, EventEmitter, {
   connection: null,
+  nickname: null,
+  realName: null,
 
   getConnection() {
     return this.connection || null;
+  },
+
+  getNickname() {
+    return this.nickname;
   }
 });
 
@@ -107,6 +113,8 @@ ConnectionStore.dispatchToken = ircDispatcher.register(action => {
       });
 
       ConnectionStore.connection = connection;
+      ConnectionStore.nickname = action.nickname;
+      ConnectionStore.realName = action.realName;
       ConnectionStore.emitChange();
       break;
   }

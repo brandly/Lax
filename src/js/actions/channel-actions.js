@@ -34,7 +34,7 @@ module.exports = {
     ircDispatcher.dispatch({
       type: ActionTypes.SEND_MESSAGE,
       channel, message
-    })
+    });
   },
 
   receiveJoin({channel, from}) {
