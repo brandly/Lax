@@ -7,7 +7,7 @@ const component = React.createClass({
 
   getInitialState() {
     return {
-      channel: null
+      message: ''
     };
   },
 
