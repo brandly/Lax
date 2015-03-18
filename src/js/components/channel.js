@@ -29,16 +29,18 @@ const component = React.createClass({
   },
 
   render() {
+    const channel = this.state.channel;
+
     return (
       <div className="right-panel channel">
         <div className="above-bottom-panel">
-          <ChannelHeader />
+          <ChannelHeader channel={channel} />
           <div className="below-channel-header">
-            <MessageList />
+            <MessageList channel={channel} />
           </div>
         </div>
         <div className="absolute-bottom-panel">
-          <ComposeMessage />
+          <ComposeMessage channel={channel} />
         </div>
       </div>
     );
