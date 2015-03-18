@@ -6,18 +6,12 @@ const component = React.createClass({
 
   render() {
     const channel = this.props.channel;
-    const peopleCount = this.props.people.size;
-
-    if (!channel) {
-      return null;
-    }
-
-    const channelName = channel.name;
+    const people = this.props.people;
 
     var nameEl, countEl;
-    if (channelName) {
-      nameEl = <h2 className="channel-name vertical-center">{this.state.channelName}</h2>;
-      countEl = <p className="channel-people-count vertical-center">{peopleCount} people</p>
+    if (channel) {
+      nameEl = <h2 className="channel-name vertical-center">{channel.name}</h2>;
+      countEl = <p className="channel-people-count vertical-center">{people.size} people</p>
     } else {
       nameEl = null;
       countEl = null;
