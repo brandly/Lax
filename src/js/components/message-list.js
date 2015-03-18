@@ -1,29 +1,11 @@
 import React from 'react';
 import { addons } from 'react/addons';
+
 import classNames from 'classnames';
 import ChannelStore from '../stores/channel-store';
 
 const component = React.createClass({
   mixins: [addons.PureRenderMixin],
-
-  componentWillMount() {
-    ChannelStore.addChangeListener(this._onChange);
-  },
-
-  getInitialState() {
-    return {
-      channel: null,
-      messages: null
-    };
-  },
-
-  _onChange() {
-    const channel = ChannelStore.getSelectedChannel();
-    this.setState({
-      channel: channel,
-      messages: channel.getMessages()
-    });
-  },
 
   scrollToBottom() {
     const el = React.findDOMNode(this.refs.scroller);
@@ -35,9 +17,9 @@ const component = React.createClass({
   },
 
   render() {
-    const { channel, messages } = this.state;
+    const { messages } = this.props;
 
-    if (!channel) {
+    if (!messages) {
       return null;
     }
 
