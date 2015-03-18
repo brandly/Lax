@@ -221,8 +221,12 @@ body,
   font-size: 0.8rem;
   text-align: right;
   width: 120px;
+  max-width: 120px;
   padding-right: 12px;
   color: rgb(170, 154, 205);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .message-list .message .from {

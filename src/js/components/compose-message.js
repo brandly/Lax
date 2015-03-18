@@ -14,10 +14,6 @@ const component = React.createClass({
   handleFormSubmission(event) {
     event.preventDefault();
 
-    if (!this.props.channel) {
-      return null;
-    }
-
     ChannelActions.sendMessage({
       channel: this.props.channel.name,
       message: this.state.message
@@ -35,6 +31,8 @@ const component = React.createClass({
   },
 
   render() {
+    if (!this.props.channel) return null;
+
     return (
       <form className="message compose-message" onSubmit={this.handleFormSubmission}>
         <h3 className="from">brandly</h3>
