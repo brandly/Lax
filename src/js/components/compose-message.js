@@ -6,16 +6,27 @@ import ChannelStore from '../stores/channel-store';
 const component = React.createClass({
   mixins: [addons.PureRenderMixin],
 
+  componentWillMount() {
+    ChannelStore.addChangeListener(this._onChange);
+  },
+
   getInitialState() {
     return {
+      channelName: '',
       message: ''
     };
+  },
+
+  _onChange() {
+    this.setState({
+      channelName: ChannelStore.getSelectedChannel().name
+    });
   },
 
   handleFormSubmission(event) {
     event.preventDefault();
     ChannelActions.sendMessage({
-      channel: ChannelStore.getSelectedChannel().name,
+      channel: this.state.channelName,
       message: this.state.message
     });
     this.setMessage('');
@@ -30,6 +41,8 @@ const component = React.createClass({
   },
 
   render() {
+    if (!this.state.channelName) return null;
+
     return (
       <form className="message compose-message" onSubmit={this.handleFormSubmission}>
         <h3 className="from">brandly</h3>
