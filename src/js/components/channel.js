@@ -12,7 +12,8 @@ function getChannel() {
   const channel = ChannelStore.getSelectedChannel();
   return {
     channel: channel,
-    messages: channel ? channel.getMessages() : List()
+    messages: channel ? channel.getMessages() : List(),
+    people: channel ? channel.getPeople() : List()
   }
 }
 
@@ -34,11 +35,12 @@ const component = React.createClass({
   render() {
     const channel = this.state.channel;
     const messages = this.state.messages;
+    const people = this.state.people;
 
     return (
       <div className="right-panel channel">
         <div className="above-bottom-panel">
-          <ChannelHeader channel={channel} />
+          <ChannelHeader channel={channel} people={people} />
           <div className="below-channel-header">
             <MessageList messages={messages} />
           </div>
