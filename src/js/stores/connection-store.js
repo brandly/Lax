@@ -8,6 +8,7 @@ import ChannelActions from '../actions/channel-actions';
 
 const ConnectionStore = assign({}, EventEmitter, {
   connection: null,
+  server: null,
   nickname: null,
   realName: null,
 
@@ -26,6 +27,10 @@ ConnectionStore.dispatchToken = ircDispatcher.register(action => {
       let stream = net.connect({
         port: action.port,
         host: action.server
+      });
+
+      stream.on('error', e => {
+        console.log('stream error', e);
       });
 
       let connection = irc(stream);
@@ -59,8 +64,11 @@ ConnectionStore.dispatchToken = ircDispatcher.register(action => {
       });
 
       connection.on('quit', e => {
-        // TODO: figure out how to get channel here
         console.log('quit', e);
+        ChannelActions.receiveQuit({
+          nick: e.nick,
+          message: e.message
+        });
       });
 
       connection.on('part', e => {
@@ -77,6 +85,10 @@ ConnectionStore.dispatchToken = ircDispatcher.register(action => {
 
       connection.on('nick', e => {
         console.log('nick', e);
+        ChannelActions.receiveNick({
+          oldNickname: e.nick,
+          newNickname: e.new
+        });
       });
 
       connection.on('welcome', e => {
@@ -115,6 +127,7 @@ ConnectionStore.dispatchToken = ircDispatcher.register(action => {
       ConnectionStore.connection = connection;
       ConnectionStore.nickname = action.nickname;
       ConnectionStore.realName = action.realName;
+      ConnectionStore.server = action.server;
       ConnectionStore.emitChange();
       break;
   }

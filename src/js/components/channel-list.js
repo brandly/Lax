@@ -45,7 +45,7 @@ const component = React.createClass({
     });
 
     return (
-      <ul className="scrolling-panel channel-list">
+      <ul className="channel-list">
         {channelElements.toArray()}
       </ul>
     );

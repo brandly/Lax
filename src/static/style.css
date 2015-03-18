@@ -57,7 +57,7 @@ body,
   padding: 0.5rem 1.0rem;
   font-size: 0.9rem;
   color: #333;
-  cursor: pointer;
+  cursor: default;
 }
 
 .input-group input:focus,
@@ -86,12 +86,12 @@ body,
 
 .absolute-bottom-panel {
   position: absolute;
+  display: table;
   bottom: 0;
   left: 0;
   right: 0;
   height: 4.0rem;
   width: 100%;
-  border-top: 1px solid #EEE;
 }
 
 .scrolling-panel {
@@ -99,39 +99,71 @@ body,
   overflow: auto;
 }
 
-.form-panel {
+.compose-message {
   width: 100%;
-  height: 100%;
+  height: 4.0rem;
 }
 
-.form-panel input[type="text"] {
+.compose-message .from {
+  line-height: 4.0rem;
+}
+
+.compose-message input[type="text"] {
   background: none;
   border: none;
   outline: none;
   height: 100%;
   width: 100%;
-  padding: 0 1.0rem;
+  padding-right:1.0rem;
   font-size: 0.8rem;
 }
 
-.form-panel input[type="submit"] {
+.compose-message input[type="submit"] {
   display: none;
 }
 
-.join-channel {
-  border-right: 1px solid #EEE;
+.join-channel ::-webkit-input-placeholder {
+  letter-spacing: 0;
 }
 
-.channel-header {
+.join-channel input[type="text"] {
+  border: none;
+  outline: none;
+  font-size: 0.75rem;
+  color: #333;
+  width: calc(100% - 30px);
+}
+
+.join-channel input[type="submit"] {
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 1.0rem;
+  font-weight: bold;
+  color: rgb(170, 154, 205);
+}
+
+.header {
   height: 3.0rem;
   padding: 0 1.0rem;
   border-bottom: 1px solid #EEE;
   cursor: default;
 }
 
+.header .vertical-center {
+  line-height: 3.0rem;
+}
+
+.below-header {
+  position: relative;
+  height: calc(100% - 3.0rem);
+}
+
+.channel-header {
+}
+
 .channel-header .channel-name {
   display: inline-block;
-  line-height: 3.0rem;
   font-size: 0.9rem;
   letter-spacing: 0.6px;
 }
@@ -141,17 +173,15 @@ body,
   font-size: 0.8rem;
   font-weight: bold;
   color: rgb(170, 154, 205);
-  line-height: 3.0rem;
   letter-spacing: 0.4px;
 }
 
-.below-channel-header {
-  position: relative;
-  height: calc(100% - 3.0rem);
+.connection-header .server {
+  font-size: 0.8rem;
 }
 
 .channel-list {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   cursor: default;
   -webkit-user-select: none;
 }
@@ -181,6 +211,7 @@ body,
 .message {
   display: table-row;
   word-wrap: break-word;
+  word-break: break-word;
   font-size: 0.9rem;
 }
 
@@ -191,8 +222,11 @@ body,
   text-align: right;
   width: 120px;
   padding-right: 12px;
-  padding-top: 2px; /* aligns text with .body, since smaller font-size */
   color: rgb(170, 154, 205);
+}
+
+.message-list .message .from {
+  padding-top: 2px; /* aligns text with .body, since smaller font-size */
 }
 
 .message .body {
@@ -213,6 +247,16 @@ body,
 }
 
 .message .action {
-  color: #CCC;
-  padding-right: 6px;
+  margin-right: 6px;
+  color: white;
+  background-color: #DDD;
+  font-size: 0.7rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  text-shadow: 0 1px 1px #CCC;
+}
+
+.message.nick .text,
+.message.quit .text {
+  color: #BBB;
 }

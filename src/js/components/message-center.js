@@ -1,10 +1,11 @@
 import React from 'react';
 import { addons } from 'react/addons';
 
-import ChannelHeader from './channel-header';
+import ConnectionHeader from './connection-header';
 import ChannelList from './channel-list';
 import JoinChannel from './join-channel';
 
+import ChannelHeader from './channel-header';
 import MessageList from './message-list';
 import ComposeMessage from './compose-message';
 
@@ -21,10 +22,9 @@ const component = React.createClass({
     return (
       <div className="message-center">
         <div className="left-panel">
-          <div className="above-bottom-panel">
+          <ConnectionHeader />
+          <div className="below-header scrolling-panel">
             <ChannelList />
-          </div>
-          <div className="absolute-bottom-panel">
             <JoinChannel />
           </div>
         </div>

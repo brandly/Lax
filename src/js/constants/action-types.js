@@ -9,5 +9,7 @@ module.exports = keyMirror({
   RECEIVE_MESSAGE: null,
   SEND_MESSAGE: null,
   RECEIVE_JOIN: null,
+  RECEIVE_QUIT: null,
   RECEIVE_TOPIC: null,
+  RECEIVE_NICK: null,
 });
