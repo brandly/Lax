@@ -31,7 +31,7 @@ const component = React.createClass({
   },
 
   render() {
-    const channel = this.state.channel;
+    const channel = this.props.channel;
     const messages = this.state.messages;
     const people = this.state.people;
 
