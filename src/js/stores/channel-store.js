@@ -25,6 +25,22 @@ class Channel {
     this.people = List.of.apply(List, names);
   }
 
+  addPerson(nick) {
+    this.people = this.people.push({
+      name: nick,
+      mode: '' // TODO: verify this is what we want
+    });
+  }
+
+  removePerson(nick) {
+    console.log('TODO: find person, pull them out of List')
+  }
+
+  hasNick(nick) {
+    const filtered = this.people.filter(p => p.name === nick);
+    return filtered.size > 0;
+  }
+
   addMessage(message) {
     message.when = new Date();
     this.messages = this.messages.push(message);
@@ -67,7 +83,49 @@ const ChannelStore = assign({}, EventEmitter, {
     this.getChannelByName(channelName)
         .addMessage(message);
     this.emitChange();
-  }
+  },
+
+  addJoinToChannel(channelName, nick) {
+    this.getChannelByName(channelName)
+        .addPerson(nick);
+
+    ChannelStore.addMessageToChannel(channelName, {
+      type: 'join',
+      from: nick,
+      message: ''
+    });
+  },
+
+  addQuitToChannel(channelName, {nick, message}) {
+    this.getChannelByName(channelName)
+        .removePerson(nick);
+
+    ChannelStore.addMessageToChannel(channelName, {
+      type: 'quit',
+      from: nick,
+      message
+    });
+  },
+
+  addTopicToChannel(channelName, topic) {
+    ChannelStore.addMessageToChannel(channelName, {
+      type: 'topic',
+      from: channelName,
+      message: topic
+    });
+  },
+
+  addNickToChannel(channelName, {oldNickname, newNickname}) {
+    ChannelStore.addMessageToChannel(channelName, {
+      type: 'nick',
+      from: oldNickname,
+      message: newNickname
+    });
+  },
+
+  getChannelsWithNick(nick) {
+    return this.channels.filter(channel => channel.hasNick(nick));
+  },
 });
 
 ChannelStore.dispatchToken = ircDispatcher.register(action => {
@@ -107,21 +165,29 @@ ChannelStore.dispatchToken = ircDispatcher.register(action => {
       break;
 
     case ActionTypes.RECEIVE_JOIN:
-      ChannelStore.addMessageToChannel(action.channel, {
-        type: 'join',
-        from: action.from,
-        message: ''
+      ChannelStore.addJoinToChannel(action.channel, action.from);
+      break;
+
+    case ActionTypes.RECEIVE_QUIT:
+      ChannelStore.getChannelsWithNick(action.nick).map(channel => {
+        ChannelStore.addQuitToChannel(channel.name, {
+          nick: action.nick,
+          message: action.message
+        });
       });
-      ChannelStore.emitChange();
       break;
 
     case ActionTypes.RECEIVE_TOPIC:
-      ChannelStore.addMessageToChannel(action.channel, {
-        type: 'topic',
-        from: action.channel,
-        message: action.topic
+      ChannelStore.addTopicToChannel(action.channel, action.topic);
+      break;
+
+    case ActionTypes.RECEIVE_NICK:
+      ChannelStore.getChannelsWithNick(action.oldNickname).map(channel => {
+        ChannelStore.addNickToChannel(channel.name, {
+          oldNickname: action.oldNickname,
+          newNickname: action.newNickname
+        });
       });
-      ChannelStore.emitChange();
       break;
   }
 });

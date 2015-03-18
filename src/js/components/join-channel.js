@@ -36,7 +36,7 @@ const component = React.createClass({
                required
                value={this.state.channelName}
                onChange={this.handleChange} />
-        <input type="submit" value="+" />
+        {this.state.channelName.length ? <input type="submit" value="+" /> : null}
       </form>
     );
   }

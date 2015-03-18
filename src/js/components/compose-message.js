@@ -31,9 +31,11 @@ const component = React.createClass({
 
   render() {
     return (
-      <form className="form-panel" onSubmit={this.handleFormSubmission}>
+      <form className="message compose-message" onSubmit={this.handleFormSubmission}>
+        <h3 className="from">brandly</h3>
         <input type="text"
                placeholder="write message"
+               className="body"
                required
                value={this.state.message}
                onChange={this.handleChange} />

@@ -1,5 +1,6 @@
 import React from 'react';
 import { addons } from 'react/addons';
+import classNames from 'classnames';
 import ChannelStore from '../stores/channel-store';
 
 const component = React.createClass({
@@ -44,10 +45,15 @@ const component = React.createClass({
       const action = (msg.type !== 'priv') ? <span className="action">{msg.type}</span> : null;
       const showFrom = (i === 0 || messages.get(i - 1).from !== msg.from);
 
+      const classes = classNames({
+        message: true,
+        [msg.type]: true
+      });
+
       return (
-        <li className="message" key={i}>
+        <li className={classes} key={i}>
           <h3 className="from">{showFrom ? msg.from : ''}</h3>
-          <p className="body">{action}{msg.message}</p>
+          <p className="body">{action}<span className="text">{msg.message}</span></p>
           <p className="when">{formatDate(msg.when)}</p>
         </li>
       );

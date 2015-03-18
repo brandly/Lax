@@ -28,16 +28,20 @@ const component = React.createClass({
   render() {
     const peopleCount = this.state.channelPeople.size;
 
+    var nameEl, countEl;
     if (this.state.channelName) {
-      return (
-        <div className="header channel-header">
-          <h2 className="channel-name vertical-center">{this.state.channelName}</h2>
-          <p className="channel-people-count vertical-center">{peopleCount} people</p>
-        </div>
-      );
+      nameEl = <h2 className="channel-name vertical-center">{this.state.channelName}</h2>;
+      countEl = <p className="channel-people-count vertical-center">{peopleCount} people</p>
     } else {
-      return null;
+      nameEl = null;
+      countEl = null;
     }
+
+    return (
+      <div className="header channel-header">
+        {nameEl}{countEl}
+      </div>
+    );
   }
 });
 

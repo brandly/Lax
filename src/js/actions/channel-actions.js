@@ -41,13 +41,27 @@ module.exports = {
     ircDispatcher.dispatch({
       type: ActionTypes.RECEIVE_JOIN,
       channel, from
-    })
+    });
+  },
+
+  receiveQuit({nick, message}) {
+    ircDispatcher.dispatch({
+      type: ActionTypes.RECEIVE_QUIT,
+      nick, message
+    });
   },
 
   receiveTopic({channel, topic}) {
     ircDispatcher.dispatch({
       type: ActionTypes.RECEIVE_TOPIC,
       channel, topic
-    })
+    });
+  },
+
+  receiveNick({oldNickname, newNickname}) {
+    ircDispatcher.dispatch({
+      type: ActionTypes.RECEIVE_NICK,
+      oldNickname, newNickname
+    });
   }
 };

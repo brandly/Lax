@@ -29,6 +29,10 @@ ConnectionStore.dispatchToken = ircDispatcher.register(action => {
         host: action.server
       });
 
+      stream.on('error', e => {
+        console.log('stream error', e);
+      });
+
       let connection = irc(stream);
 
       if (action.password) connection.pass(action.password);
@@ -60,8 +64,11 @@ ConnectionStore.dispatchToken = ircDispatcher.register(action => {
       });
 
       connection.on('quit', e => {
-        // TODO: figure out how to get channel here
         console.log('quit', e);
+        ChannelActions.receiveQuit({
+          nick: e.nick,
+          message: e.message
+        });
       });
 
       connection.on('part', e => {
@@ -78,6 +85,10 @@ ConnectionStore.dispatchToken = ircDispatcher.register(action => {
 
       connection.on('nick', e => {
         console.log('nick', e);
+        ChannelActions.receiveNick({
+          oldNickname: e.nick,
+          newNickname: e.new
+        });
       });
 
       connection.on('welcome', e => {
