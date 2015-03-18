@@ -8,10 +8,8 @@ import ChannelHeader from './channel-header';
 import MessageList from './message-list';
 import ComposeMessage from './compose-message';
 
-function getChannel() {
-  const channel = ChannelStore.getSelectedChannel();
+function getChannel(channel) {
   return {
-    channel: channel,
     messages: channel ? channel.getMessages() : List(),
     people: channel ? channel.getPeople() : List()
   }
@@ -25,11 +23,11 @@ const component = React.createClass({
   },
 
   getInitialState() {
-    return getChannel();
+    return getChannel(this.props.channel);
   },
 
   _onChange() {
-    this.setState(getChannel());
+    this.setState(getChannel(this.props.channel));
   },
 
   render() {
