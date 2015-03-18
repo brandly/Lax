@@ -12,12 +12,16 @@ const component = React.createClass({
     el.scrollTop = el.scrollHeight;
   },
 
+  componentDidUpdate() {
+    this.scrollToBottom();
+  },
+
   render() {
-    const messages = this.props.messages;
+    const { messages } = this.props;
 
     if (!messages) {
       return null;
-    };
+    }
 
     const messageElements = messages.map((msg, i) => {
       const action = (msg.type !== 'priv') ? <span className="action">{msg.type}</span> : null;

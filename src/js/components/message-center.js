@@ -12,7 +12,7 @@ import Channel from './channel';
 function getCurrentChannel() {
   return {
     channel: ChannelStore.getSelectedChannel()
-  }
+  };
 }
 
 const component = React.createClass({
