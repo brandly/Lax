@@ -5,8 +5,7 @@ const component = React.createClass({
   mixins: [addons.PureRenderMixin],
 
   render() {
-    const channel = this.props.channel;
-    const people = this.props.people;
+    const { channel, people } = this.props;
 
     var nameEl, countEl;
     if (channel) {
