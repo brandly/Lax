@@ -1,5 +1,6 @@
 import React from 'react';
 import { addons } from 'react/addons';
+import { List } from 'immutable';
 
 import ChannelStore from '../stores/channel-store';
 
@@ -8,8 +9,10 @@ import MessageList from './message-list';
 import ComposeMessage from './compose-message';
 
 function getChannel() {
+  const channel = ChannelStore.getSelectedChannel();
   return {
-    channel: ChannelStore.getSelectedChannel()
+    channel: channel,
+    messages: channel ? channel.getMessages() : List()
   }
 }
 
@@ -30,13 +33,14 @@ const component = React.createClass({
 
   render() {
     const channel = this.state.channel;
+    const messages = this.state.messages;
 
     return (
       <div className="right-panel channel">
         <div className="above-bottom-panel">
           <ChannelHeader channel={channel} />
           <div className="below-channel-header">
-            <MessageList channel={channel} />
+            <MessageList messages={messages} />
           </div>
         </div>
         <div className="absolute-bottom-panel">
