@@ -1,7 +1,6 @@
 import React from 'react';
 import { addons } from 'react/addons';
 import ChannelActions from '../actions/channel-actions';
-import ChannelStore from '../stores/channel-store';
 
 const component = React.createClass({
   mixins: [addons.PureRenderMixin],
@@ -14,10 +13,16 @@ const component = React.createClass({
 
   handleFormSubmission(event) {
     event.preventDefault();
+
+    if (!this.props.channel) {
+      return null;
+    }
+
     ChannelActions.sendMessage({
-      channel: ChannelStore.getSelectedChannel().name,
+      channel: this.props.channel.name,
       message: this.state.message
     });
+
     this.setMessage('');
   },
 
