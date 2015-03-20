@@ -60,19 +60,24 @@ ConnectionStore.dispatchToken = ircDispatcher.register(action => {
       });
 
       connection.on('away', e => {
-        console.log('away', e);
-      });
-
-      connection.on('quit', e => {
-        console.log('quit', e);
-        ChannelActions.receiveQuit({
+        ChannelActions.receiveAway({
           nick: e.nick,
           message: e.message
         });
       });
 
       connection.on('part', e => {
-        console.log('part', e);
+        ChannelActions.receivePart({
+          nick: e.nick,
+          message: e.message
+        });
+      });
+
+      connection.on('quit', e => {
+        ChannelActions.receiveQuit({
+          nick: e.nick,
+          message: e.message
+        });
       });
 
       connection.on('kick', e => {
@@ -83,16 +88,15 @@ ConnectionStore.dispatchToken = ircDispatcher.register(action => {
         console.log('motd', e);
       });
 
+      connection.on('welcome', e => {
+        console.log('welcome', e);
+      });
+
       connection.on('nick', e => {
-        console.log('nick', e);
         ChannelActions.receiveNick({
           oldNickname: e.nick,
           newNickname: e.new
         });
-      });
-
-      connection.on('welcome', e => {
-        console.log('welcome', e);
       });
 
       connection.on('topic', e => {

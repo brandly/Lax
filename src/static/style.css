@@ -250,7 +250,7 @@ body,
   padding-top: 3px;
 }
 
-.message .action {
+.message .command {
   margin-right: 6px;
   color: white;
   background-color: #DDD;
@@ -261,6 +261,7 @@ body,
 }
 
 .message.nick .text,
+.message.away .text,
 .message.quit .text {
   color: #BBB;
 }

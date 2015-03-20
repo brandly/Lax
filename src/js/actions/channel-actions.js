@@ -44,6 +44,20 @@ module.exports = {
     });
   },
 
+  receiveAway({nick, message}) {
+    ircDispatcher.dispatch({
+      type: ActionTypes.RECEIVE_AWAY,
+      channel, from
+    });
+  },
+
+  receivePart({nick, message}) {
+    ircDispatcher.dispatch({
+      type: ActionTypes.RECEIVE_PART,
+      nick, message
+    });
+  },
+
   receiveQuit({nick, message}) {
     ircDispatcher.dispatch({
       type: ActionTypes.RECEIVE_QUIT,

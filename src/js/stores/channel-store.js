@@ -33,7 +33,8 @@ class Channel {
   }
 
   removePerson(nick) {
-    console.log('TODO: find person, pull them out of List')
+    const personIndex = this.people.findIndex(person => person.name === nick);
+    this.people = this.people.remove(personIndex);
   }
 
   hasNick(nick) {
@@ -93,6 +94,25 @@ const ChannelStore = assign({}, EventEmitter, {
       type: 'join',
       from: nick,
       message: ''
+    });
+  },
+
+  addAwayToChannel(channelName, {nick, message}) {
+    ChannelStore.addMessageToChannel(channelName, {
+      type: 'away',
+      from: nick,
+      message
+    });
+  },
+
+  addPartToChannel(channelName, {nick, message}) {
+    this.getChannelByName(channelName)
+        .removePerson(nick);
+
+    ChannelStore.addMessageToChannel(channelName, {
+      type: 'part',
+      from: nick,
+      message
     });
   },
 
@@ -166,6 +186,24 @@ ChannelStore.dispatchToken = ircDispatcher.register(action => {
 
     case ActionTypes.RECEIVE_JOIN:
       ChannelStore.addJoinToChannel(action.channel, action.from);
+      break;
+
+    case ActionTypes.RECEIVE_AWAY:
+      ChannelStore.getChannelsWithNick(action.nick).map(channel => {
+        ChannelStore.addAwayToChannel(channel.name, {
+          nick: action.nick,
+          message: action.message
+        });
+      });
+      break;
+
+    case ActionTypes.RECEIVE_PART:
+      ChannelStore.getChannelsWithNick(action.nick).map(channel => {
+        ChannelStore.addPartToChannel(channel.name, {
+          nick: action.nick,
+          message: action.message
+        });
+      });
       break;
 
     case ActionTypes.RECEIVE_QUIT:
