@@ -9,7 +9,7 @@ import MessageList from './message-list';
 import ComposeMessage from './compose-message';
 import PeopleList from './people-list';
 
-function getChannel(channel) {
+function getChannelState(channel) {
   return {
     messages: channel ? channel.getMessages() : List(),
     people: channel ? channel.getPeople() : List()
@@ -23,18 +23,20 @@ const component = React.createClass({
     ChannelStore.addChangeListener(this._onChange);
   },
 
+
   getInitialState() {
-    const state = getChannel(this.props.channel);
+    const state = getChannelState(this.props.channel);
     state.showPeopleList = false;
     return state;
   },
 
   componentWillReceiveProps(nextProps) {
-    this.setState(getChannel(nextProps.channel));
+    this.setState({showPeopleList: false});
+    this.setState(getChannelState(nextProps.channel));
   },
 
   _onChange() {
-    this.setState(getChannel(this.props.channel));
+    this.setState(getChannelState(this.props.channel));
   },
 
   togglePeopleList() {
