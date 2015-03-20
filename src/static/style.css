@@ -176,6 +176,24 @@ body,
   letter-spacing: 0.4px;
 }
 
+.people-list {
+  position: absolute;
+  top: 3.0rem;
+  right: 0;
+  height: calc(100% + 1.0rem); /* TODO: wtf is this */
+  width: 180px;
+  background-color: #FFF;
+  border-left: 1px solid #EEE;
+}
+
+.people-list .scrolling-panel {
+  padding: 0.5rem;
+}
+
+.people-list .nickname {
+  padding: 0.2rem 0;
+}
+
 .connection-header .server {
   font-size: 0.8rem;
 }
@@ -201,6 +219,14 @@ body,
   color: #333;
 }
 
+.nickname {
+  color: rgb(170, 154, 205);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.8rem;
+}
+
 .message-list {
   display: table;
   width: 100%;
@@ -218,15 +244,10 @@ body,
 .message .from {
   display: table-cell;
   vertical-align: top;
-  font-size: 0.8rem;
   text-align: right;
   width: 120px;
   max-width: 120px;
   padding-right: 12px;
-  color: rgb(170, 154, 205);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .message-list .message .from {

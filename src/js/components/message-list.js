@@ -34,7 +34,7 @@ const component = React.createClass({
 
       return (
         <li className={classes} key={i}>
-          <h3 className="from">{showFrom ? msg.from : ''}</h3>
+          <h3 className="nickname from">{showFrom ? msg.from : ''}</h3>
           <p className="body">{action}<span className="text">{msg.message}</span></p>
           <p className="when">{formatDate(msg.when)}</p>
         </li>

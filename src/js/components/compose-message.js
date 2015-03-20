@@ -35,7 +35,7 @@ const component = React.createClass({
 
     return (
       <form className="message compose-message" onSubmit={this.handleFormSubmission}>
-        <h3 className="from">brandly</h3>
+        <h3 className="nickname from">brandly</h3>
         <input type="text"
                placeholder="write message"
                className="body"

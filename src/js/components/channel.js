@@ -7,6 +7,7 @@ import ChannelStore from '../stores/channel-store';
 import ChannelHeader from './channel-header';
 import MessageList from './message-list';
 import ComposeMessage from './compose-message';
+import PeopleList from './people-list';
 
 function getChannel(channel) {
   return {
@@ -23,7 +24,9 @@ const component = React.createClass({
   },
 
   getInitialState() {
-    return getChannel(this.props.channel);
+    const state = getChannel(this.props.channel);
+    state.showPeopleList = false;
+    return state;
   },
 
   componentWillReceiveProps(nextProps) {
@@ -34,17 +37,26 @@ const component = React.createClass({
     this.setState(getChannel(this.props.channel));
   },
 
+  togglePeopleList() {
+    this.setState({
+      showPeopleList: !this.state.showPeopleList
+    });
+  },
+
   render() {
     const { channel } = this.props;
-    const { messages, people } = this.state;
+    const { messages, people, showPeopleList } = this.state;
+
+    const peopleListEl = showPeopleList ? <PeopleList people={people} /> : null;
 
     return (
       <div className="right-panel channel">
         <div className="above-bottom-panel">
-          <ChannelHeader channel={channel} people={people} />
+          <ChannelHeader onPeopleClick={this.togglePeopleList} channel={channel} people={people} />
           <div className="below-header">
             <MessageList messages={messages} />
           </div>
+          {peopleListEl}
         </div>
         <div className="absolute-bottom-panel">
           <ComposeMessage channel={channel} />
