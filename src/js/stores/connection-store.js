@@ -101,28 +101,29 @@ ConnectionStore.dispatchToken = ircDispatcher.register(action => {
 
       connection.on('topic', e => {
         ChannelActions.receiveTopic({
-          channel: singleOctothorpe(e.channel),
+          channel: e.channel,
           topic: e.topic
         });
       });
 
       connection.on('join', e => {
+        console.log('JOIN', e);
         ChannelActions.receiveJoin({
-          channel: singleOctothorpe(e.channel),
+          channel: e.channel,
           from: e.nick
         });
       });
 
       connection.on('names', e => {
         ChannelActions.receiveNames({
-          channel: singleOctothorpe(e.channel),
+          channel: e.channel,
           names: e.names
         });
       });
 
       connection.on('message', e => {
         ChannelActions.receiveMessage({
-          channel: singleOctothorpe(e.to),
+          channel: e.to,
           from: e.from,
           message: e.message
         });
@@ -134,12 +135,11 @@ ConnectionStore.dispatchToken = ircDispatcher.register(action => {
       ConnectionStore.server = action.server;
       ConnectionStore.emitChange();
       break;
+
+    case ActionTypes.REQUEST_JOIN_CHANNEL:
+      ConnectionStore.getConnection().join(action.channelName);
+      break;
   }
 });
 
 module.exports = ConnectionStore;
-
-// TODO: figure out this single/double octothorpe business
-function singleOctothorpe(str) {
-  return str.replace(/#+/g, '#');
-};

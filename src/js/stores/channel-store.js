@@ -73,9 +73,6 @@ const ChannelStore = assign({}, EventEmitter, {
   join(channelName) {
     if (!!this.getChannelByName(channelName)) return;
 
-    const connection = ConnectionStore.getConnection();
-    connection.join(channelName);
-
     this.channels = this.channels.push(new Channel(channelName));
     this.selectChannel(channelName);
   },
@@ -150,10 +147,6 @@ const ChannelStore = assign({}, EventEmitter, {
 
 ChannelStore.dispatchToken = ircDispatcher.register(action => {
   switch (action.type) {
-    case ActionTypes.REQUEST_JOIN_CHANNEL:
-      ChannelStore.join(action.channelName);
-      break;
-
     case ActionTypes.SELECT_CHANNEL:
       ChannelStore.selectChannel(action.channelName);
       break;
@@ -175,8 +168,8 @@ ChannelStore.dispatchToken = ircDispatcher.register(action => {
 
     case ActionTypes.SEND_MESSAGE:
       let connection = ConnectionStore.getConnection();
-      // TODO: figure out this octothorpe situation!!!!
-      connection.send('#' + action.channel, action.message);
+      connection.send(action.channel, action.message);
+
       ChannelStore.addMessageToChannel(action.channel, {
         type: 'priv',
         message: action.message,
@@ -185,7 +178,11 @@ ChannelStore.dispatchToken = ircDispatcher.register(action => {
       break;
 
     case ActionTypes.RECEIVE_JOIN:
-      ChannelStore.addJoinToChannel(action.channel, action.from);
+      if (action.from === ConnectionStore.nickname) {
+        ChannelStore.join(action.channel);
+      } else {
+        ChannelStore.addJoinToChannel(action.channel, action.from);
+      }
       break;
 
     case ActionTypes.RECEIVE_AWAY:
