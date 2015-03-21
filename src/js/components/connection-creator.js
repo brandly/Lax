@@ -81,6 +81,7 @@ const component = React.createClass({
                  autoFocus
                  required
                  value={this.state.realName}
+                 disabled={this.state.isConnecting}
                  onChange={this.handleChange.bind(this, 'realName')} />
         </div>
 
@@ -89,12 +90,14 @@ const component = React.createClass({
           <input type="text"
                  required
                  value={this.state.nickname}
+                 disabled={this.state.isConnecting}
                  onChange={this.handleChange.bind(this, 'nickname')} />
         </div>
 
         <div className={inputGroupClass}>
           <label>Password</label>
           <input type="password"
+                 disabled={this.state.isConnecting}
                  onChange={this.handleChange.bind(this, 'password')} />
         </div>
 
@@ -102,6 +105,7 @@ const component = React.createClass({
           <label>Server</label>
           <select required
                   value={this.state.server}
+                  disabled={this.state.isConnecting}
                   onChange={this.handleChange.bind(this, 'server')}>
             <option value=""></option>
             {serverOptions.map((n, i) => {
@@ -115,6 +119,7 @@ const component = React.createClass({
           <input type="number"
                  required
                  value={this.state.port}
+                 disabled={this.state.isConnecting}
                  onChange={this.handleChange.bind(this, 'port')} />
         </div>
 

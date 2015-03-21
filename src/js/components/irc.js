@@ -13,20 +13,20 @@ const app = React.createClass({
 
   getInitialState() {
     return {
-      hasConnection: false
+      isWelcome: false
     };
   },
 
   _onChange() {
     this.setState({
-      hasConnection: !!ConnectionStore.getConnection()
+      isWelcome: ConnectionStore.isWelcome
     });
   },
 
   render() {
     return (
       <div className="irc">
-        {this.state.hasConnection ?
+        {this.state.isWelcome ?
           <MessageCenter /> :
           <ConnectionCreator />
         }

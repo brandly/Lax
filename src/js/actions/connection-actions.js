@@ -6,6 +6,13 @@ module.exports = {
     ircDispatcher.dispatch({
       type: ActionTypes.REQUEST_CONNECTION,
       realName, nickname, password, server, port
-    })
+    });
+  },
+
+  receiveWelcome({nick}) {
+    ircDispatcher.dispatch({
+      type: ActionTypes.RECEIVE_WELCOME,
+      nick
+    });
   }
 };

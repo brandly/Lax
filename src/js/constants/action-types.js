@@ -2,6 +2,7 @@ import keyMirror from 'keymirror';
 
 module.exports = keyMirror({
   REQUEST_CONNECTION: null,
+  RECEIVE_WELCOME: null,
 
   REQUEST_JOIN_CHANNEL: null,
   SELECT_CHANNEL: null,

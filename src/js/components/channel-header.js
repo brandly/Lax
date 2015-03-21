@@ -10,7 +10,9 @@ const component = React.createClass({
     var nameEl, countEl;
     if (channel) {
       nameEl = <h2 className="channel-name vertical-center">{channel.name}</h2>;
-      countEl = <p className="channel-people-count vertical-center" onClick={this.props.onPeopleClick}>{people.size} people</p>
+      countEl = channel.name[0] === '#' ? (
+          <p className="channel-people-count vertical-center" onClick={this.props.onPeopleClick}>{people.size} people</p>
+        ) : null;
     } else {
       nameEl = null;
       countEl = null;

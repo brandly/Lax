@@ -5,12 +5,14 @@ import EventEmitter from '../modules/event-emitter';
 import ircDispatcher from '../dispatchers/irc-dispatcher';
 import ActionTypes from '../constants/action-types';
 import ChannelActions from '../actions/channel-actions';
+import ConnectionActions from '../actions/connection-actions';
 
 const ConnectionStore = assign({}, EventEmitter, {
   connection: null,
   server: null,
   nickname: null,
   realName: null,
+  isWelcome: false,
 
   getConnection() {
     return this.connection || null;
@@ -18,6 +20,11 @@ const ConnectionStore = assign({}, EventEmitter, {
 
   getNickname() {
     return this.nickname;
+  },
+
+  setWelcome(val) {
+    this.isWelcome = val;
+    this.emitChange();
   }
 });
 
@@ -27,6 +34,14 @@ ConnectionStore.dispatchToken = ircDispatcher.register(action => {
       let stream = net.connect({
         port: action.port,
         host: action.server
+      });
+
+      stream.on('connect', e => {
+        console.log('stream connect', e);
+      });
+
+      stream.on('close', e => {
+        console.log('stream close', e);
       });
 
       stream.on('error', e => {
@@ -88,8 +103,8 @@ ConnectionStore.dispatchToken = ircDispatcher.register(action => {
         console.log('motd', e);
       });
 
-      connection.on('welcome', e => {
-        console.log('welcome', e);
+      connection.on('welcome', nick => {
+        ConnectionActions.receiveWelcome({ nick });
       });
 
       connection.on('nick', e => {
@@ -140,6 +155,11 @@ ConnectionStore.dispatchToken = ircDispatcher.register(action => {
       ConnectionStore.realName = action.realName;
       ConnectionStore.server = action.server;
       ConnectionStore.emitChange();
+      break;
+
+    case ActionTypes.RECEIVE_WELCOME:
+      // TODO: check that action.nick is the nickname, once we have multi connections
+      ConnectionStore.setWelcome(true);
       break;
 
     case ActionTypes.REQUEST_JOIN_CHANNEL:

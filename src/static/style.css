@@ -60,6 +60,10 @@ body,
   cursor: default;
 }
 
+.input-group input[type="submit"]:disabled {
+  opacity: 0.4;
+}
+
 .input-group input:focus,
 .input-group select:focus,
 .input-group input[type="submit"]:hover {
