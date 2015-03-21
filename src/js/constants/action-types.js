@@ -7,6 +7,7 @@ module.exports = keyMirror({
   SELECT_CHANNEL: null,
   RECEIVE_NAMES: null,
   RECEIVE_MESSAGE: null,
+  RECEIVE_DIRECT_MESSAGE: null,
   SEND_MESSAGE: null,
   RECEIVE_JOIN: null,
   RECEIVE_AWAY: null,

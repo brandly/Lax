@@ -70,16 +70,23 @@ const ChannelStore = assign({}, EventEmitter, {
     this.emitChange();
   },
 
+  createChannel(name) {
+    const channel = new Channel(name);
+    this.channels = this.channels.push(channel);
+    return channel;
+  },
+
   join(channelName) {
     if (!!this.getChannelByName(channelName)) return;
 
-    this.channels = this.channels.push(new Channel(channelName));
+    this.createChannel(channelName);
     this.selectChannel(channelName);
   },
 
   addMessageToChannel(channelName, message) {
-    this.getChannelByName(channelName)
-        .addMessage(message);
+    const channel = this.getChannelByName(channelName) || this.createChannel(channelName);
+
+    channel.addMessage(message);
     this.emitChange();
   },
 
@@ -163,6 +170,14 @@ ChannelStore.dispatchToken = ircDispatcher.register(action => {
       ChannelStore.addMessageToChannel(channel, {
         type: 'priv',
         from, message
+      });
+      break;
+
+    case ActionTypes.RECEIVE_DIRECT_MESSAGE:
+      ChannelStore.addMessageToChannel(action.from, {
+        type: 'priv',
+        from: action.from,
+        message: action.message
       });
       break;
 

@@ -30,6 +30,13 @@ module.exports = {
     });
   },
 
+  receiveDirectMessage({from, message}) {
+    ircDispatcher.dispatch({
+      type: ActionTypes.RECEIVE_DIRECT_MESSAGE,
+      from, message
+    });
+  },
+
   sendMessage({channel, message}) {
     ircDispatcher.dispatch({
       type: ActionTypes.SEND_MESSAGE,

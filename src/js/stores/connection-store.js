@@ -107,7 +107,6 @@ ConnectionStore.dispatchToken = ircDispatcher.register(action => {
       });
 
       connection.on('join', e => {
-        console.log('JOIN', e);
         ChannelActions.receiveJoin({
           channel: e.channel,
           from: e.nick
@@ -122,11 +121,18 @@ ConnectionStore.dispatchToken = ircDispatcher.register(action => {
       });
 
       connection.on('message', e => {
-        ChannelActions.receiveMessage({
-          channel: e.to,
-          from: e.from,
-          message: e.message
-        });
+        if (e.to === ConnectionStore.nickname) {
+          ChannelActions.receiveDirectMessage({
+            from: e.from,
+            message: e.message
+          });
+        } else {
+          ChannelActions.receiveMessage({
+            channel: e.to,
+            from: e.from,
+            message: e.message
+          });
+        }
       });
 
       ConnectionStore.connection = connection;
