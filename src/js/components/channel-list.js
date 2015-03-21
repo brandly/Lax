@@ -2,20 +2,20 @@ import React from 'react';
 import { addons } from 'react/addons';
 import Immutable from 'immutable';
 import classNames from 'classnames';
-import key from 'keymaster';
+
 import ChannelStore from '../stores/channel-store';
 import ChannelActions from '../actions/channel-actions';
+import KeymasterMixin from '../mixins/keymaster';
 
 const component = React.createClass({
-  mixins: [addons.PureRenderMixin],
+  mixins: [addons.PureRenderMixin, KeymasterMixin],
 
   componentWillMount() {
     ChannelStore.addChangeListener(this._onChange);
-    this.bindKeyboardShortcuts();
-  },
-
-  componentWillUnmount() {
-    this.unbindKeyboardShortcuts();
+    this.setKeymaster({
+      '⌘+shift+]': this.selectNextChannel,
+      '⌘+shift+[': this.selectPrevChannel
+    });
   },
 
   getInitialState() {
@@ -32,23 +32,6 @@ const component = React.createClass({
       channels: channels.sortBy(this.channelOrder),
       selectedChannel: ChannelStore.getSelectedChannel()
     });
-  },
-
-  shortcuts: {
-    nextChannel: '⌘+shift+]',
-    prevChannel: '⌘+shift+['
-  },
-
-  // TODO: abstract this out into some "shortcuts" mixin
-  // should just map "shortcuts" to methods, and it'll handle mount/unmount
-  bindKeyboardShortcuts() {
-    key(this.shortcuts.nextChannel, this.selectNextChannel);
-    key(this.shortcuts.prevChannel, this.selectPrevChannel);
-  },
-
-  unbindKeyboardShortcuts() {
-    key.unbind(this.shortcuts.nextChannel, this.selectNextChannel);
-    key.unbind(this.shortcuts.prevChannel, this.selectPrevChannel);
   },
 
   selectChannel(channelName) {
