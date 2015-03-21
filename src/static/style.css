@@ -194,6 +194,12 @@ body,
   padding: 0.2rem 0;
 }
 
+.people-search-field {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
 .connection-header .server {
   font-size: 0.8rem;
 }
