@@ -1,14 +1,26 @@
 import React from 'react';
 import { addons } from 'react/addons';
+import ConnectionStore from '../stores/connection-store';
 import ChannelActions from '../actions/channel-actions';
 
 const component = React.createClass({
   mixins: [addons.PureRenderMixin],
 
+  componentWillMount() {
+    ConnectionStore.addChangeListener(this._onChange);
+  },
+
   getInitialState() {
     return {
-      message: ''
+      message: '',
+      nickname: ConnectionStore.getNickname()
     };
+  },
+
+  _onChange() {
+    this.setState({
+      nickname: ConnectionStore.getNickname()
+    });
   },
 
   handleFormSubmission(event) {
@@ -35,7 +47,7 @@ const component = React.createClass({
 
     return (
       <form className="message compose-message" onSubmit={this.handleFormSubmission}>
-        <h3 className="nickname from">brandly</h3>
+        <h3 className="nickname from">{this.state.nickname}</h3>
         <input type="text"
                placeholder="write message"
                className="body"
