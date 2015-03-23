@@ -11,6 +11,7 @@ class Channel {
     this.name = name;
     this.messages = List();
     this.people = List();
+    this.unreadCount = 0;
   }
 
   getMessages() {
@@ -67,6 +68,7 @@ const ChannelStore = assign({}, EventEmitter, {
 
   selectChannel(name) {
     this.selectedChannelName = name;
+    this.getChannelByName(name).unreadCount = 0;
     this.emitChange();
   },
 
@@ -83,11 +85,27 @@ const ChannelStore = assign({}, EventEmitter, {
     this.selectChannel(channelName);
   },
 
+  ensureChannelWithName(channelName) {
+    return this.getChannelByName(channelName) || this.createChannel(channelName);
+  },
+
   addMessageToChannel(channelName, message) {
-    const channel = this.getChannelByName(channelName) || this.createChannel(channelName);
+    const channel = this.ensureChannelWithName(channelName);
 
     channel.addMessage(message);
     this.emitChange();
+  },
+
+  addPrivMessageToChannel(channelName, {from, message}) {
+    if (channelName !== this.selectedChannelName) {
+      const channel = this.ensureChannelWithName(channelName);
+      channel.unreadCount += 1;
+    }
+
+    ChannelStore.addMessageToChannel(channelName, {
+      type: 'priv',
+      from, message
+    });
   },
 
   addJoinToChannel(channelName, nick) {
@@ -167,15 +185,13 @@ ChannelStore.dispatchToken = ircDispatcher.register(action => {
 
     case ActionTypes.RECEIVE_MESSAGE:
       let { channel, from, message } = action;
-      ChannelStore.addMessageToChannel(channel, {
-        type: 'priv',
+      ChannelStore.addPrivMessageToChannel(channel, {
         from, message
       });
       break;
 
     case ActionTypes.RECEIVE_DIRECT_MESSAGE:
-      ChannelStore.addMessageToChannel(action.from, {
-        type: 'priv',
+      ChannelStore.addPrivMessageToChannel(action.from, {
         from: action.from,
         message: action.message
       });
@@ -185,8 +201,7 @@ ChannelStore.dispatchToken = ircDispatcher.register(action => {
       let connection = ConnectionStore.getConnection();
       connection.send(action.channel, action.message);
 
-      ChannelStore.addMessageToChannel(action.channel, {
-        type: 'priv',
+      ChannelStore.addPrivMessageToChannel(action.channel, {
         message: action.message,
         from: ConnectionStore.nickname
       });

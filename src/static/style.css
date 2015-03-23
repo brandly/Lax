@@ -229,6 +229,10 @@ body,
   color: #333;
 }
 
+.channel-list-item .unread-count {
+  float: right;
+}
+
 .nickname {
   color: rgb(170, 154, 205);
   white-space: nowrap;

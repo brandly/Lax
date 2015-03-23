@@ -68,15 +68,20 @@ const component = React.createClass({
 
   render() {
     const channelElements = this.state.channels.map((channel, i) => {
+      const { name, unreadCount } = channel;
+
       const classes = classNames({
         'channel-list-item': true,
-        'is-selected': channel.name === this.state.selectedChannel.name
+        'is-selected': name === this.state.selectedChannel.name
       });
+
+      const nameEl = <span className="channel-name">{name}</span>;
+      const countEl = unreadCount? <span className="unread-count">{unreadCount}</span> : null;
 
       return (
         <li className={classes}
             key={channel.name}
-            onClick={this.selectChannel.bind(this, channel.name)}>{channel.name}</li>
+            onClick={this.selectChannel.bind(this, channel.name)}>{nameEl}{countEl}</li>
       );
     });
 
