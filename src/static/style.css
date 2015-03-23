@@ -289,6 +289,12 @@ body,
   padding: 0.15rem 0.4rem;
   border-radius: 4px;
   text-shadow: 0 1px 1px #CCC;
+  letter-spacing: 0.5px;
+}
+
+.message.error .command {
+  background-color: #EDA5A5;
+  text-shadow: 0 0px 1px #C87F7F;
 }
 
 .message .text a {
@@ -298,6 +304,7 @@ body,
 
 .message.nick .text,
 .message.away .text,
-.message.quit .text {
+.message.quit .text,
+.message.error .text {
   color: #BBB;
 }

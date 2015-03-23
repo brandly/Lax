@@ -233,10 +233,21 @@ ChannelStore.dispatchToken = ircDispatcher.register(action => {
 
     case ActionTypes.RECEIVE_NICK:
       ChannelStore.getChannelsWithNick(action.oldNickname).map(channel => {
+        channel.removePerson(action.oldNickname);
+        channel.addPerson(action.newNickname);
+
         ChannelStore.addNickToChannel(channel.name, {
           oldNickname: action.oldNickname,
           newNickname: action.newNickname
         });
+      });
+      break;
+
+    case ActionTypes.COMMAND_UNRECOGNIZED:
+      ChannelStore.addMessageToChannel(action.channelName, {
+        type: 'error',
+        from: '',
+        message: 'Unrecognized command: ' + action.command
       });
       break;
   }

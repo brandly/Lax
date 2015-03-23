@@ -1,6 +1,7 @@
 import React from 'react';
 import { addons } from 'react/addons';
 import { List } from 'immutable';
+import contains from '../modules/contains';
 
 const component = React.createClass({
   mixins: [addons.PureRenderMixin],
@@ -43,7 +44,3 @@ const component = React.createClass({
 });
 
 module.exports = component;
-
-function contains(a, b) {
-  return a.indexOf(b) !== -1;
-}

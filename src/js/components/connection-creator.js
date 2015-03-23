@@ -1,6 +1,7 @@
 import React from 'react';
 import { addons } from 'react/addons';
 import ConnectionActions from '../actions/connection-actions';
+import contains from '../modules/contains';
 
 const component = React.createClass({
   mixins: [addons.PureRenderMixin],
@@ -132,7 +133,3 @@ const component = React.createClass({
 });
 
 module.exports = component;
-
-function contains(arr, thing) {
-  return (arr.indexOf(thing) !== -1);
-}

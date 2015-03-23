@@ -162,8 +162,19 @@ ConnectionStore.dispatchToken = ircDispatcher.register(action => {
       ConnectionStore.setWelcome(true);
       break;
 
-    case ActionTypes.REQUEST_JOIN_CHANNEL:
+    case ActionTypes.COMMAND_JOIN:
       ConnectionStore.getConnection().join(action.channelName);
+      break;
+
+    case ActionTypes.COMMAND_NICK:
+      ConnectionStore.getConnection().nick(action.newNickname);
+      break;
+
+    case ActionTypes.RECEIVE_NICK:
+      if (action.oldNickname === ConnectionStore.nickname) {
+        ConnectionStore.nickname = action.newNickname;
+        ConnectionStore.emitChange();
+      }
       break;
   }
 });

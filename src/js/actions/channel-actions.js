@@ -2,13 +2,6 @@ import ircDispatcher from '../dispatchers/irc-dispatcher';
 import ActionTypes from '../constants/action-types';
 
 module.exports = {
-  requestJoinChannel({channelName}) {
-    ircDispatcher.dispatch({
-      type: ActionTypes.REQUEST_JOIN_CHANNEL,
-      channelName
-    })
-  },
-
   selectChannel({channelName}) {
     ircDispatcher.dispatch({
       type: ActionTypes.SELECT_CHANNEL,
@@ -38,9 +31,74 @@ module.exports = {
   },
 
   sendMessage({channel, message}) {
+    if (message[0] === '/') {
+      const splitMessage = message.split(' ');
+      const command = splitMessage.shift();
+
+      switch (command) {
+        case '/join':
+          this.commandJoin({
+            channelName: splitMessage.shift()
+          });
+          break;
+
+        // case '/me':
+        //   break;
+        // case '/msg':
+        //   break;
+
+        case '/nick':
+          this.commandNick({
+            newNickname: splitMessage.shift()
+          });
+          break;
+
+        // case '/notice':
+        //   break;
+        // case '/part':
+        //   break;
+        // case '/partall':
+        //   break;
+        // case '/ping':
+        //   break;
+        // case '/query':
+        //   break;
+        // case '/quit':
+        //   break;
+        // case '/ignore':
+        //   break;
+        // case '/whois':
+        //   break;
+        // case '/chat':
+        //   break;
+        // case '/help':
+        //   break;
+        default:
+          ircDispatcher.dispatch({
+            type: ActionTypes.COMMAND_UNRECOGNIZED,
+            command, channelName: channel
+          });
+          break;
+      }
+    } else {
+      ircDispatcher.dispatch({
+        type: ActionTypes.SEND_MESSAGE,
+        channel, message
+      });
+    }
+  },
+
+  commandJoin({channelName}) {
     ircDispatcher.dispatch({
-      type: ActionTypes.SEND_MESSAGE,
-      channel, message
+      type: ActionTypes.COMMAND_JOIN,
+      channelName
+    });
+  },
+
+  commandNick({newNickname}) {
+    ircDispatcher.dispatch({
+      type: ActionTypes.COMMAND_NICK,
+      newNickname
     });
   },
 

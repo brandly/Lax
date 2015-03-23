@@ -21,7 +21,7 @@ const component = React.createClass({
 
   handleFormSubmission(event) {
     event.preventDefault();
-    ChannelActions.requestJoinChannel({
+    ChannelActions.commandJoin({
       channelName: this.state.channelName
     });
     this.setChannelName('');
