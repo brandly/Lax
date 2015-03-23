@@ -25,6 +25,7 @@ module.exports = keyMirror({
   RECEIVE_MESSAGE: null,
   RECEIVE_DIRECT_MESSAGE: null,
   SEND_MESSAGE: null,
+  RECEIVE_NOTICE: null,
   RECEIVE_JOIN: null,
   RECEIVE_AWAY: null,
   RECEIVE_PART: null,

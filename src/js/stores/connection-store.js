@@ -62,16 +62,33 @@ ConnectionStore.dispatchToken = ircDispatcher.register(action => {
         console.log('errors', e);
       });
 
-      connection.on('notice', e => {
-        console.log('notice', e);
-      });
-
       connection.on('mode', e => {
         console.log('mode', e);
       });
 
       connection.on('invite', e => {
         console.log('invite', e);
+      });
+
+      connection.on('notice', e => {
+        const channelInMessage = getChannelFromNotice(e.message);
+
+        var to, message;
+        if (channelInMessage) {
+          let splitMessage = e.message.split(' ');
+          splitMessage.shift(); // remove leading channel name
+
+          to = channelInMessage;
+          message = splitMessage.join(' ');
+        } else {
+          to = e.to;
+          message = e.message;
+        }
+
+        ChannelActions.receiveNotice({
+          from: e.from,
+          to, message
+        });
       });
 
       connection.on('away', e => {
@@ -180,3 +197,9 @@ ConnectionStore.dispatchToken = ircDispatcher.register(action => {
 });
 
 module.exports = ConnectionStore;
+
+const leadingChannelName = /^\[(#\S+)\]/;
+function getChannelFromNotice(message) {
+  const match = message.match(leadingChannelName);
+  return match ? match[1] : null;
+}

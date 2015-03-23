@@ -17,4 +17,4 @@ const EE = assign({}, EventEmitter.prototype, {
   }
 });
 
- module.exports = EE;
+module.exports = EE;

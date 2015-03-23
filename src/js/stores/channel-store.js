@@ -108,6 +108,13 @@ const ChannelStore = assign({}, EventEmitter, {
     });
   },
 
+  addNoticeToChannel(channelName, {from, message}) {
+    ChannelStore.addMessageToChannel(channelName, {
+      type: 'notice',
+      from, message
+    });
+  },
+
   addJoinToChannel(channelName, nick) {
     this.getChannelByName(channelName)
         .addPerson(nick);
@@ -207,6 +214,17 @@ ChannelStore.dispatchToken = ircDispatcher.register(action => {
       });
       break;
 
+    case ActionTypes.RECEIVE_NOTICE:
+      if (!!ChannelStore.getChannelByName(action.to)) {
+        ChannelStore.addNoticeToChannel(action.to, {
+          message: action.message,
+          from: action.from
+        });
+      } else {
+        console.log('TODO: handle notices to * and nickname', action);
+      }
+      break;
+
     case ActionTypes.RECEIVE_JOIN:
       if (action.from === ConnectionStore.nickname) {
         ChannelStore.join(action.channel);
@@ -225,12 +243,14 @@ ChannelStore.dispatchToken = ircDispatcher.register(action => {
       break;
 
     case ActionTypes.RECEIVE_PART:
-      ChannelStore.getChannelsWithNick(action.nick).map(channel => {
-        ChannelStore.addPartToChannel(channel.name, {
-          nick: action.nick,
-          message: action.message
+      if (action.nick !== ConnectionStore.nickname) {
+        ChannelStore.getChannelsWithNick(action.nick).map(channel => {
+          ChannelStore.addPartToChannel(channel.name, {
+            nick: action.nick,
+            message: action.message
+          });
         });
-      });
+      }
       break;
 
     case ActionTypes.RECEIVE_QUIT:

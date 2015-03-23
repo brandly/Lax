@@ -102,6 +102,13 @@ module.exports = {
     });
   },
 
+  receiveNotice({to, from, message}) {
+    ircDispatcher.dispatch({
+      type: ActionTypes.RECEIVE_NOTICE,
+      to, from, message
+    });
+  },
+
   receiveJoin({channel, from}) {
     ircDispatcher.dispatch({
       type: ActionTypes.RECEIVE_JOIN,
