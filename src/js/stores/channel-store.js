@@ -85,6 +85,19 @@ const ChannelStore = assign({}, EventEmitter, {
     this.selectChannel(channelName);
   },
 
+  part(channelName, message) {
+    ConnectionStore.getConnection().part(channelName, message);
+
+    const channelIndex = this.channels.findIndex(channel => channel.name === channelName);
+    this.channels = this.channels.remove(channelIndex);
+
+    if (channelName === this.selectedChannelName) {
+      this.selectedChannelName = null;
+    }
+
+    this.emitChange();
+  },
+
   ensureChannelWithName(channelName) {
     return this.getChannelByName(channelName) || this.createChannel(channelName);
   },
@@ -275,6 +288,16 @@ ChannelStore.dispatchToken = ircDispatcher.register(action => {
           oldNickname: action.oldNickname,
           newNickname: action.newNickname
         });
+      });
+      break;
+
+    case ActionTypes.COMMAND_PART:
+      ChannelStore.part(action.channel, action.message);
+      break;
+
+    case ActionTypes.COMMAND_PART_ALL:
+      ChannelStore.getChannels().forEach(channel => {
+        ChannelStore.part(channel.name, action.message);
       });
       break;
 

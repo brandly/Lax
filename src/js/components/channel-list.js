@@ -30,7 +30,7 @@ const component = React.createClass({
 
     this.setState({
       channels: channels.sortBy(this.channelOrder),
-      selectedChannel: ChannelStore.getSelectedChannel()
+      selectedChannel: ChannelStore.getSelectedChannel() || {}
     });
   },
 

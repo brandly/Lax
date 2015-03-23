@@ -55,10 +55,20 @@ module.exports = {
 
         // case '/notice':
         //   break;
-        // case '/part':
-        //   break;
-        // case '/partall':
-        //   break;
+
+        case '/part':
+          this.commandPart({
+            channel: splitMessage.shift(),
+            message: splitMessage.join(' ')
+          });
+          break;
+
+        case '/partall':
+          this.commandPartAll({
+            message: splitMessage.join(' ')
+          });
+          break;
+
         // case '/ping':
         //   break;
         // case '/query':
@@ -99,6 +109,20 @@ module.exports = {
     ircDispatcher.dispatch({
       type: ActionTypes.COMMAND_NICK,
       newNickname
+    });
+  },
+
+  commandPart({message, channel}) {
+    ircDispatcher.dispatch({
+      type: ActionTypes.COMMAND_PART,
+      message, channel
+    });
+  },
+
+  commandPartAll({message}) {
+    ircDispatcher.dispatch({
+      type: ActionTypes.COMMAND_PART_ALL,
+      message
     });
   },
 
