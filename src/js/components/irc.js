@@ -4,6 +4,8 @@ import MessageCenter from './message-center';
 import ConnectionCreator from './connection-creator';
 import ConnectionStore from '../stores/connection-store';
 
+import MainMenu from '../nw/main-menu';
+
 const app = React.createClass({
   mixins: [addons.PureRenderMixin],
 
