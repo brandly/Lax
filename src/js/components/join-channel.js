@@ -1,33 +1,33 @@
-import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import ChannelActions from '../actions/channel-actions';
+import React from 'react'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
+import ChannelActions from '../actions/channel-actions'
 
-const component = React.createClass({
+const JoinChannel = React.createClass({
   mixins: [PureRenderMixin],
 
-  getInitialState() {
+  getInitialState () {
     return {
       channelName: ''
-    };
+    }
   },
 
-  setChannelName(channelName) {
-    this.setState({ channelName });
+  setChannelName (channelName) {
+    this.setState({ channelName })
   },
 
-  handleChange(event) {
-    this.setChannelName(event.target.value);
+  handleChange (event) {
+    this.setChannelName(event.target.value)
   },
 
-  handleFormSubmission(event) {
-    event.preventDefault();
+  handleFormSubmission (event) {
+    event.preventDefault()
     ChannelActions.commandJoin({
       channelName: this.state.channelName
-    });
-    this.setChannelName('');
+    })
+    this.setChannelName('')
   },
 
-  render() {
+  render () {
     return (
       <form className="join-channel" onSubmit={this.handleFormSubmission}>
         <input type="text"
@@ -38,8 +38,8 @@ const component = React.createClass({
                onChange={this.handleChange} />
         {this.state.channelName.length ? <input type="submit" value="+" /> : null}
       </form>
-    );
+    )
   }
-});
+})
 
-module.exports = component;
+export default JoinChannel

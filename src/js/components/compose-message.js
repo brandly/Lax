@@ -1,49 +1,49 @@
-import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import ConnectionStore from '../stores/connection-store';
-import ChannelActions from '../actions/channel-actions';
+import React from 'react'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
+import ConnectionStore from '../stores/connection-store'
+import ChannelActions from '../actions/channel-actions'
 
-const component = React.createClass({
+const ComposeMessage = React.createClass({
   mixins: [PureRenderMixin],
 
-  componentWillMount() {
-    ConnectionStore.addChangeListener(this._onChange);
+  componentWillMount () {
+    ConnectionStore.addChangeListener(this._onChange)
   },
 
-  getInitialState() {
+  getInitialState () {
     return {
       message: '',
       nickname: ConnectionStore.getNickname()
-    };
+    }
   },
 
-  _onChange() {
+  _onChange () {
     this.setState({
       nickname: ConnectionStore.getNickname()
-    });
+    })
   },
 
-  handleFormSubmission(event) {
-    event.preventDefault();
+  handleFormSubmission (event) {
+    event.preventDefault()
 
     ChannelActions.sendMessage({
       channel: this.props.channel.name,
       message: this.state.message
-    });
+    })
 
-    this.setMessage('');
+    this.setMessage('')
   },
 
-  setMessage(message) {
-    this.setState({ message });
+  setMessage (message) {
+    this.setState({ message })
   },
 
-  handleChange(event) {
-    this.setMessage(event.target.value);
+  handleChange (event) {
+    this.setMessage(event.target.value)
   },
 
-  render() {
-    if (!this.props.channel) return null;
+  render () {
+    if (!this.props.channel) return null
 
     return (
       <form className="message compose-message" onSubmit={this.handleFormSubmission}>
@@ -55,8 +55,8 @@ const component = React.createClass({
                value={this.state.message}
                onChange={this.handleChange} />
       </form>
-    );
+    )
   }
-});
+})
 
-module.exports = component;
+export default ComposeMessage

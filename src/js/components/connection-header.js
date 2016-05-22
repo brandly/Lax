@@ -1,35 +1,35 @@
-import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import ConnectionStore from '../stores/connection-store';
+import React from 'react'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
+import ConnectionStore from '../stores/connection-store'
 
-function getServer() {
+function getServer () {
   return {
     server: ConnectionStore.server
-  };
+  }
 }
 
-const component = React.createClass({
+const ConnectionHeader = React.createClass({
   mixins: [PureRenderMixin],
 
-  componentWillMount() {
-    ConnectionStore.addChangeListener(this._onChange);
+  componentWillMount () {
+    ConnectionStore.addChangeListener(this._onChange)
   },
 
-  getInitialState() {
-    return getServer();
+  getInitialState () {
+    return getServer()
   },
 
-  _onChange() {
-    this.setState(getServer());
+  _onChange () {
+    this.setState(getServer())
   },
 
-  render() {
+  render () {
     return (
       <div className="header connection-header">
         <h2 className="vertical-center server">{this.state.server}</h2>
       </div>
-    );
+    )
   }
-});
+})
 
-module.exports = component;
+export default ConnectionHeader

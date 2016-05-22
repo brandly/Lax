@@ -1,66 +1,65 @@
-import React from 'react';
-import { findDOMNode } from 'react-dom';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import URI from 'URIjs';
+import React from 'react'
+import { findDOMNode } from 'react-dom'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
+import URI from 'URIjs'
 
-import classNames from 'classnames';
-import ChannelStore from '../stores/channel-store';
+import classNames from 'classnames'
 
-const { Shell } = global.window.nwDispatcher.requireNwGui();
+const { Shell } = global.window.nwDispatcher.requireNwGui()
 
-const component = React.createClass({
+const MessageList = React.createClass({
   mixins: [PureRenderMixin],
 
-  scrollToBottom() {
-    const el = findDOMNode(this.refs.scroller);
-    el.scrollTop = el.scrollHeight;
+  scrollToBottom () {
+    const el = findDOMNode(this.refs.scroller)
+    el.scrollTop = el.scrollHeight
   },
 
-  componentDidUpdate() {
-    this.scrollToBottom();
+  componentDidUpdate () {
+    this.scrollToBottom()
   },
 
-  handleLink(url, event) {
-    event.preventDefault();
-    Shell.openExternal(url);
+  handleLink (url, event) {
+    event.preventDefault()
+    Shell.openExternal(url)
   },
 
-  linkify(text) {
-    const split = text.split(URI.find_uri_expression);
-    const result = [];
+  linkify (text) {
+    const split = text.split(URI.find_uri_expression)
+    const result = []
 
     for (var i = 0; i < split.length; ++i) {
-      let value = split[i];
+      let value = split[i]
       if (value !== undefined) {
         if (i + 1 < split.length && split[i + 1] === undefined) {
           result.push(
             <a href={value}
                target="_blank"
                onClick={this.handleLink.bind(this, value)}>{value}</a>
-            );
+            )
         } else {
-          result.push(value);
+          result.push(value)
         }
       }
     }
-    return result;
+    return result
   },
 
-  render() {
-    const { messages } = this.props;
+  render () {
+    const { messages } = this.props
 
     if (!messages) {
-      return null;
+      return null
     }
 
     const messageElements = messages.map((msg, i) => {
-      const action = (msg.type !== 'priv') ? <span className="command">{msg.type}</span> : null;
-      const showFrom = (i === 0 || messages.get(i - 1).from !== msg.from);
+      const action = (msg.type !== 'priv') ? <span className="command">{msg.type}</span> : null
+      const showFrom = (i === 0 || messages.get(i - 1).from !== msg.from)
 
       const classes = classNames({
         message: true,
         [msg.type]: true
-      });
+      })
 
       return (
         <li className={classes} key={i}>
@@ -68,8 +67,8 @@ const component = React.createClass({
           <p className="body">{action}<span className="text">{this.linkify(msg.message)}</span></p>
           <p className="when">{formatDate(msg.when)}</p>
         </li>
-      );
-    });
+      )
+    })
 
     return (
       <div className="scrolling-panel" ref="scroller">
@@ -77,17 +76,17 @@ const component = React.createClass({
           {messageElements.toArray()}
         </ul>
       </div>
-    );
+    )
   }
-});
+})
 
-function formatDate(d) {
-  return `${twoDigits(d.getHours())}:${twoDigits(d.getMinutes())}:${twoDigits(d.getSeconds())}`;
+function formatDate (d) {
+  return `${twoDigits(d.getHours())}:${twoDigits(d.getMinutes())}:${twoDigits(d.getSeconds())}`
 }
 
-function twoDigits(str) {
-  str = '' + str;
-  return (str.length < 2) ? ('0' + str) : str;
+function twoDigits (str) {
+  str = '' + str
+  return (str.length < 2) ? ('0' + str) : str
 }
 
-module.exports = component;
+export default MessageList

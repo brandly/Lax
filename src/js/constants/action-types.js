@@ -1,4 +1,4 @@
-import keyMirror from 'keymirror';
+import keyMirror from 'keymirror'
 
 module.exports = keyMirror({
   REQUEST_CONNECTION: null,
@@ -31,5 +31,5 @@ module.exports = keyMirror({
   RECEIVE_PART: null,
   RECEIVE_QUIT: null,
   RECEIVE_TOPIC: null,
-  RECEIVE_NICK: null,
-});
+  RECEIVE_NICK: null
+})

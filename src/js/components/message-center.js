@@ -1,36 +1,36 @@
-import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
+import React from 'react'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
 
-import ChannelStore from '../stores/channel-store';
+import ChannelStore from '../stores/channel-store'
 
-import ConnectionHeader from './connection-header';
-import ChannelList from './channel-list';
-import JoinChannel from './join-channel';
+import ConnectionHeader from './connection-header'
+import ChannelList from './channel-list'
+import JoinChannel from './join-channel'
 
-import Channel from './channel';
+import Channel from './channel'
 
-function getCurrentChannel() {
+function getCurrentChannel () {
   return {
     channel: ChannelStore.getSelectedChannel()
-  };
+  }
 }
 
-const component = React.createClass({
+const MessageCenter = React.createClass({
   mixins: [PureRenderMixin],
 
-  componentWillMount() {
-    ChannelStore.addChangeListener(this._onChange);
+  componentWillMount () {
+    ChannelStore.addChangeListener(this._onChange)
   },
 
-  getInitialState() {
-    return getCurrentChannel();
+  getInitialState () {
+    return getCurrentChannel()
   },
 
-  _onChange() {
-    this.setState(getCurrentChannel());
+  _onChange () {
+    this.setState(getCurrentChannel())
   },
 
-  render() {
+  render () {
     return (
       <div className="message-center">
         <div className="left-panel">
@@ -42,8 +42,8 @@ const component = React.createClass({
         </div>
         <Channel channel={this.state.channel} />
       </div>
-    );
+    )
   }
-});
+})
 
-module.exports = component;
+export default MessageCenter

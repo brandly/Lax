@@ -1,45 +1,45 @@
-import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import ConnectionActions from '../actions/connection-actions';
-import contains from '../modules/contains';
+import React from 'react'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
+import ConnectionActions from '../actions/connection-actions'
+import contains from '../modules/contains'
 
-const component = React.createClass({
+const ConnectionCreator = React.createClass({
   mixins: [PureRenderMixin],
 
   storedKeys: ['realName', 'nickname', 'server', 'port'],
 
-  getInitialState() {
-    const state = {isConnecting: false};
+  getInitialState () {
+    const state = {isConnecting: false}
     this.storedKeys.forEach(key => {
-      state[key] = window.localStorage[key] || '';
-    });
-    return state;
+      state[key] = window.localStorage[key] || ''
+    })
+    return state
   },
 
-  handleChange(key, event) {
-    const { value } = event.target;
+  handleChange (key, event) {
+    const { value } = event.target
 
     if (contains(this.storedKeys, key)) {
-      window.localStorage[key] = value;
+      window.localStorage[key] = value
     }
 
     this.setState({
       [key]: value
-    });
+    })
   },
 
-  handleFormSubmission(event) {
-    event.preventDefault();
-    this.setState({isConnecting: true});
+  handleFormSubmission (event) {
+    event.preventDefault()
+    this.setState({isConnecting: true})
 
-    const { realName, nickname, password, server, port } = this.state;
+    const { realName, nickname, password, server, port } = this.state
     ConnectionActions.requestConnection({
       realName, nickname, password, server, port: parseInt(port, 10)
-    });
+    })
   },
 
-  render() {
-    const inputGroupClass = 'input-group';
+  render () {
+    const inputGroupClass = 'input-group'
     const serverOptions = [
       'chat.freenode.net',
       'irc.abjects.net',
@@ -72,7 +72,7 @@ const component = React.createClass({
       'chat1.ustream.tv',
       'irc.webchat.org',
       'irc.wyldryde.org'
-    ];
+    ]
 
     return (
       <form className="connection-creator" onSubmit={this.handleFormSubmission}>
@@ -128,8 +128,8 @@ const component = React.createClass({
           <input type="submit" disabled={this.state.isConnecting} />
         </div>
       </form>
-    );
+    )
   }
-});
+})
 
-module.exports = component;
+export default ConnectionCreator

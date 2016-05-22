@@ -1,96 +1,96 @@
-import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import Immutable from 'immutable';
-import classNames from 'classnames';
+import React from 'react'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
+import Immutable from 'immutable'
+import classNames from 'classnames'
 
-import ChannelStore from '../stores/channel-store';
-import ChannelActions from '../actions/channel-actions';
-import KeymasterMixin from '../mixins/keymaster';
+import ChannelStore from '../stores/channel-store'
+import ChannelActions from '../actions/channel-actions'
+import KeymasterMixin from '../mixins/keymaster'
 
-const component = React.createClass({
+const ChannelList = React.createClass({
   mixins: [PureRenderMixin, KeymasterMixin],
 
-  componentWillMount() {
-    ChannelStore.addChangeListener(this._onChange);
+  componentWillMount () {
+    ChannelStore.addChangeListener(this._onChange)
     this.setKeymaster({
       '⌘+shift+]': this.selectNextChannel,
       '⌘+shift+[': this.selectPrevChannel
-    });
+    })
   },
 
-  getInitialState() {
+  getInitialState () {
     return {
       channels: Immutable.List(),
       selectedChannel: {}
-    };
+    }
   },
 
-  _onChange() {
-    const channels = ChannelStore.getChannels();
+  _onChange () {
+    const channels = ChannelStore.getChannels()
 
     this.setState({
       channels: channels.sortBy(this.channelOrder),
       selectedChannel: ChannelStore.getSelectedChannel() || {}
-    });
+    })
   },
 
-  selectChannel(channelName) {
-    ChannelActions.selectChannel({ channelName });
+  selectChannel (channelName) {
+    ChannelActions.selectChannel({ channelName })
   },
 
-  selectChannelAtIndex(i) {
-    this.selectChannel(this.state.channels.get(i).name);
+  selectChannelAtIndex (i) {
+    this.selectChannel(this.state.channels.get(i).name)
   },
 
-  selectNextChannel() {
-    const { channels, selectedChannel } = this.state;
-    if (!channels) return;
+  selectNextChannel () {
+    const { channels, selectedChannel } = this.state
+    if (!channels) return
 
-    const currentIndex = channels.indexOf(selectedChannel);
-    const nextIndex = (currentIndex + 1) % channels.size;
+    const currentIndex = channels.indexOf(selectedChannel)
+    const nextIndex = (currentIndex + 1) % channels.size
 
-    this.selectChannelAtIndex(nextIndex);
+    this.selectChannelAtIndex(nextIndex)
   },
 
-  selectPrevChannel() {
-    const { channels, selectedChannel } = this.state;
-    if (!channels) return;
+  selectPrevChannel () {
+    const { channels, selectedChannel } = this.state
+    if (!channels) return
 
-    const currentIndex = channels.indexOf(selectedChannel);
-    const prevIndex = (currentIndex === 0) ? (channels.size - 1) : (currentIndex - 1);
+    const currentIndex = channels.indexOf(selectedChannel)
+    const prevIndex = (currentIndex === 0) ? (channels.size - 1) : (currentIndex - 1)
 
-    this.selectChannelAtIndex(prevIndex);
+    this.selectChannelAtIndex(prevIndex)
   },
 
-  channelOrder(channel) {
-    return channel.name;
+  channelOrder (channel) {
+    return channel.name
   },
 
-  render() {
+  render () {
     const channelElements = this.state.channels.map((channel, i) => {
-      const { name, unreadCount } = channel;
+      const { name, unreadCount } = channel
 
       const classes = classNames({
         'channel-list-item': true,
         'is-selected': name === this.state.selectedChannel.name
-      });
+      })
 
-      const nameEl = <span className="channel-name">{name}</span>;
-      const countEl = unreadCount? <span className="unread-count">{unreadCount}</span> : null;
+      const nameEl = <span className="channel-name">{name}</span>
+      const countEl = unreadCount ? <span className="unread-count">{unreadCount}</span> : null
 
       return (
         <li className={classes}
             key={channel.name}
             onClick={this.selectChannel.bind(this, channel.name)}>{nameEl}{countEl}</li>
-      );
-    });
+      )
+    })
 
     return (
       <ul className="channel-list">
         {channelElements.toArray()}
       </ul>
-    );
+    )
   }
-});
+})
 
-module.exports = component;
+export default ChannelList

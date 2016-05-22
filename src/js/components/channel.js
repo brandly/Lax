@@ -1,55 +1,54 @@
-import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import { List } from 'immutable';
+import React from 'react'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
+import { List } from 'immutable'
 
-import ChannelStore from '../stores/channel-store';
+import ChannelStore from '../stores/channel-store'
 
-import ChannelHeader from './channel-header';
-import MessageList from './message-list';
-import ComposeMessage from './compose-message';
-import PeopleList from './people-list';
+import ChannelHeader from './channel-header'
+import MessageList from './message-list'
+import ComposeMessage from './compose-message'
+import PeopleList from './people-list'
 
-function getChannelState(channel) {
+function getChannelState (channel) {
   return {
     messages: channel ? channel.getMessages() : List(),
     people: channel ? channel.getPeople() : List()
-  };
+  }
 }
 
-const component = React.createClass({
+const Channel = React.createClass({
   mixins: [PureRenderMixin],
 
-  componentWillMount() {
-    ChannelStore.addChangeListener(this._onChange);
+  componentWillMount () {
+    ChannelStore.addChangeListener(this._onChange)
   },
 
-
-  getInitialState() {
-    const state = getChannelState(this.props.channel);
-    state.showPeopleList = false;
-    return state;
+  getInitialState () {
+    const state = getChannelState(this.props.channel)
+    state.showPeopleList = false
+    return state
   },
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({showPeopleList: false});
-    this.setState(getChannelState(nextProps.channel));
+  componentWillReceiveProps (nextProps) {
+    this.setState({showPeopleList: false})
+    this.setState(getChannelState(nextProps.channel))
   },
 
-  _onChange() {
-    this.setState(getChannelState(this.props.channel));
+  _onChange () {
+    this.setState(getChannelState(this.props.channel))
   },
 
-  togglePeopleList() {
+  togglePeopleList () {
     this.setState({
       showPeopleList: !this.state.showPeopleList
-    });
+    })
   },
 
-  render() {
-    const { channel } = this.props;
-    const { messages, people, showPeopleList } = this.state;
+  render () {
+    const { channel } = this.props
+    const { messages, people, showPeopleList } = this.state
 
-    const peopleListEl = showPeopleList ? <PeopleList people={people} /> : null;
+    const peopleListEl = showPeopleList ? <PeopleList people={people} /> : null
 
     return (
       <div className="right-panel channel">
@@ -64,8 +63,8 @@ const component = React.createClass({
           <ComposeMessage channel={channel} />
         </div>
       </div>
-    );
+    )
   }
-});
+})
 
-module.exports = component;
+export default Channel

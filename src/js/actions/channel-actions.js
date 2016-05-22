@@ -1,46 +1,46 @@
-import ircDispatcher from '../dispatchers/irc-dispatcher';
-import ActionTypes from '../constants/action-types';
+import ircDispatcher from '../dispatchers/irc-dispatcher'
+import ActionTypes from '../constants/action-types'
 
 module.exports = {
-  selectChannel({channelName}) {
+  selectChannel ({channelName}) {
     ircDispatcher.dispatch({
       type: ActionTypes.SELECT_CHANNEL,
       channelName
-    });
+    })
   },
 
-  receiveNames({channel, names}) {
+  receiveNames ({channel, names}) {
     ircDispatcher.dispatch({
       type: ActionTypes.RECEIVE_NAMES,
       channel, names
     })
   },
 
-  receiveMessage({channel, from, message}) {
+  receiveMessage ({channel, from, message}) {
     ircDispatcher.dispatch({
       type: ActionTypes.RECEIVE_MESSAGE,
       channel, from, message
-    });
+    })
   },
 
-  receiveDirectMessage({from, message}) {
+  receiveDirectMessage ({from, message}) {
     ircDispatcher.dispatch({
       type: ActionTypes.RECEIVE_DIRECT_MESSAGE,
       from, message
-    });
+    })
   },
 
-  sendMessage({channel, message}) {
+  sendMessage ({channel, message}) {
     if (message[0] === '/') {
-      const splitMessage = message.split(' ');
-      const command = splitMessage.shift();
+      const splitMessage = message.split(' ')
+      const command = splitMessage.shift()
 
       switch (command) {
         case '/join':
           this.commandJoin({
             channelName: splitMessage.shift()
-          });
-          break;
+          })
+          break
 
         // case '/me':
         //   break;
@@ -50,8 +50,8 @@ module.exports = {
         case '/nick':
           this.commandNick({
             newNickname: splitMessage.shift()
-          });
-          break;
+          })
+          break
 
         // case '/notice':
         //   break;
@@ -60,14 +60,14 @@ module.exports = {
           this.commandPart({
             channel: splitMessage.shift(),
             message: splitMessage.join(' ')
-          });
-          break;
+          })
+          break
 
         case '/partall':
           this.commandPartAll({
             message: splitMessage.join(' ')
-          });
-          break;
+          })
+          break
 
         // case '/ping':
         //   break;
@@ -87,91 +87,91 @@ module.exports = {
           ircDispatcher.dispatch({
             type: ActionTypes.COMMAND_UNRECOGNIZED,
             command, channelName: channel
-          });
-          break;
+          })
+          break
       }
     } else {
       ircDispatcher.dispatch({
         type: ActionTypes.SEND_MESSAGE,
         channel, message
-      });
+      })
     }
   },
 
-  commandJoin({channelName}) {
+  commandJoin ({channelName}) {
     ircDispatcher.dispatch({
       type: ActionTypes.COMMAND_JOIN,
       channelName
-    });
+    })
   },
 
-  commandNick({newNickname}) {
+  commandNick ({newNickname}) {
     ircDispatcher.dispatch({
       type: ActionTypes.COMMAND_NICK,
       newNickname
-    });
+    })
   },
 
-  commandPart({message, channel}) {
+  commandPart ({message, channel}) {
     ircDispatcher.dispatch({
       type: ActionTypes.COMMAND_PART,
       message, channel
-    });
+    })
   },
 
-  commandPartAll({message}) {
+  commandPartAll ({message}) {
     ircDispatcher.dispatch({
       type: ActionTypes.COMMAND_PART_ALL,
       message
-    });
+    })
   },
 
-  receiveNotice({to, from, message}) {
+  receiveNotice ({to, from, message}) {
     ircDispatcher.dispatch({
       type: ActionTypes.RECEIVE_NOTICE,
       to, from, message
-    });
+    })
   },
 
-  receiveJoin({channel, from}) {
+  receiveJoin ({channel, from}) {
     ircDispatcher.dispatch({
       type: ActionTypes.RECEIVE_JOIN,
       channel, from
-    });
+    })
   },
 
-  receiveAway({nick, message}) {
+  receiveAway ({nick, message}) {
     ircDispatcher.dispatch({
       type: ActionTypes.RECEIVE_AWAY,
-      channel, from
-    });
+      nick, message
+    })
   },
 
-  receivePart({nick, message}) {
+  receivePart ({nick, message}) {
     ircDispatcher.dispatch({
       type: ActionTypes.RECEIVE_PART,
       nick, message
-    });
+    })
   },
 
-  receiveQuit({nick, message}) {
+  receiveQuit ({nick, message}) {
     ircDispatcher.dispatch({
       type: ActionTypes.RECEIVE_QUIT,
       nick, message
-    });
+    })
   },
 
-  receiveTopic({channel, topic}) {
+  receiveTopic ({channel, topic}) {
     ircDispatcher.dispatch({
       type: ActionTypes.RECEIVE_TOPIC,
       channel, topic
-    });
+    })
   },
 
-  receiveNick({oldNickname, newNickname}) {
+  receiveNick ({oldNickname, newNickname}) {
     ircDispatcher.dispatch({
       type: ActionTypes.RECEIVE_NICK,
       oldNickname, newNickname
-    });
+    })
   }
-};
+}
