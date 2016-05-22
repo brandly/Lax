@@ -1,9 +1,9 @@
 import React from 'react';
-import { addons } from 'react/addons';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import ChannelActions from '../actions/channel-actions';
 
 const component = React.createClass({
-  mixins: [addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   getInitialState() {
     return {

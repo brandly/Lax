@@ -1,10 +1,10 @@
 import React from 'react';
-import { addons } from 'react/addons';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { List } from 'immutable';
 import contains from '../modules/contains';
 
 const component = React.createClass({
-  mixins: [addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   getInitialState() {
      return { filter: '' };
@@ -24,8 +24,8 @@ const component = React.createClass({
 
     const peopleElements = people.filter(p => contains(p.name.toLowerCase(), this.state.filter))
                                  .sortBy(p => p.name.toLowerCase())
-                                 .map(person => {
-      return <h3 className="nickname">{person.name}</h3>;
+                                 .map((person, i) => {
+      return <h3 className="nickname" key={i}>{person.name}</h3>;
     });
 
     return (

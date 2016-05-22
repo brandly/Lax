@@ -1,10 +1,10 @@
 import React from 'react';
-import { addons } from 'react/addons';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import ConnectionActions from '../actions/connection-actions';
 import contains from '../modules/contains';
 
 const component = React.createClass({
-  mixins: [addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   storedKeys: ['realName', 'nickname', 'server', 'port'],
 

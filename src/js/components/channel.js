@@ -1,5 +1,5 @@
 import React from 'react';
-import { addons } from 'react/addons';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { List } from 'immutable';
 
 import ChannelStore from '../stores/channel-store';
@@ -17,7 +17,7 @@ function getChannelState(channel) {
 }
 
 const component = React.createClass({
-  mixins: [addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   componentWillMount() {
     ChannelStore.addChangeListener(this._onChange);

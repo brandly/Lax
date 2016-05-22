@@ -1,5 +1,5 @@
 import React from 'react';
-import { addons } from 'react/addons';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import ConnectionStore from '../stores/connection-store';
 
 function getServer() {
@@ -9,7 +9,7 @@ function getServer() {
 }
 
 const component = React.createClass({
-  mixins: [addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   componentWillMount() {
     ConnectionStore.addChangeListener(this._onChange);

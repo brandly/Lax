@@ -1,5 +1,5 @@
 import React from 'react';
-import { addons } from 'react/addons';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import MessageCenter from './message-center';
 import ConnectionCreator from './connection-creator';
 import ConnectionStore from '../stores/connection-store';
@@ -7,7 +7,7 @@ import ConnectionStore from '../stores/connection-store';
 import MainMenu from '../nw/main-menu';
 
 const app = React.createClass({
-  mixins: [addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   componentWillMount() {
     ConnectionStore.addChangeListener(this._onChange);

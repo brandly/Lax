@@ -1,5 +1,6 @@
 import React from 'react';
-import { addons } from 'react/addons';
+import { findDOMNode } from 'react-dom';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import URI from 'URIjs';
 
 import classNames from 'classnames';
@@ -8,10 +9,10 @@ import ChannelStore from '../stores/channel-store';
 const { Shell } = global.window.nwDispatcher.requireNwGui();
 
 const component = React.createClass({
-  mixins: [addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   scrollToBottom() {
-    const el = React.findDOMNode(this.refs.scroller);
+    const el = findDOMNode(this.refs.scroller);
     el.scrollTop = el.scrollHeight;
   },
 

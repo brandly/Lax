@@ -1,5 +1,5 @@
 import React from 'react';
-import { addons } from 'react/addons';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import Immutable from 'immutable';
 import classNames from 'classnames';
 
@@ -8,7 +8,7 @@ import ChannelActions from '../actions/channel-actions';
 import KeymasterMixin from '../mixins/keymaster';
 
 const component = React.createClass({
-  mixins: [addons.PureRenderMixin, KeymasterMixin],
+  mixins: [PureRenderMixin, KeymasterMixin],
 
   componentWillMount() {
     ChannelStore.addChangeListener(this._onChange);
