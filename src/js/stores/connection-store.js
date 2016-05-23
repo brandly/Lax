@@ -6,6 +6,7 @@ import ircDispatcher from '../dispatchers/irc-dispatcher'
 import ActionTypes from '../constants/action-types'
 import ChannelActions from '../actions/channel-actions'
 import ConnectionActions from '../actions/connection-actions'
+import browserHistory from '../modules/browser-history'
 
 const ConnectionStore = assign({}, EventEmitter, {
   connection: null,
@@ -23,6 +24,11 @@ const ConnectionStore = assign({}, EventEmitter, {
   },
 
   setWelcome (val) {
+    if (!this.isWelcome && val) {
+      setTimeout(() => {
+        browserHistory.push('/message-center')
+      })
+    }
     this.isWelcome = val
     this.emitChange()
   }
