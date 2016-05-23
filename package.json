@@ -4,17 +4,10 @@
   "description": "",
   "private": true,
   "scripts": {
-    "start": "nw",
+    "start": "electron ./",
     "test": "eslint src/"
   },
-  "main": "src/index.html",
-  "window": {
-    "icon": "link.png",
-    "toolbar": false,
-    "frame": true,
-    "min_width": 600,
-    "min_height": 300
-  },
+  "main": "index.js",
   "author": "",
   "license": "MIT",
   "dependencies": {
@@ -23,11 +16,11 @@
     "babel-preset-react": "6.5.0",
     "babel-register": "6.9.0",
     "classnames": "^1.1.4",
+    "electron-prebuilt": "1.1.1",
     "flux": "^2.0.1",
     "immutable": "^3.6.4",
     "keymaster": "^1.6.2",
     "keymirror": "^0.1.1",
-    "nw": "^0.12.0",
     "object-assign": "^2.0.0",
     "react": "15.1.0",
     "react-addons-pure-render-mixin": "15.1.0",

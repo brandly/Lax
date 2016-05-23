@@ -5,7 +5,7 @@ import URI from 'URIjs'
 
 import classNames from 'classnames'
 
-const { Shell } = global.window.nwDispatcher.requireNwGui()
+import { shell } from 'electron'
 
 const MessageList = React.createClass({
   mixins: [PureRenderMixin],
@@ -21,7 +21,7 @@ const MessageList = React.createClass({
 
   handleLink (url, event) {
     event.preventDefault()
-    Shell.openExternal(url)
+    shell.openExternal(url)
   },
 
   linkify (text) {

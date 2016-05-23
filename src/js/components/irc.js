@@ -4,8 +4,6 @@ import MessageCenter from './message-center'
 import ConnectionCreator from './connection-creator'
 import ConnectionStore from '../stores/connection-store'
 
-import '../nw/main-menu'
-
 const IRC = React.createClass({
   mixins: [PureRenderMixin],
 
