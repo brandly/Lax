@@ -19,7 +19,9 @@
       global.document = window.document;
       global.navigator = window.navigator;
 
-      require('babel/register');
+      require('babel-register')({
+        presets: ['es2015', 'react']
+      })
       require('./js/main');
     </script>
   </body>
