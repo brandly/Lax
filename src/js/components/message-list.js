@@ -1,9 +1,8 @@
 import React from 'react'
 import { findDOMNode } from 'react-dom'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
-import URI from 'URIjs'
-
 import classNames from 'classnames'
+import Linkify from 'react-linkify'
 
 import { shell } from 'electron'
 
@@ -19,30 +18,18 @@ const MessageList = React.createClass({
     this.scrollToBottom()
   },
 
-  handleLink (url, event) {
+  handleLink (event) {
     event.preventDefault()
+    const url = event.target.href
     shell.openExternal(url)
   },
 
-  linkify (text) {
-    const split = text.split(URI.find_uri_expression)
-    const result = []
-
-    for (var i = 0; i < split.length; ++i) {
-      let value = split[i]
-      if (value !== undefined) {
-        if (i + 1 < split.length && split[i + 1] === undefined) {
-          result.push(
-            <a href={value}
-               target="_blank"
-               onClick={this.handleLink.bind(this, value)}>{value}</a>
-            )
-        } else {
-          result.push(value)
-        }
-      }
-    }
-    return result
+  renderMessage (text) {
+    return (
+      <span className="text">
+        <Linkify properties={{onClick: this.handleLink}}>{text}</Linkify>
+      </span>
+    )
   },
 
   render () {
@@ -64,7 +51,7 @@ const MessageList = React.createClass({
       return (
         <li className={classes} key={i}>
           <h3 className="nickname from">{showFrom ? msg.from : ''}</h3>
-          <p className="body">{action}<span className="text">{this.linkify(msg.message)}</span></p>
+          <p className="body">{action}{this.renderMessage(msg.message)}</p>
           <p className="when">{formatDate(msg.when)}</p>
         </li>
       )
