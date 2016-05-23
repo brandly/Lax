@@ -8,6 +8,7 @@
     "test": "eslint src/"
   },
   "main": "index.js",
+  "main-html": "src/index.html",
   "author": "",
   "license": "MIT",
   "dependencies": {
@@ -18,6 +19,7 @@
     "classnames": "^1.1.4",
     "electron-prebuilt": "1.1.1",
     "flux": "^2.0.1",
+    "history": "2.1.1",
     "immutable": "^3.6.4",
     "keymaster": "^1.6.2",
     "keymirror": "^0.1.1",
@@ -25,6 +27,7 @@
     "react": "15.1.0",
     "react-addons-pure-render-mixin": "15.1.0",
     "react-dom": "15.1.0",
+    "react-router": "2.4.1",
     "slate-irc": "^0.8.1"
   },
   "devDependencies": {

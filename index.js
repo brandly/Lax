@@ -1,5 +1,7 @@
+const path = require('path')
 const electron = require('electron')
 const { app, BrowserWindow } = electron
+const pkg = require('./package')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -10,7 +12,7 @@ function createWindow () {
   win = new BrowserWindow({width: 800, height: 600})
 
   // and load the index.html of the app.
-  win.loadURL(`file://${__dirname}/src/index.html`)
+  win.loadURL(path.join(`file://${__dirname}`, `${pkg['main-html']}`))
 
   // Open the DevTools.
   win.webContents.openDevTools()
