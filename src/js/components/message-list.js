@@ -9,13 +9,38 @@ import { shell } from 'electron'
 const MessageList = React.createClass({
   mixins: [PureRenderMixin],
 
+  getInitialState () {
+    return {
+      isBrowsingPriorMessages: false
+    }
+  },
+
+  componentDidMount () {
+    const el = findDOMNode(this.refs.scroller)
+
+    this.scrollListener = () => {
+      const isScrolledToBottom = el.scrollTop === (el.scrollHeight - el.offsetHeight)
+      this.setState({ isBrowsingPriorMessages: !isScrolledToBottom })
+    }
+
+    el.addEventListener('scroll', this.scrollListener)
+  },
+
+  componentWillUnmount () {
+    const el = findDOMNode(this.refs.scroller)
+    el.removeEventListener('scroll', this.scrollListener)
+  },
+
   scrollToBottom () {
     const el = findDOMNode(this.refs.scroller)
     el.scrollTop = el.scrollHeight
   },
 
-  componentDidUpdate () {
-    this.scrollToBottom()
+  componentDidUpdate (nextProps) {
+    const isDifferentChannel = nextProps.messages[0] !== this.props.messages[0]
+    if (isDifferentChannel || !this.state.isBrowsingPriorMessages) {
+      this.scrollToBottom()
+    }
   },
 
   handleLink (event) {
