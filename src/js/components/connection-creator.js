@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import ConnectionActions from '../actions/connection-actions'
 import contains from '../modules/contains'
 
@@ -33,12 +34,14 @@ class ConnectionCreator extends React.Component {
 
   handleFormSubmission (event) {
     event.preventDefault()
-    this.setState({isConnecting: true})
+    this.setState({ isConnecting: true })
 
     const { realName, nickname, password, server, port } = this.state
     ConnectionActions.requestConnection({
       realName, nickname, password, server, port: parseInt(port, 10)
     })
+
+    this.props.dispatch({ type: 'TESTING', payload: 123 })
   }
 
   render () {
@@ -135,4 +138,4 @@ class ConnectionCreator extends React.Component {
   }
 }
 
-export default ConnectionCreator
+export default connect(state => ({}))(ConnectionCreator)
