@@ -23,11 +23,10 @@
     "keymaster": "^1.6.2",
     "keymirror": "^0.1.1",
     "object-assign": "^2.0.0",
-    "react": "15.1.0",
-    "react-addons-pure-render-mixin": "15.1.0",
-    "react-dom": "15.1.0",
-    "react-linkify": "0.1.1",
-    "react-router": "2.4.1",
+    "react": "16.1.1",
+    "react-dom": "16.1.1",
+    "react-linkify": "0.2.1",
+    "react-router": "3.2.0",
     "slate-irc": "^0.8.1"
   },
   "devDependencies": {
