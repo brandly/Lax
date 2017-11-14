@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import ConnectionActions from '../actions/connection-actions'
 import contains from '../modules/contains'
+import { connectToServer } from '../actions'
 
 class ConnectionCreator extends React.Component {
   constructor (props) {
@@ -41,7 +42,7 @@ class ConnectionCreator extends React.Component {
       realName, nickname, password, server, port: parseInt(port, 10)
     })
 
-    this.props.dispatch({ type: 'TESTING', payload: 123 })
+    this.props.dispatch(connectToServer({ realName, nickname, password, server, port: parseInt(port, 10) }))
   }
 
   render () {
