@@ -3,7 +3,7 @@ import assign from 'object-assign'
 
 const CHANGE_EVENT = 'change'
 
-const EE = assign({}, EventEmitter.prototype, {
+export default assign({}, EventEmitter.prototype, {
   emitChange () {
     this.emit(CHANGE_EVENT)
   },
@@ -16,5 +16,3 @@ const EE = assign({}, EventEmitter.prototype, {
     this.removeListener(CHANGE_EVENT, callback)
   }
 })
-
-module.exports = EE

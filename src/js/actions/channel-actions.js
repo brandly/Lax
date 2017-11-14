@@ -1,7 +1,7 @@
 import ircDispatcher from '../dispatchers/irc-dispatcher'
 import ActionTypes from '../constants/action-types'
 
-module.exports = {
+export default {
   selectChannel ({channelName}) {
     ircDispatcher.dispatch({
       type: ActionTypes.SELECT_CHANNEL,

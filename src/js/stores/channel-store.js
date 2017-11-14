@@ -310,4 +310,4 @@ ChannelStore.dispatchToken = ircDispatcher.register(action => {
   }
 })
 
-module.exports = ChannelStore
+export default ChannelStore

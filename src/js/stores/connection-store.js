@@ -202,7 +202,7 @@ ConnectionStore.dispatchToken = ircDispatcher.register(action => {
   }
 })
 
-module.exports = ConnectionStore
+export default ConnectionStore
 
 const leadingChannelName = /^\[(#\S+)\]/
 function getChannelFromNotice (message) {
