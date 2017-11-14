@@ -1,9 +1,6 @@
 import React from 'react'
-import PureRenderMixin from 'react-addons-pure-render-mixin'
 
-const ChannelHeader = React.createClass({
-  mixins: [PureRenderMixin],
-
+class ChannelHeader extends React.Component {
   render () {
     const { channel, people } = this.props
 
@@ -24,6 +21,6 @@ const ChannelHeader = React.createClass({
       </div>
     )
   }
-})
+}
 
 export default ChannelHeader

@@ -1,19 +1,17 @@
 import React from 'react'
 import { findDOMNode } from 'react-dom'
-import PureRenderMixin from 'react-addons-pure-render-mixin'
 import classNames from 'classnames'
 import Linkify from 'react-linkify'
 
 import { shell } from 'electron'
 
-const MessageList = React.createClass({
-  mixins: [PureRenderMixin],
-
-  getInitialState () {
-    return {
+class MessageList extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
       isBrowsingPriorMessages: false
     }
-  },
+  }
 
   componentDidMount () {
     const el = findDOMNode(this.refs.scroller)
@@ -24,38 +22,38 @@ const MessageList = React.createClass({
     }
 
     el.addEventListener('scroll', this.scrollListener)
-  },
+  }
 
   componentWillUnmount () {
     const el = findDOMNode(this.refs.scroller)
     el.removeEventListener('scroll', this.scrollListener)
-  },
+  }
 
   scrollToBottom () {
     const el = findDOMNode(this.refs.scroller)
     el.scrollTop = el.scrollHeight
-  },
+  }
 
   componentDidUpdate (nextProps) {
     const isDifferentChannel = nextProps.messages[0] !== this.props.messages[0]
     if (isDifferentChannel || !this.state.isBrowsingPriorMessages) {
       this.scrollToBottom()
     }
-  },
+  }
 
   handleLink (event) {
     event.preventDefault()
     const url = event.target.href
     shell.openExternal(url)
-  },
+  }
 
   renderMessage (text) {
     return (
       <span className="text">
-        <Linkify properties={{onClick: this.handleLink}}>{text}</Linkify>
+        <Linkify properties={{onClick: this.handleLink.bind(this)}}>{text}</Linkify>
       </span>
     )
-  },
+  }
 
   render () {
     const { messages } = this.props
@@ -90,7 +88,7 @@ const MessageList = React.createClass({
       </div>
     )
   }
-})
+}
 
 function formatDate (d) {
   return `${twoDigits(d.getHours())}:${twoDigits(d.getMinutes())}:${twoDigits(d.getSeconds())}`

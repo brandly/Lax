@@ -1,5 +1,4 @@
 import React from 'react'
-import PureRenderMixin from 'react-addons-pure-render-mixin'
 import { List } from 'immutable'
 
 import ChannelStore from '../stores/channel-store'
@@ -16,33 +15,32 @@ function getChannelState (channel) {
   }
 }
 
-const Channel = React.createClass({
-  mixins: [PureRenderMixin],
+class Channel extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = Object.assign({}, getChannelState(this.props.channel), {
+      showPeopleList: false
+    })
+  }
 
   componentWillMount () {
-    ChannelStore.addChangeListener(this._onChange)
-  },
-
-  getInitialState () {
-    const state = getChannelState(this.props.channel)
-    state.showPeopleList = false
-    return state
-  },
+    ChannelStore.addChangeListener(this._onChange.bind(this))
+  }
 
   componentWillReceiveProps (nextProps) {
-    this.setState({showPeopleList: false})
+    this.setState({ showPeopleList: false })
     this.setState(getChannelState(nextProps.channel))
-  },
+  }
 
   _onChange () {
     this.setState(getChannelState(this.props.channel))
-  },
+  }
 
   togglePeopleList () {
     this.setState({
       showPeopleList: !this.state.showPeopleList
     })
-  },
+  }
 
   render () {
     const { channel } = this.props
@@ -53,7 +51,11 @@ const Channel = React.createClass({
     return (
       <div className="right-panel channel">
         <div className="above-bottom-panel">
-          <ChannelHeader onPeopleClick={this.togglePeopleList} channel={channel} people={people} />
+          <ChannelHeader
+            onPeopleClick={this.togglePeopleList.bind(this)}
+            channel={channel}
+            people={people}
+          />
           <div className="below-header">
             <MessageList messages={messages} />
           </div>
@@ -65,6 +67,6 @@ const Channel = React.createClass({
       </div>
     )
   }
-})
+}
 
 export default Channel

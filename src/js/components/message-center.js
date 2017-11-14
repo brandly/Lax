@@ -1,5 +1,4 @@
 import React from 'react'
-import PureRenderMixin from 'react-addons-pure-render-mixin'
 
 import ChannelStore from '../stores/channel-store'
 
@@ -15,20 +14,19 @@ function getCurrentChannel () {
   }
 }
 
-const MessageCenter = React.createClass({
-  mixins: [PureRenderMixin],
+class MessageCenter extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = getCurrentChannel()
+  }
 
   componentWillMount () {
-    ChannelStore.addChangeListener(this._onChange)
-  },
-
-  getInitialState () {
-    return getCurrentChannel()
-  },
+    ChannelStore.addChangeListener(this._onChange.bind(this))
+  }
 
   _onChange () {
     this.setState(getCurrentChannel())
-  },
+  }
 
   render () {
     return (
@@ -44,6 +42,6 @@ const MessageCenter = React.createClass({
       </div>
     )
   }
-})
+}
 
 export default MessageCenter

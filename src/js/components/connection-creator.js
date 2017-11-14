@@ -1,32 +1,35 @@
 import React from 'react'
-import PureRenderMixin from 'react-addons-pure-render-mixin'
 import ConnectionActions from '../actions/connection-actions'
 import contains from '../modules/contains'
 
-const ConnectionCreator = React.createClass({
-  mixins: [PureRenderMixin],
+class ConnectionCreator extends React.Component {
+  constructor (props) {
+    super(props)
+    const storedKeys = ['realName', 'nickname', 'server', 'port']
 
-  storedKeys: ['realName', 'nickname', 'server', 'port'],
+    const state = {
+      storedKeys,
+      isConnecting: false
+    }
 
-  getInitialState () {
-    const state = {isConnecting: false}
-    this.storedKeys.forEach(key => {
+    storedKeys.forEach(key => {
       state[key] = window.localStorage[key] || ''
     })
-    return state
-  },
+
+    this.state = state
+  }
 
   handleChange (key, event) {
     const { value } = event.target
 
-    if (contains(this.storedKeys, key)) {
+    if (contains(this.state.storedKeys, key)) {
       window.localStorage[key] = value
     }
 
     this.setState({
       [key]: value
     })
-  },
+  }
 
   handleFormSubmission (event) {
     event.preventDefault()
@@ -36,7 +39,7 @@ const ConnectionCreator = React.createClass({
     ConnectionActions.requestConnection({
       realName, nickname, password, server, port: parseInt(port, 10)
     })
-  },
+  }
 
   render () {
     const inputGroupClass = 'input-group'
@@ -75,7 +78,7 @@ const ConnectionCreator = React.createClass({
     ]
 
     return (
-      <form className="connection-creator" onSubmit={this.handleFormSubmission}>
+      <form className="connection-creator" onSubmit={this.handleFormSubmission.bind(this)}>
         <div className={inputGroupClass}>
           <label>Real Name</label>
           <input type="text"
@@ -130,6 +133,6 @@ const ConnectionCreator = React.createClass({
       </form>
     )
   }
-})
+}
 
 export default ConnectionCreator

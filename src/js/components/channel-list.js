@@ -1,29 +1,27 @@
 import React from 'react'
-import PureRenderMixin from 'react-addons-pure-render-mixin'
 import Immutable from 'immutable'
 import classNames from 'classnames'
 
 import ChannelStore from '../stores/channel-store'
 import ChannelActions from '../actions/channel-actions'
-import KeymasterMixin from '../mixins/keymaster'
 
-const ChannelList = React.createClass({
-  mixins: [PureRenderMixin, KeymasterMixin],
-
-  componentWillMount () {
-    ChannelStore.addChangeListener(this._onChange)
-    this.setKeymaster({
-      '⌘+shift+]': this.selectNextChannel,
-      '⌘+shift+[': this.selectPrevChannel
-    })
-  },
-
-  getInitialState () {
-    return {
+class ChannelList extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
       channels: Immutable.List(),
       selectedChannel: {}
     }
-  },
+  }
+
+  componentWillMount () {
+    ChannelStore.addChangeListener(this._onChange.bind(this))
+    // TODO:
+    // this.setKeymaster({
+    //   '⌘+shift+]': this.selectNextChannel,
+    //   '⌘+shift+[': this.selectPrevChannel
+    // })
+  }
 
   _onChange () {
     const channels = ChannelStore.getChannels()
@@ -32,15 +30,15 @@ const ChannelList = React.createClass({
       channels: channels.sortBy(this.channelOrder),
       selectedChannel: ChannelStore.getSelectedChannel() || {}
     })
-  },
+  }
 
   selectChannel (channelName) {
     ChannelActions.selectChannel({ channelName })
-  },
+  }
 
   selectChannelAtIndex (i) {
     this.selectChannel(this.state.channels.get(i).name)
-  },
+  }
 
   selectNextChannel () {
     const { channels, selectedChannel } = this.state
@@ -50,7 +48,7 @@ const ChannelList = React.createClass({
     const nextIndex = (currentIndex + 1) % channels.size
 
     this.selectChannelAtIndex(nextIndex)
-  },
+  }
 
   selectPrevChannel () {
     const { channels, selectedChannel } = this.state
@@ -60,11 +58,11 @@ const ChannelList = React.createClass({
     const prevIndex = (currentIndex === 0) ? (channels.size - 1) : (currentIndex - 1)
 
     this.selectChannelAtIndex(prevIndex)
-  },
+  }
 
   channelOrder (channel) {
     return channel.name
-  },
+  }
 
   render () {
     const channelElements = this.state.channels.map((channel, i) => {
@@ -91,6 +89,6 @@ const ChannelList = React.createClass({
       </ul>
     )
   }
-})
+}
 
 export default ChannelList

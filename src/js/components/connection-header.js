@@ -1,5 +1,4 @@
 import React from 'react'
-import PureRenderMixin from 'react-addons-pure-render-mixin'
 import ConnectionStore from '../stores/connection-store'
 
 function getServer () {
@@ -8,20 +7,19 @@ function getServer () {
   }
 }
 
-const ConnectionHeader = React.createClass({
-  mixins: [PureRenderMixin],
+class ConnectionHeader extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = getServer()
+  }
 
   componentWillMount () {
-    ConnectionStore.addChangeListener(this._onChange)
-  },
-
-  getInitialState () {
-    return getServer()
-  },
+    ConnectionStore.addChangeListener(this._onChange.bind(this))
+  }
 
   _onChange () {
     this.setState(getServer())
-  },
+  }
 
   render () {
     return (
@@ -30,6 +28,6 @@ const ConnectionHeader = React.createClass({
       </div>
     )
   }
-})
+}
 
 export default ConnectionHeader
