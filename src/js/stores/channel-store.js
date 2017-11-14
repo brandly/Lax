@@ -1,5 +1,4 @@
 import { List } from 'immutable'
-import assign from 'object-assign'
 import EventEmitter from '../modules/event-emitter'
 import ircDispatcher from '../dispatchers/irc-dispatcher'
 import ActionTypes from '../constants/action-types'
@@ -48,7 +47,7 @@ class Channel {
   }
 }
 
-const ChannelStore = assign({}, EventEmitter, {
+const ChannelStore = Object.assign({}, EventEmitter, {
   channels: List(),
   selectedChannelName: null,
 

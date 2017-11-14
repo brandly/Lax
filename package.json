@@ -22,7 +22,6 @@
     "immutable": "^3.6.4",
     "keymaster": "^1.6.2",
     "keymirror": "^0.1.1",
-    "object-assign": "^2.0.0",
     "react": "16.1.1",
     "react-dom": "16.1.1",
     "react-linkify": "0.2.1",

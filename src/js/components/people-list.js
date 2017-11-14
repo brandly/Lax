@@ -23,18 +23,20 @@ class PeopleList extends React.Component {
       people
         .filter(p => contains(p.name.toLowerCase(), this.state.filter))
         .sortBy(p => p.name.toLowerCase())
-        .map((person, i) => {
-          return <h3 className="nickname" key={i}>{person.name}</h3>
-        })
+        .map((person, i) =>
+          <h3 className="nickname" key={i}>{person.name}</h3>
+        )
 
     return (
       <div className="people-list">
         <div className="scrolling-panel">
-          <input type="search"
-                 placeholder="search..."
-                 className="people-search-field"
-                 autoFocus
-                 onChange={this.handleChange.bind(this)} />
+          <input
+            type="search"
+            placeholder="search..."
+            className="people-search-field"
+            autoFocus
+            onChange={this.handleChange.bind(this)}
+          />
           {peopleElements}
         </div>
       </div>

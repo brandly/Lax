@@ -1,6 +1,5 @@
 import net from 'net'
 import irc from 'slate-irc'
-import assign from 'object-assign'
 import EventEmitter from '../modules/event-emitter'
 import ircDispatcher from '../dispatchers/irc-dispatcher'
 import ActionTypes from '../constants/action-types'
@@ -8,7 +7,7 @@ import ChannelActions from '../actions/channel-actions'
 import ConnectionActions from '../actions/connection-actions'
 import browserHistory from '../modules/browser-history'
 
-const ConnectionStore = assign({}, EventEmitter, {
+const ConnectionStore = Object.assign({}, EventEmitter, {
   connection: null,
   server: null,
   nickname: null,
