@@ -48,11 +48,21 @@ class MessageList extends React.Component {
   }
 
   renderMessage (text) {
-    return (
-      <span className="text">
-        <Linkify properties={{onClick: this.handleLink.bind(this)}}>{text}</Linkify>
-      </span>
-    )
+    return text.split('\n').map((text, index) => {
+      // TODO: should probably handle this with CSS
+      const Wrap = ({ children }) => {
+        if (index === 0) {
+          return <span className="text">{children}</span>
+        } else {
+          return <p className="text">{children}</p>
+        }
+      }
+      return (
+        <Wrap key={index}>
+          <Linkify properties={{onClick: this.handleLink.bind(this)}}>{text}</Linkify>
+        </Wrap>
+      )
+    })
   }
 
   render () {
@@ -64,7 +74,7 @@ class MessageList extends React.Component {
 
     const messageElements = messages.map((msg, i) => {
       const action = (msg.type !== 'priv') ? <span className="command">{msg.type}</span> : null
-      const showFrom = (i === 0 || messages.get(i - 1).from !== msg.from)
+      const showFrom = (i === 0 || messages[i - 1].from !== msg.from)
 
       const classes = classNames({
         message: true,
@@ -74,7 +84,7 @@ class MessageList extends React.Component {
       return (
         <li className={classes} key={i}>
           <h3 className="nickname from">{showFrom ? msg.from : ''}</h3>
-          <p className="body">{action}{this.renderMessage(msg.message)}</p>
+          <div className="body">{action}{this.renderMessage(msg.text)}</div>
           <p className="when">{formatDate(msg.when)}</p>
         </li>
       )
@@ -83,7 +93,7 @@ class MessageList extends React.Component {
     return (
       <div className="scrolling-panel" ref="scroller">
         <ul className="message-list">
-          {messageElements.toArray()}
+          {messageElements}
         </ul>
       </div>
     )

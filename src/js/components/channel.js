@@ -1,39 +1,15 @@
 import React from 'react'
-import { List } from 'immutable'
-
-import ChannelStore from '../stores/channel-store'
-
 import ChannelHeader from './channel-header'
 import MessageList from './message-list'
 import ComposeMessage from './compose-message'
 import PeopleList from './people-list'
 
-function getChannelState (channel) {
-  return {
-    messages: channel ? channel.getMessages() : List(),
-    people: channel ? channel.getPeople() : List()
-  }
-}
-
 class Channel extends React.Component {
   constructor (props) {
     super(props)
-    this.state = Object.assign({}, getChannelState(this.props.channel), {
+    this.state = {
       showPeopleList: false
-    })
-  }
-
-  componentWillMount () {
-    ChannelStore.addChangeListener(this._onChange.bind(this))
-  }
-
-  componentWillReceiveProps (nextProps) {
-    this.setState({ showPeopleList: false })
-    this.setState(getChannelState(nextProps.channel))
-  }
-
-  _onChange () {
-    this.setState(getChannelState(this.props.channel))
+    }
   }
 
   togglePeopleList () {
@@ -43,8 +19,9 @@ class Channel extends React.Component {
   }
 
   render () {
-    const { channel } = this.props
-    const { messages, people, showPeopleList } = this.state
+    const { conversation } = this.props
+    const { messages, people } = conversation
+    const { showPeopleList } = this.state
 
     const peopleListEl = showPeopleList ? <PeopleList people={people} /> : null
 
@@ -53,7 +30,7 @@ class Channel extends React.Component {
         <div className="above-bottom-panel">
           <ChannelHeader
             onPeopleClick={this.togglePeopleList.bind(this)}
-            channel={channel}
+            channel={conversation}
             people={people}
           />
           <div className="below-header">
@@ -62,7 +39,7 @@ class Channel extends React.Component {
           {peopleListEl}
         </div>
         <div className="absolute-bottom-panel">
-          <ComposeMessage channel={channel} />
+          <ComposeMessage channel={conversation} />
         </div>
       </div>
     )

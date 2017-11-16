@@ -216,7 +216,7 @@ function createIrcStream (credentials, dispatch) {
       }
     })
 
-    browserHistory.push(`/connection/${id}`)
+    browserHistory.push(`/connection/${id}/conversation`)
   })
 
   stream.on('close', e => {

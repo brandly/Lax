@@ -7,7 +7,7 @@ import loggerMiddleware from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
 import { rootReducer } from './reducers'
 import ConnectionCreator from './components/ConnectionCreator'
-import MessageCenter from './components/message-center'
+import Connection from './components/Connection'
 import browserHistory from './modules/browser-history'
 const inProduction = process.env.NODE_ENV === 'production'
 
@@ -27,7 +27,10 @@ render(
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/" component={ConnectionCreator} />
-      <Route path="/connection/:connectionId" component={MessageCenter} />
+      <Route
+        path="/connection/:connectionId/conversation(/:conversationId)"
+        component={Connection}
+      />
     </Router>
   </Provider>,
   document.getElementById('main')
