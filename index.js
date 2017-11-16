@@ -14,9 +14,6 @@ function createWindow () {
   // and load the index.html of the app.
   win.loadURL(path.join(`file://${__dirname}`, `${pkg['main-html']}`))
 
-  // Open the DevTools.
-  win.webContents.openDevTools()
-
   // Emitted when the window is closed.
   win.on('closed', () => {
     // Dereference the window object, usually you would store windows
@@ -24,6 +21,17 @@ function createWindow () {
     // when you should delete the corresponding element.
     win = null
   })
+
+  if (process.env.NODE_ENV !== 'production') {
+    const { default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer')
+
+    installExtension([ REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS ])
+      .then((name) => console.log(`Added Extension:  ${name}`))
+      .catch((err) => console.log('An error occurred: ', err))
+
+    // Open the DevTools.
+    win.webContents.openDevTools()
+  }
 }
 
 // This method will be called when Electron has finished
