@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 import ChannelStore from '../stores/channel-store'
 
@@ -29,10 +30,16 @@ class MessageCenter extends React.Component {
   }
 
   render () {
+    const {
+      connection
+    } = this.props
+
     return (
       <div className="message-center">
         <div className="left-panel">
-          <ConnectionHeader />
+          <ConnectionHeader
+            connection={connection}
+          />
           <div className="below-header scrolling-panel">
             <ChannelList />
             <JoinChannel />
@@ -44,4 +51,15 @@ class MessageCenter extends React.Component {
   }
 }
 
-export default MessageCenter
+export default connect((state, ownProps) => {
+  const { connectionId } = ownProps.params
+  const connection = getConnectionById(state, connectionId)
+
+  return {
+    connection
+  }
+})(MessageCenter)
+
+function getConnectionById (state, connectionId) {
+  return state.connections.list.find(({ id }) => id === connectionId)
+}

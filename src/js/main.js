@@ -24,7 +24,7 @@ render(
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/" component={ConnectionCreator} />
-      <Route path="/message-center" component={MessageCenter} />
+      <Route path="/connection/:connectionId" component={MessageCenter} />
     </Router>
   </Provider>,
   document.getElementById('main')
