@@ -1,15 +1,36 @@
+// @flow
 import React from 'react'
 import { connect } from 'react-redux'
 import { connectToServer } from '../actions'
+import type { Dispatch } from '../flow'
 
-class ConnectionCreator extends React.Component {
+type Props = {
+  dispatch: Dispatch
+}
+
+type State = {
+  storedKeys: Array<string>,
+  isConnecting: boolean,
+  realName: string,
+  nickname: string,
+  server: string,
+  port: string,
+  password: string
+}
+
+class ConnectionCreator extends React.Component<Props, State> {
   constructor (props) {
     super(props)
     const storedKeys = ['realName', 'nickname', 'server', 'port']
 
     const state = {
       storedKeys,
-      isConnecting: false
+      isConnecting: false,
+      realName: '',
+      nickname: '',
+      server: '',
+      port: '',
+      password: ''
     }
 
     storedKeys.forEach(key => {

@@ -18,7 +18,6 @@
     "babel-preset-es2015": "6.24.1",
     "babel-preset-react": "6.24.1",
     "babel-register": "6.26.0",
-    "case": "1.5.4",
     "classnames": "2.2.5",
     "flux": "^2.0.1",
     "history": "2.1.1",

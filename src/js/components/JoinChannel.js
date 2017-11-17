@@ -1,22 +1,34 @@
+// @flow
+/* global SyntheticEvent, HTMLInputElement */
 import React from 'react'
 
-class JoinChannel extends React.Component {
-  constructor (props) {
+type Props = {
+  onJoin: string => void
+}
+
+type State = {
+  channelName: string
+}
+
+class JoinChannel extends React.Component<Props, State> {
+  constructor (props: Props) {
     super(props)
     this.state = {
       channelName: ''
     }
   }
 
-  setChannelName (channelName) {
+  setChannelName (channelName: string) {
     this.setState({ channelName })
   }
 
-  handleChange (event) {
-    this.setChannelName(event.target.value)
+  handleChange (event: SyntheticEvent<*>) {
+    if (event.target instanceof HTMLInputElement) {
+      this.setChannelName(event.target.value)
+    }
   }
 
-  handleFormSubmission (event) {
+  handleFormSubmission (event: SyntheticEvent<*>) {
     event.preventDefault()
     this.props.onJoin(this.state.channelName)
     this.setChannelName('')

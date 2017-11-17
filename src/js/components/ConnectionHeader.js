@@ -1,6 +1,12 @@
+// @flow
 import React from 'react'
+import type { ConnectionT } from '../flow'
 
-class ConnectionHeader extends React.Component {
+type Props = {
+  connection: ConnectionT
+}
+
+class ConnectionHeader extends React.Component<Props> {
   render () {
     const { connection } = this.props
 

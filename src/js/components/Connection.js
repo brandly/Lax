@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import { connect } from 'react-redux'
 import browserHistory from '../modules/browser-history'
@@ -12,8 +13,19 @@ import {
 import {
   commandJoin
 } from '../actions'
+import type {
+  Dispatch,
+  ConnectionT,
+  ConversationT
+} from '../flow'
 
-class Connection extends React.Component {
+type Props = {
+  dispatch: Dispatch,
+  connection: ConnectionT,
+  conversation: ConversationT
+}
+
+class Connection extends React.Component<Props> {
   componentWillMount () {
     if (!this.props.connection) {
       browserHistory.replace('/')
