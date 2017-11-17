@@ -1,17 +1,17 @@
 /* global test, expect */
 import conversationsReducer from '../src/js/reducers/conversations'
 import {
-  RECEIVE_CHANNEL_MESSAGE,
+  // RECEIVE_CHANNEL_MESSAGE,
   REQUEST_CONNECTION,
-  RECEIVE_DIRECT_MESSAGE,
+  // RECEIVE_DIRECT_MESSAGE,
   RECEIVE_JOIN,
-  RECEIVE_MOTD,
-  RECEIVE_NAMES,
-  RECEIVE_NOTICE,
-  RECEIVE_PART,
+  // RECEIVE_MOTD,
+  // RECEIVE_NAMES,
+  // RECEIVE_NOTICE,
+  // RECEIVE_PART,
   RECEIVE_QUIT,
-  RECEIVE_TOPIC,
-  RECEIVE_WELCOME,
+  // RECEIVE_TOPIC,
+  // RECEIVE_WELCOME,
   COMMAND
 } from '../src/js/actions'
 
