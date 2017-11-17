@@ -1,3 +1,4 @@
+// @flow
 import { combineReducers } from 'redux'
 import connections from './connections'
 import conversations from './conversations'

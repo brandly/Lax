@@ -1,3 +1,4 @@
+// @flow
 import { combineReducers } from 'redux'
 import {
   RECEIVE_CHANNEL_MESSAGE,

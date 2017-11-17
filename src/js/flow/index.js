@@ -7,6 +7,6 @@ type Action = {
 }
 
 // TODO:
-type IrcState = any
-type IrcDispatch = ReduxDispatch<IrcState, Action>
-export type Thunk = (IrcDispatch, () => IrcState) => void
+export type IrcState = any
+export type Dispatch = ReduxDispatch<IrcState, Action>
+export type Thunk = (Dispatch, () => IrcState) => void

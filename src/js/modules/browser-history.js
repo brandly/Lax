@@ -1,3 +1,4 @@
+// @flow
 import path from 'path'
 import { useRouterHistory } from 'react-router'
 import { createHistory } from 'history'

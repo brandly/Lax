@@ -1,4 +1,6 @@
-import { EventEmitter } from 'events'
+// @flow
+import events from 'events'
+const { EventEmitter } = events
 
 const CHANGE_EVENT = 'change'
 
