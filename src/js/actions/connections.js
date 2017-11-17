@@ -14,15 +14,12 @@ import {
   RECEIVE_JOIN,
   RECEIVE_NAMES,
   RECEIVE_DIRECT_MESSAGE,
-  RECEIVE_CHANNEL_MESSAGE,
-  COMMAND
+  RECEIVE_CHANNEL_MESSAGE
 } from '../actions'
 import browserHistory from '../modules/browser-history'
-import {
-  getConnectionById
-} from '../reducers/selectors'
 
 export const REQUEST_CONNECTION = createActionSet('REQUEST_CONNECTION')
+export const CONNECTION_CLOSED = 'CONNECTION_CLOSED'
 
 export const connectToServer = (credentials) => {
   const { realName, nickname, server, port } = credentials
@@ -199,46 +196,13 @@ export const connectToServer = (credentials) => {
   }
 }
 
-export function commandJoin (connectionId, name) {
-  return (dispatch, getState) => {
-    const connection = getConnectionById(getState(), connectionId)
-
-    if (connection) {
-      connection.stream.join(name)
-
-      dispatch({
-        type: COMMAND.join,
-        payload: {
-          name
-        }
-      })
-    }
-  }
-}
-
-export function commandNick (connectionId, newNickname) {
-  return (dispatch, getState) => {
-    const connection = getConnectionById(getState(), connectionId)
-
-    if (connection) {
-      connection.stream.nick(newNickname)
-
-      dispatch({
-        type: COMMAND.nick,
-        payload: {
-          newNickname
-        }
-      })
-    }
-  }
-}
-
 function credentialsToId ({ realName, server, port }) {
   return `${realName}@${server}:${port}`
 }
 
 function createIrcStream (credentials, dispatch) {
   const { realName, nickname, password, server, port } = credentials
+  const id = credentialsToId(credentials)
 
   let stream = net.connect({
     port,
@@ -246,7 +210,6 @@ function createIrcStream (credentials, dispatch) {
   })
 
   stream.on('connect', e => {
-    const id = credentialsToId(credentials)
     dispatch({
       type: REQUEST_CONNECTION.SUCCESS,
       payload: {
@@ -258,14 +221,22 @@ function createIrcStream (credentials, dispatch) {
   })
 
   stream.on('close', e => {
-    // TODO:
+    // TODO: figure out how to recover
+    // probably want to look at like window focus or "internet is back" events of some sort
+    // then check for `ECONNRESET` errors and rebuild the stream(s)
     console.log('stream close', e)
+    dispatch({
+      type: CONNECTION_CLOSED,
+      payload: {
+        id
+      }
+    })
   })
 
   stream.on('error', e => {
     console.log('stream error', e)
     dispatch({
-      type: REQUEST_CONNECTION.error,
+      type: REQUEST_CONNECTION.ERROR,
       payload: {
         id: credentialsToId(credentials),
         error: e

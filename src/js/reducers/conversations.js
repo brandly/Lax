@@ -79,21 +79,34 @@ function list (state = [], { type, payload }) {
         people: payload.names
       }))
     case RECEIVE_JOIN:
-      return addMessageToIdInList(state, payload.channel, {
-        type: 'join',
-        text: '',
-        from: payload.from,
-        to: payload.channel,
-        when: new Date()
-      })
+      return updateIdInList(state, payload.channel, convo => Object.assign({}, convo, {
+        people: convo.people.concat({
+          name: payload.from,
+          mode: '' // TODO: ensure this structure is correct
+        }),
+        messages: convo.messages.concat({
+          type: 'join',
+          text: '',
+          from: payload.from,
+          to: payload.channel,
+          when: new Date()
+        })
+      }))
     case RECEIVE_QUIT:
-      return addMessageToIdInList(state, payload.channel, {
-        type: 'quit',
-        text: payload.message,
-        from: payload.nick,
-        to: payload.channel,
-        when: new Date()
-      })
+      return applyToConversationsWhere(
+        state,
+        convo => convo.people.map(p => p.name).includes(payload.nick),
+        convo => Object.assign({}, convo, {
+          people: convo.people.filter(person => person.name !== payload.nick),
+          messages: convo.messages.concat([{
+            type: 'quit',
+            text: payload.message,
+            from: payload.nick,
+            to: '',
+            when: new Date()
+          }])
+        })
+      )
     case RECEIVE_PART:
       return addMessageToIdInList(state, payload.nick, {
         type: 'part',
@@ -145,6 +158,13 @@ function updateIdInList (state, id, update) {
       people: []
     })])
   }
+}
+
+// : List a -> (a -> Bool) -> (a -> a) -> List a
+function applyToConversationsWhere (list, predicate, update) {
+  return list.map((item, index) => {
+    return predicate(item) ? update(item) : item
+  })
 }
 
 export default combineReducers({

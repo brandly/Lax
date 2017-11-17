@@ -7,7 +7,7 @@ import {
 function list (state = [], { type, payload }) {
   switch (type) {
     case REQUEST_CONNECTION.PENDING:
-      return state.concat([ payload ])
+      return updateIdInList(state, payload.id, payload)
     case REQUEST_CONNECTION.SUCCESS:
       return updateIdInList(state, payload.id, {
         isConnected: true
@@ -26,13 +26,17 @@ function list (state = [], { type, payload }) {
 }
 
 function updateIdInList (state, id, update) {
-  return state.map(connection => {
+  let found = false
+  const result = state.map(connection => {
     if (connection.id === id) {
+      found = true
       return Object.assign({}, connection, update)
     } else {
       return connection
     }
   })
+
+  return found ? result : result.concat([ update ])
 }
 
 export default combineReducers({

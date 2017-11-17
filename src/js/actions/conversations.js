@@ -1,3 +1,10 @@
+import {
+  getConnectionById
+} from '../reducers/selectors'
+import {
+  COMMAND
+} from '../actions'
+
 export const RECEIVE_NOTICE = 'RECEIVE_NOTICE'
 export const RECEIVE_AWAY = 'RECEIVE_AWAY'
 export const RECEIVE_PART = 'RECEIVE_PART'
@@ -11,3 +18,37 @@ export const RECEIVE_JOIN = 'RECEIVE_JOIN'
 export const RECEIVE_NAMES = 'RECEIVE_NAMES'
 export const RECEIVE_DIRECT_MESSAGE = 'RECEIVE_DIRECT_MESSAGE'
 export const RECEIVE_CHANNEL_MESSAGE = 'RECEIVE_CHANNEL_MESSAGE'
+
+export function commandJoin (connectionId, name) {
+  return (dispatch, getState) => {
+    const connection = getConnectionById(getState(), connectionId)
+
+    if (connection) {
+      connection.stream.join(name)
+
+      dispatch({
+        type: COMMAND.join,
+        payload: {
+          name
+        }
+      })
+    }
+  }
+}
+
+export function commandNick (connectionId, newNickname) {
+  return (dispatch, getState) => {
+    const connection = getConnectionById(getState(), connectionId)
+
+    if (connection) {
+      connection.stream.nick(newNickname)
+
+      dispatch({
+        type: COMMAND.nick,
+        payload: {
+          newNickname
+        }
+      })
+    }
+  }
+}
