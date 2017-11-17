@@ -1,5 +1,4 @@
 import React from 'react'
-import contains from '../modules/contains'
 
 class PeopleList extends React.Component {
   constructor (props) {
@@ -21,8 +20,8 @@ class PeopleList extends React.Component {
 
     const peopleElements =
       people
-        .filter(p => contains(p.name.toLowerCase(), this.state.filter))
-        .sortBy(p => p.name.toLowerCase())
+        .filter(p => p.name.toLowerCase().includes(this.state.filter))
+        // .sortBy(p => p.name.toLowerCase())
         .map((person, i) =>
           <h3 className="nickname" key={i}>{person.name}</h3>
         )

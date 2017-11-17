@@ -9,7 +9,12 @@ let win
 
 function createWindow () {
   // Create the browser window.
-  win = new BrowserWindow({width: 1000, height: 600})
+  win = new BrowserWindow({
+    width: 1200,
+    height: 800,
+    minHeight: 340,
+    minWidth: 680
+  })
 
   // and load the index.html of the app.
   win.loadURL(path.join(`file://${__dirname}`, `${pkg['main-html']}`))

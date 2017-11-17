@@ -1,6 +1,6 @@
 import React from 'react'
 import ChannelHeader from './channel-header'
-import MessageList from './message-list'
+import MessageList from './MessageList'
 import ComposeMessage from './compose-message'
 import PeopleList from './people-list'
 

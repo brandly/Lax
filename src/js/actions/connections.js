@@ -14,9 +14,13 @@ import {
   RECEIVE_JOIN,
   RECEIVE_NAMES,
   RECEIVE_DIRECT_MESSAGE,
-  RECEIVE_CHANNEL_MESSAGE
+  RECEIVE_CHANNEL_MESSAGE,
+  COMMAND
 } from '../actions'
 import browserHistory from '../modules/browser-history'
+import {
+  getConnectionById
+} from '../reducers/selectors'
 
 export const REQUEST_CONNECTION = createActionSet('REQUEST_CONNECTION')
 
@@ -31,6 +35,7 @@ export const connectToServer = (credentials) => {
       payload: {
         id,
         isConnected: false,
+        isWelcome: false,
         nickname,
         realName,
         server,
@@ -66,7 +71,6 @@ export const connectToServer = (credentials) => {
         message = e.message
       }
 
-      // TODO: these can be from another person? need to understand what a notice is
       dispatch({
         type: RECEIVE_NOTICE,
         payload: {
@@ -192,6 +196,40 @@ export const connectToServer = (credentials) => {
         })
       }
     })
+  }
+}
+
+export function commandJoin (connectionId, name) {
+  return (dispatch, getState) => {
+    const connection = getConnectionById(getState(), connectionId)
+
+    if (connection) {
+      connection.stream.join(name)
+
+      dispatch({
+        type: COMMAND.join,
+        payload: {
+          name
+        }
+      })
+    }
+  }
+}
+
+export function commandNick (connectionId, newNickname) {
+  return (dispatch, getState) => {
+    const connection = getConnectionById(getState(), connectionId)
+
+    if (connection) {
+      connection.stream.nick(newNickname)
+
+      dispatch({
+        type: COMMAND.nick,
+        payload: {
+          newNickname
+        }
+      })
+    }
   }
 }
 

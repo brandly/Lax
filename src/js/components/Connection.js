@@ -2,22 +2,40 @@ import React from 'react'
 import { connect } from 'react-redux'
 import browserHistory from '../modules/browser-history'
 import ConnectionHeader from './ConnectionHeader'
-import ChannelList from './channel-list'
-import JoinChannel from './join-channel'
+import ConversationList from './ConversationList'
+import JoinChannel from './JoinChannel'
 import Channel from './channel'
+import {
+  getConnectionById,
+  getConversationByName
+} from '../reducers/selectors'
+import {
+  commandJoin
+} from '../actions'
 
 class Connection extends React.Component {
   componentWillMount () {
     if (!this.props.connection) {
-      // TODO: replace
-      browserHistory.push('/')
+      browserHistory.replace('/')
     }
+  }
+
+  viewConversation (name) {
+    const dest = [
+      'connection',
+      this.props.connection.id,
+      'conversation',
+      encodeURIComponent(name)
+    ].map(v => '/' + v).join('')
+
+    browserHistory.push(dest)
   }
 
   render () {
     const {
       connection,
-      conversation
+      conversation,
+      dispatch
     } = this.props
 
     return (
@@ -27,8 +45,19 @@ class Connection extends React.Component {
             connection={connection}
           />
           <div className="below-header scrolling-panel">
-            <ChannelList />
-            <JoinChannel />
+            <ConversationList
+              connectionId={connection.id}
+              onSelectConversation={name => {
+                this.viewConversation(name)
+              }}
+              selectedConversationId={conversation.name}
+            />
+            {connection.isWelcome ? (
+              <JoinChannel onJoin={name => {
+                dispatch(commandJoin(connection.id, name))
+                this.viewConversation(name)
+              }} />
+            ) : null}
           </div>
         </div>
         <Channel conversation={conversation} />
@@ -45,14 +74,7 @@ export default connect((state, ownProps) => {
 
   return {
     connection,
-    conversation
+    conversation,
+    pathname: ownProps.location.pathname
   }
 })(Connection)
-
-function getConnectionById (state, connectionId) {
-  return state.connections.list.find(({ id }) => id === connectionId)
-}
-
-function getConversationByName (state, conversationId) {
-  return state.conversations.list.find(({ name }) => name === conversationId)
-}

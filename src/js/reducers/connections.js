@@ -1,5 +1,8 @@
 import { combineReducers } from 'redux'
-import { REQUEST_CONNECTION } from '../actions'
+import {
+  REQUEST_CONNECTION,
+  RECEIVE_WELCOME
+} from '../actions'
 
 function list (state = [], { type, payload }) {
   switch (type) {
@@ -12,6 +15,10 @@ function list (state = [], { type, payload }) {
     case REQUEST_CONNECTION.ERROR:
       return updateIdInList(state, payload.id, {
         error: payload.error
+      })
+    case RECEIVE_WELCOME:
+      return updateIdInList(state, payload.connectionId, {
+        isWelcome: true
       })
     default:
       return state

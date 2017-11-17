@@ -8,7 +8,7 @@ class ChannelHeader extends React.Component {
     if (channel) {
       nameEl = <h2 className="channel-name vertical-center">{channel.name}</h2>
       countEl = channel.name[0] === '#' ? (
-          <p className="channel-people-count vertical-center" onClick={this.props.onPeopleClick}>{people.size} people</p>
+          <p className="channel-people-count vertical-center" onClick={this.props.onPeopleClick}>{people.length} people</p>
         ) : null
     } else {
       nameEl = null

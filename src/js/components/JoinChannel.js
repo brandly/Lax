@@ -1,5 +1,4 @@
 import React from 'react'
-import ChannelActions from '../actions/channel-actions'
 
 class JoinChannel extends React.Component {
   constructor (props) {
@@ -19,21 +18,24 @@ class JoinChannel extends React.Component {
 
   handleFormSubmission (event) {
     event.preventDefault()
-    ChannelActions.commandJoin({
-      channelName: this.state.channelName
-    })
+    this.props.onJoin(this.state.channelName)
     this.setChannelName('')
   }
 
   render () {
     return (
-      <form className="join-channel" onSubmit={this.handleFormSubmission.bind(this)}>
-        <input type="text"
-               placeholder="join channel"
-               className="channel-list-item"
-               required
-               value={this.state.channelName}
-               onChange={this.handleChange.bind(this)} />
+      <form
+        className="join-channel"
+        onSubmit={this.handleFormSubmission.bind(this)}
+      >
+        <input
+          type="text"
+          placeholder="join channel"
+          className="channel-list-item"
+          required
+          value={this.state.channelName}
+          onChange={this.handleChange.bind(this)}
+        />
         {this.state.channelName.length ? <input type="submit" value="+" /> : null}
       </form>
     )
