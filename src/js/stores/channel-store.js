@@ -115,20 +115,22 @@ const ChannelStore = Object.assign({}, EventEmitter, {
 
     ChannelStore.addMessageToChannel(channelName, {
       type: 'priv',
-      from, message
+      from,
+      message
     })
   },
 
   addNoticeToChannel (channelName, {from, message}) {
     ChannelStore.addMessageToChannel(channelName, {
       type: 'notice',
-      from, message
+      from,
+      message
     })
   },
 
   addJoinToChannel (channelName, nick) {
     this.getChannelByName(channelName)
-        .addPerson(nick)
+      .addPerson(nick)
 
     ChannelStore.addMessageToChannel(channelName, {
       type: 'join',
@@ -147,7 +149,7 @@ const ChannelStore = Object.assign({}, EventEmitter, {
 
   addPartToChannel (channelName, {nick, message}) {
     this.getChannelByName(channelName)
-        .removePerson(nick)
+      .removePerson(nick)
 
     ChannelStore.addMessageToChannel(channelName, {
       type: 'part',
@@ -158,7 +160,7 @@ const ChannelStore = Object.assign({}, EventEmitter, {
 
   addQuitToChannel (channelName, {nick, message}) {
     this.getChannelByName(channelName)
-        .removePerson(nick)
+      .removePerson(nick)
 
     ChannelStore.addMessageToChannel(channelName, {
       type: 'quit',

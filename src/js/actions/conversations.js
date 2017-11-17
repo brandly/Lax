@@ -1,9 +1,11 @@
+// @flow
 import {
   getConnectionById
 } from '../reducers/selectors'
 import {
   COMMAND
 } from '../actions'
+import type { Thunk } from '../flow'
 
 export const RECEIVE_NOTICE = 'RECEIVE_NOTICE'
 export const RECEIVE_AWAY = 'RECEIVE_AWAY'
@@ -19,7 +21,7 @@ export const RECEIVE_NAMES = 'RECEIVE_NAMES'
 export const RECEIVE_DIRECT_MESSAGE = 'RECEIVE_DIRECT_MESSAGE'
 export const RECEIVE_CHANNEL_MESSAGE = 'RECEIVE_CHANNEL_MESSAGE'
 
-export function commandJoin (connectionId, name) {
+export function commandJoin (connectionId: string, name: string) : Thunk {
   return (dispatch, getState) => {
     const connection = getConnectionById(getState(), connectionId)
 
@@ -36,7 +38,7 @@ export function commandJoin (connectionId, name) {
   }
 }
 
-export function commandNick (connectionId, newNickname) {
+export function commandNick (connectionId: string, newNickname: string) : Thunk {
   return (dispatch, getState) => {
     const connection = getConnectionById(getState(), connectionId)
 

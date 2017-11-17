@@ -80,36 +80,36 @@ class ConnectionCreator extends React.Component {
         <div className={inputGroupClass}>
           <label>Real Name</label>
           <input type="text"
-                 autoFocus
-                 required
-                 value={this.state.realName}
-                 disabled={this.state.isConnecting}
-                 onChange={this.handleChange.bind(this, 'realName')} />
+            autoFocus
+            required
+            value={this.state.realName}
+            disabled={this.state.isConnecting}
+            onChange={this.handleChange.bind(this, 'realName')} />
         </div>
 
         <div className={inputGroupClass}>
           <label>Nickname</label>
           <input type="text"
-                 required
-                 value={this.state.nickname}
-                 disabled={this.state.isConnecting}
-                 onChange={this.handleChange.bind(this, 'nickname')} />
+            required
+            value={this.state.nickname}
+            disabled={this.state.isConnecting}
+            onChange={this.handleChange.bind(this, 'nickname')} />
         </div>
 
         <div className={inputGroupClass}>
           <label>Password</label>
           <input type="password"
-                 disabled={this.state.isConnecting}
-                 onChange={this.handleChange.bind(this, 'password')} />
+            disabled={this.state.isConnecting}
+            onChange={this.handleChange.bind(this, 'password')} />
         </div>
 
         <div className={inputGroupClass}>
           <label>Server</label>
           <select required
-                  value={this.state.server}
-                  disabled={this.state.isConnecting}
-                  onChange={this.handleChange.bind(this, 'server')}>
-            <option value=""></option>
+            value={this.state.server}
+            disabled={this.state.isConnecting}
+            onChange={this.handleChange.bind(this, 'server')}>
+            <option value="" />
             {serverOptions.map((n, i) => {
               return <option value={n} key={i}>{n}</option>
             })}
@@ -119,10 +119,10 @@ class ConnectionCreator extends React.Component {
         <div className={inputGroupClass}>
           <label>Port</label>
           <input type="number"
-                 required
-                 value={this.state.port}
-                 disabled={this.state.isConnecting}
-                 onChange={this.handleChange.bind(this, 'port')} />
+            required
+            value={this.state.port}
+            disabled={this.state.isConnecting}
+            onChange={this.handleChange.bind(this, 'port')} />
         </div>
 
         <div className={inputGroupClass}>

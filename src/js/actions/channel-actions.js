@@ -12,21 +12,25 @@ export default {
   receiveNames ({channel, names}) {
     ircDispatcher.dispatch({
       type: ActionTypes.RECEIVE_NAMES,
-      channel, names
+      channel,
+      names
     })
   },
 
   receiveMessage ({channel, from, message}) {
     ircDispatcher.dispatch({
       type: ActionTypes.RECEIVE_MESSAGE,
-      channel, from, message
+      channel,
+      from,
+      message
     })
   },
 
   receiveDirectMessage ({from, message}) {
     ircDispatcher.dispatch({
       type: ActionTypes.RECEIVE_DIRECT_MESSAGE,
-      from, message
+      from,
+      message
     })
   },
 
@@ -86,14 +90,16 @@ export default {
         default:
           ircDispatcher.dispatch({
             type: ActionTypes.COMMAND_UNRECOGNIZED,
-            command, channelName: channel
+            command,
+            channelName: channel
           })
           break
       }
     } else {
       ircDispatcher.dispatch({
         type: ActionTypes.SEND_MESSAGE,
-        channel, message
+        channel,
+        message
       })
     }
   },
@@ -115,7 +121,8 @@ export default {
   commandPart ({message, channel}) {
     ircDispatcher.dispatch({
       type: ActionTypes.COMMAND_PART,
-      message, channel
+      message,
+      channel
     })
   },
 
@@ -129,49 +136,57 @@ export default {
   receiveNotice ({to, from, message}) {
     ircDispatcher.dispatch({
       type: ActionTypes.RECEIVE_NOTICE,
-      to, from, message
+      to,
+      from,
+      message
     })
   },
 
   receiveJoin ({channel, from}) {
     ircDispatcher.dispatch({
       type: ActionTypes.RECEIVE_JOIN,
-      channel, from
+      channel,
+      from
     })
   },
 
   receiveAway ({nick, message}) {
     ircDispatcher.dispatch({
       type: ActionTypes.RECEIVE_AWAY,
-      nick, message
+      nick,
+      message
     })
   },
 
   receivePart ({nick, message}) {
     ircDispatcher.dispatch({
       type: ActionTypes.RECEIVE_PART,
-      nick, message
+      nick,
+      message
     })
   },
 
   receiveQuit ({nick, message}) {
     ircDispatcher.dispatch({
       type: ActionTypes.RECEIVE_QUIT,
-      nick, message
+      nick,
+      message
     })
   },
 
   receiveTopic ({channel, topic}) {
     ircDispatcher.dispatch({
       type: ActionTypes.RECEIVE_TOPIC,
-      channel, topic
+      channel,
+      topic
     })
   },
 
   receiveNick ({oldNickname, newNickname}) {
     ircDispatcher.dispatch({
       type: ActionTypes.RECEIVE_NICK,
-      oldNickname, newNickname
+      oldNickname,
+      newNickname
     })
   }
 }

@@ -1,3 +1,4 @@
+// @flow
 import net from 'net'
 import irc from 'slate-irc'
 import { createActionSet } from '../modules/createActionSet'
@@ -17,11 +18,20 @@ import {
   RECEIVE_CHANNEL_MESSAGE
 } from '../actions'
 import browserHistory from '../modules/browser-history'
+import type { Thunk } from '../flow'
 
 export const REQUEST_CONNECTION = createActionSet('REQUEST_CONNECTION')
 export const CONNECTION_CLOSED = 'CONNECTION_CLOSED'
 
-export const connectToServer = (credentials) => {
+type Creds = {
+  realName: string,
+  nickname: string,
+  server: string,
+  port: number,
+  password: string
+}
+
+export const connectToServer = (credentials: Creds) : Thunk => {
   const { realName, nickname, server, port } = credentials
   return dispatch => {
     const id = credentialsToId(credentials)

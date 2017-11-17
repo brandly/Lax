@@ -92,7 +92,8 @@ ConnectionStore.dispatchToken = ircDispatcher.register(action => {
 
         ChannelActions.receiveNotice({
           from: e.from,
-          to, message
+          to,
+          message
         })
       })
 

@@ -47,11 +47,11 @@ class ComposeMessage extends React.Component {
       <form className="message compose-message" onSubmit={this.handleFormSubmission.bind(this)}>
         <h3 className="nickname from">{this.state.nickname}</h3>
         <input type="text"
-               placeholder="write message"
-               className="body"
-               required
-               value={this.state.message}
-               onChange={this.handleChange.bind(this)} />
+          placeholder="write message"
+          className="body"
+          required
+          value={this.state.message}
+          onChange={this.handleChange.bind(this)} />
       </form>
     )
   }

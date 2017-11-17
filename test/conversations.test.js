@@ -16,7 +16,7 @@ import {
 } from '../src/js/actions'
 
 const apply = actions =>
-  actions.reduce(conversationsReducer, { list: [] })
+  actions.reduce(conversationsReducer, {})
 
 test('connection success creates conversation', () => {
   const id = 'fake'

@@ -5,7 +5,11 @@ export default {
   requestConnection ({realName, nickname, password, server, port}) {
     ircDispatcher.dispatch({
       type: ActionTypes.REQUEST_CONNECTION,
-      realName, nickname, password, server, port
+      realName,
+      nickname,
+      password,
+      server,
+      port
     })
   },
 
