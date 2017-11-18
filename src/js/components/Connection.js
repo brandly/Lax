@@ -5,8 +5,8 @@ import { connect } from 'react-redux'
 import browserHistory from '../modules/browser-history'
 import ConnectionHeader from './ConnectionHeader'
 import ConversationList from './ConversationList'
-import JoinChannel from './JoinChannel'
-import Channel from './channel'
+import JoinConversation from './JoinConversation'
+import Conversation from './Conversation'
 import {
   getConnectionById,
   getConversationByName
@@ -67,14 +67,19 @@ class Connection extends React.Component<Props> {
               selectedConversationId={conversation.name}
             />
             {connection.isWelcome ? (
-              <JoinChannel onJoin={name => {
-                dispatch(commandJoin(connection.id, name))
-                this.viewConversation(name)
-              }} />
+              <JoinConversation
+                onJoin={name => {
+                  dispatch(commandJoin(connection.id, name))
+                  this.viewConversation(name)
+                }}
+              />
             ) : null}
           </div>
         </div>
-        <Channel conversation={conversation} />
+        <Conversation
+          nickname={connection.nickname}
+          conversation={conversation}
+        />
       </div>
     )
   }

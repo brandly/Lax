@@ -10,7 +10,7 @@ type State = {
   channelName: string
 }
 
-class JoinChannel extends React.Component<Props, State> {
+class JoinConversation extends React.Component<Props, State> {
   constructor (props: Props) {
     super(props)
     this.state = {
@@ -54,4 +54,4 @@ class JoinChannel extends React.Component<Props, State> {
   }
 }
 
-export default JoinChannel
+export default JoinConversation
