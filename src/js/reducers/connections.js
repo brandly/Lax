@@ -1,11 +1,13 @@
 // @flow
+/* global $Shape */
 import { combineReducers } from 'redux'
 import {
   REQUEST_CONNECTION,
   RECEIVE_WELCOME
 } from '../actions'
+import type { ConnectionT } from '../flow'
 
-function list (state = [], { type, payload }) {
+function list (state : Array<ConnectionT> = [], { type, payload }) : Array<ConnectionT> {
   switch (type) {
     case REQUEST_CONNECTION.PENDING:
       return updateIdInList(state, payload.id, payload)
@@ -26,7 +28,11 @@ function list (state = [], { type, payload }) {
   }
 }
 
-function updateIdInList (state, id, update) {
+function updateIdInList (
+  state : Array<ConnectionT>,
+  id : string,
+  update : $Shape<ConnectionT>
+) : Array<ConnectionT> {
   let found = false
   const result = state.map(connection => {
     if (connection.id === id) {

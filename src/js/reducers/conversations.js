@@ -14,8 +14,12 @@ import {
   RECEIVE_WELCOME,
   COMMAND
 } from '../actions'
+import type {
+  ConversationT,
+  MessageT
+} from '../flow'
 
-function list (state = [], { type, payload }) {
+function list (state : Array<ConversationT> = [], { type, payload }) : Array<ConversationT> {
   switch (type) {
     case REQUEST_CONNECTION.SUCCESS:
       return state.concat([{
@@ -131,13 +135,25 @@ function list (state = [], { type, payload }) {
   }
 }
 
-function addMessageToIdInList (state, id, message) {
-  return updateIdInList(state, id, convo => Object.assign({}, convo, {
-    messages: convo.messages.concat([ message ])
-  }))
+function addMessageToIdInList (
+  state : Array<ConversationT>,
+  id : string,
+  message : MessageT
+) : Array<ConversationT> {
+  return updateIdInList(
+    state,
+    id,
+    (convo : ConversationT) : ConversationT => Object.assign({}, convo, {
+      messages: convo.messages.concat([ message ])
+    })
+  )
 }
 
-function updateIdInList (state, id, update) {
+function updateIdInList (
+  state : Array<ConversationT>,
+  id : string,
+  update : ConversationT => ConversationT
+) : Array<ConversationT> {
   let foundOne = false
 
   const result = state.map(conversation => {
@@ -161,11 +177,14 @@ function updateIdInList (state, id, update) {
   }
 }
 
-// : List a -> (a -> Bool) -> (a -> a) -> List a
-function applyToConversationsWhere (list, predicate, update) {
-  return list.map((item, index) => {
-    return predicate(item) ? update(item) : item
-  })
+function applyToConversationsWhere (
+  list : Array<ConversationT>,
+  predicate : ConversationT => boolean,
+  update : ConversationT => ConversationT
+) {
+  return list.map(item =>
+    predicate(item) ? update(item) : item
+  )
 }
 
 export default combineReducers({

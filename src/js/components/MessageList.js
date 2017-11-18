@@ -2,11 +2,19 @@ import React from 'react'
 import { findDOMNode } from 'react-dom'
 import classNames from 'classnames'
 import Linkify from 'react-linkify'
-
 import { shell } from 'electron'
+import type { MessageT } from '../flow'
 
-class MessageList extends React.Component {
-  constructor (props) {
+type Props = {
+  messages: Array<MessageT>
+}
+
+type State = {
+  isBrowsingPriorMessages: boolean
+}
+
+class MessageList extends React.Component<Props, State> {
+  constructor (props: Props) {
     super(props)
     this.state = {
       isBrowsingPriorMessages: false
@@ -47,7 +55,7 @@ class MessageList extends React.Component {
     shell.openExternal(url)
   }
 
-  renderMessage (text) {
+  renderMessage (text: string) {
     return text.split('\n').map((text, index) => {
       // TODO: should probably handle this with CSS
       const Wrap = ({ children }) => {
@@ -100,11 +108,11 @@ class MessageList extends React.Component {
   }
 }
 
-function formatDate (d) {
+function formatDate (d: Date) : string {
   return `${twoDigits(d.getHours())}:${twoDigits(d.getMinutes())}:${twoDigits(d.getSeconds())}`
 }
 
-function twoDigits (str) {
+function twoDigits (str: string | number) : string {
   str = '' + str
   return (str.length < 2) ? ('0' + str) : str
 }

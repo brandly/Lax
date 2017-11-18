@@ -1,17 +1,30 @@
+// @flow
+/* global SyntheticEvent, HTMLInputElement */
 import React from 'react'
+import type { PersonT } from '../flow'
 
-class PeopleList extends React.Component {
-  constructor (props) {
+type Props = {
+  people: Array<PersonT>
+}
+
+type State = {
+  filter: string
+}
+
+class PeopleList extends React.Component<Props, State> {
+  constructor (props: Props) {
     super(props)
     this.state = { filter: '' }
   }
 
-  setFilteredValue (filter) {
+  setFilteredValue (filter: string) {
     this.setState({ filter })
   }
 
-  handleChange (event) {
-    this.setFilteredValue(event.target.value)
+  handleChange (event: SyntheticEvent<*>) {
+    if (event.target instanceof HTMLInputElement) {
+      this.setFilteredValue(event.target.value)
+    }
   }
 
   render () {

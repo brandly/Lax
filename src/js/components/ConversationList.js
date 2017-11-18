@@ -1,13 +1,21 @@
+// @flow
+/* global $Shape */
 import React from 'react'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 import {
   getConversationsForConnection
 } from '../reducers/selectors'
+import type { IrcState, ConversationT } from '../flow'
 
 // TODO: probably refactor state tree to store list of convos on a per connection basis
+type Props = {
+  onSelectConversation: string => void,
+  conversations: Array<ConversationT>,
+  selectedConversationId: ?string
+}
 
-class ConversationList extends React.Component {
+class ConversationList extends React.Component<Props> {
   componentWillMount () {
     // TODO: keyboard shortcuts
     // this.setKeymaster({
@@ -24,28 +32,28 @@ class ConversationList extends React.Component {
     this.selectConversation(this.props.conversations[i].name)
   }
 
-  selectNextChannel () {
-    const { channels, selectedChannel } = this.state
-    if (!channels) return
+  // selectNextChannel () {
+  //   const { channels, selectedChannel } = this.state
+  //   if (!channels) return
 
-    const currentIndex = channels.indexOf(selectedChannel)
-    const nextIndex = (currentIndex + 1) % channels.size
+  //   const currentIndex = channels.indexOf(selectedChannel)
+  //   const nextIndex = (currentIndex + 1) % channels.size
 
-    this.selectConversationAtIndex(nextIndex)
-  }
+  //   this.selectConversationAtIndex(nextIndex)
+  // }
 
-  selectPrevChannel () {
-    const { channels, selectedChannel } = this.state
-    if (!channels) return
+  // selectPrevChannel () {
+  //   const { channels, selectedChannel } = this.state
+  //   if (!channels) return
 
-    const currentIndex = channels.indexOf(selectedChannel)
-    const prevIndex = (currentIndex === 0) ? (channels.size - 1) : (currentIndex - 1)
+  //   const currentIndex = channels.indexOf(selectedChannel)
+  //   const prevIndex = (currentIndex === 0) ? (channels.size - 1) : (currentIndex - 1)
 
-    this.selectConversationAtIndex(prevIndex)
-  }
+  //   this.selectConversationAtIndex(prevIndex)
+  // }
 
-  conversationOrder (channel) {
-    return channel.name
+  conversationOrder (convo) {
+    return convo.name
   }
 
   render () {
@@ -57,8 +65,8 @@ class ConversationList extends React.Component {
     // TODO: sort these
     return (
       <ul className="channel-list">
-        {conversations.map((channel, i) => {
-          const { name, unreadCount } = channel
+        {conversations.map((convo, i) => {
+          const { name } = convo
 
           const classes = classNames({
             'channel-list-item': true,
@@ -68,11 +76,11 @@ class ConversationList extends React.Component {
           return (
             <li
               className={classes}
-              key={channel.name}
-              onClick={this.selectConversation.bind(this, channel.name)}
+              key={name}
+              onClick={this.selectConversation.bind(this, name)}
             >
               <span className="channel-name">{name}</span>
-              {unreadCount ? <span className="unread-count">{unreadCount}</span> : null}
+              {/* unreadCount ? <span className="unread-count">{unreadCount}</span> : null */}
             </li>
           )
         })}
@@ -81,7 +89,7 @@ class ConversationList extends React.Component {
   }
 }
 
-export default connect((state, ownProps) => {
+export default connect((state: IrcState, ownProps) : $Shape<Props> => {
   const { connectionId, selectedConversationId } = ownProps
   const conversations = getConversationsForConnection(state, connectionId)
 

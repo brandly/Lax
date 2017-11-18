@@ -1,4 +1,5 @@
 // @flow
+/* global $Shape */
 import React from 'react'
 import { connect } from 'react-redux'
 import browserHistory from '../modules/browser-history'
@@ -15,6 +16,7 @@ import {
 } from '../actions'
 import type {
   Dispatch,
+  IrcState,
   ConnectionT,
   ConversationT
 } from '../flow'
@@ -78,7 +80,7 @@ class Connection extends React.Component<Props> {
   }
 }
 
-export default connect((state, ownProps) => {
+export default connect((state: IrcState, ownProps) : $Shape<Props> => {
   const { connectionId, conversationId } = ownProps.params
 
   const connection = getConnectionById(state, connectionId)
@@ -86,7 +88,6 @@ export default connect((state, ownProps) => {
 
   return {
     connection,
-    conversation,
-    pathname: ownProps.location.pathname
+    conversation
   }
 })(Connection)
