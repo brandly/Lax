@@ -1,15 +1,15 @@
 // @flow
 import type { Dispatch as ReduxDispatch } from 'redux'
 
-type Action = {
+export type Action = {
   type: string,
   payload: any
-}
+};
 
 type IrcConnectionStream = {
   join: string => void,
   nick: string => void
-}
+};
 
 export type ConnectionT = {
   id: string,
@@ -21,14 +21,24 @@ export type ConnectionT = {
   port: number,
   stream: IrcConnectionStream,
   error: ?string
-}
+};
 
 export type PersonT = {
   name: string,
   mode: string
-}
+};
 
-type MessageType = 'notice' | 'priv' | 'motd' | 'welcome' | 'topic' | 'flow' | 'part' | 'quit' | 'join'
+type MessageType
+  = 'notice'
+  | 'priv'
+  | 'motd'
+  | 'welcome'
+  | 'topic'
+  | 'flow'
+  | 'part'
+  | 'quit'
+  | 'join'
+  ;
 
 export type MessageT = {
   type: MessageType,
@@ -36,16 +46,20 @@ export type MessageT = {
   from: string,
   to: string,
   when: Date
-}
+};
 
-type ConversationType = 'CHANNEL' | 'DIRECT' | 'CONNECTION'
+type ConversationType
+  = 'CHANNEL'
+  | 'DIRECT'
+  | 'CONNECTION'
+  ;
 
 export type ConversationT = {
   type: ConversationType,
   name: string,
   messages: Array<MessageT>,
   people: Array<PersonT>
-}
+};
 
 export type IrcState = {
   conversations: {
@@ -54,7 +68,7 @@ export type IrcState = {
   connections: {
     list: Array<ConnectionT>
   }
-}
+};
 
-export type Dispatch = ReduxDispatch<IrcState, Action>
-export type Thunk = (Dispatch, () => IrcState) => void
+export type Dispatch = ReduxDispatch<IrcState, Action>;
+export type Thunk = (Dispatch, () => IrcState) => void;

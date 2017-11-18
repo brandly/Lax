@@ -8,11 +8,11 @@ type Props = {
   conversation: ConversationT,
   nickname: string,
   onMessage: string => void
-}
+};
 
 type State = {
   message: string
-}
+};
 
 class ComposeMessage extends React.Component<Props, State> {
   constructor (props: Props) {

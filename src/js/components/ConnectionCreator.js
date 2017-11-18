@@ -6,7 +6,7 @@ import type { Dispatch } from '../flow'
 
 type Props = {
   dispatch: Dispatch
-}
+};
 
 type State = {
   storedKeys: Array<string>,
@@ -16,7 +16,7 @@ type State = {
   server: string,
   port: string,
   password: string
-}
+};
 
 class ConnectionCreator extends React.Component<Props, State> {
   constructor (props) {

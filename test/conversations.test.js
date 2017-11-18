@@ -15,8 +15,8 @@ import {
   COMMAND
 } from '../src/js/actions'
 
-const apply = actions =>
-  actions.reduce(conversationsReducer, {})
+const apply = (actions, initial = {}) =>
+  actions.reduce(conversationsReducer, initial)
 
 test('connection success creates conversation', () => {
   const id = 'fake'

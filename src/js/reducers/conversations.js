@@ -16,10 +16,14 @@ import {
 } from '../actions'
 import type {
   ConversationT,
-  MessageT
+  MessageT,
+  Action
 } from '../flow'
 
-function list (state : Array<ConversationT> = [], { type, payload }) : Array<ConversationT> {
+function list (
+  state : Array<ConversationT> = [],
+  { payload, type } : Action
+) : Array<ConversationT> {
   switch (type) {
     case REQUEST_CONNECTION.SUCCESS:
       return state.concat([{

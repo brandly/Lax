@@ -7,11 +7,11 @@ import type { MessageT } from '../flow'
 
 type Props = {
   messages: Array<MessageT>
-}
+};
 
 type State = {
   isBrowsingPriorMessages: boolean
-}
+};
 
 class MessageList extends React.Component<Props, State> {
   constructor (props: Props) {

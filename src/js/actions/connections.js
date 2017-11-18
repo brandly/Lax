@@ -29,7 +29,7 @@ type Creds = {
   server: string,
   port: number,
   password: string
-}
+};
 
 export const connectToServer = (credentials: Creds) : Thunk => {
   const { realName, nickname, server, port } = credentials

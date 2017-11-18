@@ -5,7 +5,7 @@ import type { ConversationT, PersonT } from '../flow'
 type Props = {
   conversation: ConversationT,
   onPeopleClick: Array<PersonT> => void
-}
+};
 
 class ConversationHeader extends React.Component<Props> {
   render () {

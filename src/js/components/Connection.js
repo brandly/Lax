@@ -25,7 +25,7 @@ type Props = {
   dispatch: Dispatch,
   connection: ConnectionT,
   conversation: ConversationT
-}
+};
 
 class Connection extends React.Component<Props> {
   componentWillMount () {

@@ -9,11 +9,11 @@ import type { ConversationT } from '../flow'
 type Props = {
   conversation: ConversationT,
   nickname: string
-}
+};
 
 type State = {
   showPeopleList: boolean
-}
+};
 
 class Conversation extends React.Component<Props, State> {
   constructor (props: Props) {

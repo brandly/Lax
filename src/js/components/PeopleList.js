@@ -5,11 +5,11 @@ import type { PersonT } from '../flow'
 
 type Props = {
   people: Array<PersonT>
-}
+};
 
 type State = {
   filter: string
-}
+};
 
 class PeopleList extends React.Component<Props, State> {
   constructor (props: Props) {

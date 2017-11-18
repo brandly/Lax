@@ -4,11 +4,11 @@ import React from 'react'
 
 type Props = {
   onJoin: string => void
-}
+};
 
 type State = {
   channelName: string
-}
+};
 
 class JoinConversation extends React.Component<Props, State> {
   constructor (props: Props) {

@@ -13,7 +13,7 @@ type Props = {
   onSelectConversation: string => void,
   conversations: Array<ConversationT>,
   selectedConversationId: ?string
-}
+};
 
 class ConversationList extends React.Component<Props> {
   componentWillMount () {
