@@ -28,7 +28,7 @@ function list (
     case 'REQUEST_CONNECTION_SUCCESS':
       return state.concat([{
         type: 'CONNECTION',
-        name: action.connection.id,
+        name: action.connectionId,
         messages: [],
         people: []
       }])

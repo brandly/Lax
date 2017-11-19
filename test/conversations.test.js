@@ -1,30 +1,17 @@
-/* global test, expect */
+// @flow
 import conversationsReducer from '../src/js/reducers/conversations'
-import {
-  // RECEIVE_CHANNEL_MESSAGE,
-  REQUEST_CONNECTION,
-  // RECEIVE_DIRECT_MESSAGE,
-  RECEIVE_JOIN,
-  // RECEIVE_MOTD,
-  // RECEIVE_NAMES,
-  // RECEIVE_NOTICE,
-  // RECEIVE_PART,
-  RECEIVE_QUIT,
-  // RECEIVE_TOPIC,
-  // RECEIVE_WELCOME,
-  COMMAND
-} from '../src/js/actions'
+import type { Action } from '../src/js/flow'
+declare var test : any;
+declare var expect : any;
 
-const apply = (actions, initial = {}) =>
+const apply = (actions : Array<Action>, initial = {}) =>
   actions.reduce(conversationsReducer, initial)
 
 test('connection success creates conversation', () => {
   const id = 'fake'
   const { list } = apply([{
-    type: REQUEST_CONNECTION.SUCCESS,
-    connection: {
-      id
-    }
+    type: 'REQUEST_CONNECTION_SUCCESS',
+    connectionId: id
   }])
 
   expect(list.length).toBe(1)
@@ -35,12 +22,10 @@ test('connection success creates conversation', () => {
 test('RECEIVE_JOIN adds someone to conversation.people and messages the channel', () => {
   const id = 'abc123'
   const { list } = apply([{
-    type: REQUEST_CONNECTION.SUCCESS,
-    connection: {
-      id
-    }
+    type: 'REQUEST_CONNECTION_SUCCESS',
+    connectionId: id
   }, {
-    type: RECEIVE_JOIN,
+    type: 'RECEIVE_JOIN',
     channel: id,
     from: 'matt'
   }])
@@ -56,19 +41,17 @@ test('RECEIVE_QUIT removes someone from relevant convos and messages the channel
   const nick = 'matt'
 
   const { list } = apply([{
-    type: REQUEST_CONNECTION.SUCCESS,
-    connection: {
-      id
-    }
+    type: 'REQUEST_CONNECTION_SUCCESS',
+    connectionId: id
   }, {
-    type: COMMAND.join,
+    type: 'COMMAND_JOIN',
     name: channel
   }, {
-    type: RECEIVE_JOIN,
+    type: 'RECEIVE_JOIN',
     channel,
     from: nick
   }, {
-    type: RECEIVE_QUIT,
+    type: 'RECEIVE_QUIT',
     nick,
     message: 'im gone'
   }])

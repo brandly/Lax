@@ -14,11 +14,11 @@ function list (
     case 'REQUEST_CONNECTION_PENDING':
       return updateIdInList(state, action.connection.id, action.connection)
     case 'REQUEST_CONNECTION_SUCCESS':
-      return updateIdInList(state, action.connection.id, {
+      return updateIdInList(state, action.connectionId, {
         isConnected: true
       })
     case 'REQUEST_CONNECTION_ERROR':
-      return updateIdInList(state, action.connection.id, {
+      return updateIdInList(state, action.connectionId, {
         error: action.error
       })
     case RECEIVE_WELCOME:

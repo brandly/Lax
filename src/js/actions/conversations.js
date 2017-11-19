@@ -2,9 +2,6 @@
 import {
   getConnectionById
 } from '../reducers/selectors'
-import {
-  COMMAND
-} from '../actions'
 import type { Thunk } from '../flow'
 
 export const RECEIVE_NOTICE = 'RECEIVE_NOTICE'
@@ -29,10 +26,8 @@ export function commandJoin (connectionId: string, name: string) : Thunk {
       connection.stream.join(name)
 
       dispatch({
-        type: COMMAND.join,
-        payload: {
-          name
-        }
+        type: 'COMMAND_JOIN',
+        name
       })
     }
   }
@@ -46,10 +41,8 @@ export function commandNick (connectionId: string, newNickname: string) : Thunk 
       connection.stream.nick(newNickname)
 
       dispatch({
-        type: COMMAND.nick,
-        payload: {
-          newNickname
-        }
+        type: 'COMMAND_NICK',
+        newNickname
       })
     }
   }

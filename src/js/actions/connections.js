@@ -1,26 +1,9 @@
 // @flow
 import net from 'net'
 import irc from 'slate-irc'
-import { createActionSet } from '../modules/createActionSet'
-import {
-  RECEIVE_NOTICE,
-  RECEIVE_AWAY,
-  RECEIVE_PART,
-  RECEIVE_QUIT,
-  // RECEIVE_KICK,
-  RECEIVE_MOTD,
-  RECEIVE_WELCOME,
-  RECEIVE_NICK,
-  RECEIVE_TOPIC,
-  RECEIVE_JOIN,
-  RECEIVE_NAMES,
-  RECEIVE_DIRECT_MESSAGE,
-  RECEIVE_CHANNEL_MESSAGE
-} from '../actions'
 import browserHistory from '../modules/browser-history'
 import type { Thunk } from '../flow'
 
-export const REQUEST_CONNECTION = createActionSet('REQUEST_CONNECTION')
 export const CONNECTION_CLOSED = 'CONNECTION_CLOSED'
 
 type Creds = {
@@ -33,12 +16,13 @@ type Creds = {
 
 export const connectToServer = (credentials: Creds) : Thunk => {
   const { realName, nickname, server, port } = credentials
+
   return dispatch => {
     const id = credentialsToId(credentials)
-    const connection = createIrcStream(credentials, dispatch)
+    const stream = createIrcStream(credentials, dispatch)
 
     dispatch({
-      type: REQUEST_CONNECTION.PENDING,
+      type: 'REQUEST_CONNECTION_PENDING',
       connection: {
         id,
         isConnected: false,
@@ -47,23 +31,24 @@ export const connectToServer = (credentials: Creds) : Thunk => {
         realName,
         server,
         port,
-        stream: connection
+        stream,
+        error: null
       }
     })
 
-    connection.on('errors', e => {
+    stream.on('errors', e => {
       console.log('errors', e)
     })
 
-    connection.on('mode', e => {
+    stream.on('mode', e => {
       console.log('mode', e)
     })
 
-    connection.on('invite', e => {
+    stream.on('invite', e => {
       console.log('invite', e)
     })
 
-    connection.on('notice', e => {
+    stream.on('notice', e => {
       const channelInMessage = getChannelFromNotice(e.message)
 
       var to, message
@@ -79,7 +64,7 @@ export const connectToServer = (credentials: Creds) : Thunk => {
       }
 
       dispatch({
-        type: RECEIVE_NOTICE,
+        type: 'RECEIVE_NOTICE',
         connectionId: id,
         from: e.from,
         to,
@@ -87,92 +72,92 @@ export const connectToServer = (credentials: Creds) : Thunk => {
       })
     })
 
-    connection.on('away', e => {
+    stream.on('away', e => {
       dispatch({
-        type: RECEIVE_AWAY,
+        type: 'RECEIVE_AWAY',
         nick: e.nick,
         message: e.message
       })
     })
 
-    connection.on('part', e => {
+    stream.on('part', e => {
       dispatch({
-        type: RECEIVE_PART,
+        type: 'RECEIVE_PART',
         nick: e.nick,
         message: e.message
       })
     })
 
-    connection.on('quit', e => {
+    stream.on('quit', e => {
       dispatch({
-        type: RECEIVE_QUIT,
+        type: 'RECEIVE_QUIT',
         nick: e.nick,
         message: e.message
       })
     })
 
-    connection.on('kick', e => {
+    stream.on('kick', e => {
       console.log('kick', e)
     })
 
-    connection.on('motd', e => {
+    stream.on('motd', e => {
       dispatch({
-        type: RECEIVE_MOTD,
+        type: 'RECEIVE_MOTD',
         connectionId: id,
         motd: e.motd.join('\n')
       })
     })
 
-    connection.on('welcome', nick => {
+    stream.on('welcome', nick => {
       dispatch({
-        type: RECEIVE_WELCOME,
+        type: 'RECEIVE_WELCOME',
         connectionId: id,
         nick
       })
     })
 
-    connection.on('nick', e => {
+    stream.on('nick', e => {
       dispatch({
-        type: RECEIVE_NICK,
+        type: 'RECEIVE_NICK',
         oldNickname: e.nick,
         newNickname: e.new
       })
     })
 
-    connection.on('topic', e => {
+    stream.on('topic', e => {
       dispatch({
-        type: RECEIVE_TOPIC,
+        type: 'RECEIVE_TOPIC',
         channel: e.channel,
         topic: e.topic
       })
     })
 
-    connection.on('join', e => {
+    stream.on('join', e => {
       dispatch({
-        type: RECEIVE_JOIN,
+        type: 'RECEIVE_JOIN',
         channel: e.channel,
         from: e.nick
       })
     })
 
-    connection.on('names', e => {
+    stream.on('names', e => {
       dispatch({
-        type: RECEIVE_NAMES,
+        type: 'RECEIVE_NAMES',
         channel: e.channel,
         names: e.names
       })
     })
 
-    connection.on('message', e => {
+    stream.on('message', e => {
       if (e.to === nickname) {
         dispatch({
-          type: RECEIVE_DIRECT_MESSAGE,
+          type: 'RECEIVE_DIRECT_MESSAGE',
           from: e.from,
           message: e.message
         })
       } else {
         dispatch({
-          type: RECEIVE_CHANNEL_MESSAGE,
+          type: 'RECEIVE_CHANNEL_MESSAGE',
           channel: e.to,
           from: e.from,
           message: e.message
@@ -197,10 +182,8 @@ function createIrcStream (credentials, dispatch) {
 
   stream.on('connect', e => {
     dispatch({
-      type: REQUEST_CONNECTION.SUCCESS,
-      payload: {
-        id
-      }
+      type: 'REQUEST_CONNECTION_SUCCESS',
+      connectionId: id
     })
 
     browserHistory.push(`/connection/${id}/conversation`)
@@ -213,20 +196,16 @@ function createIrcStream (credentials, dispatch) {
     console.log('stream close', e)
     dispatch({
       type: CONNECTION_CLOSED,
-      payload: {
-        id
-      }
+      connectionId: id
     })
   })
 
   stream.on('error', e => {
     console.log('stream error', e)
     dispatch({
-      type: REQUEST_CONNECTION.ERROR,
-      payload: {
-        id: credentialsToId(credentials),
-        error: e
-      }
+      type: 'REQUEST_CONNECTION_ERROR',
+      connectionId: id,
+      error: e
     })
   })
 
