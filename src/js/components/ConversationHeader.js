@@ -17,7 +17,7 @@ class ConversationHeader extends React.Component<Props> {
       nameEl = <h2 className="channel-name vertical-center">{conversation.name}</h2>
       countEl = conversation.name[0] === '#' ? (
         <p
-          className="channel-people-counat vertical-center"
+          className="channel-people-count vertical-center"
           onClick={() => {
             this.props.onPeopleClick(people)
           }}
