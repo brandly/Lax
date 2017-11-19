@@ -1,6 +1,10 @@
 {
+  "parser": "babel-eslint",
   "extends": ["standard", "standard-react"],
+  "plugins": ["flowtype"],
   "rules": {
     "jsx-quotes": [2, "prefer-double"],
+    "react/jsx-no-bind": 0,
+    "react/prop-types": 0
   }
 }

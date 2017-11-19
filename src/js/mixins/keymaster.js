@@ -1,6 +1,6 @@
 import keymaster from 'keymaster'
 
-module.exports = {
+export default {
   // Maps shortcut strings to functions
   keyMap: {},
 

@@ -1,42 +1,64 @@
+// @flow
 import React from 'react'
-import PureRenderMixin from 'react-addons-pure-render-mixin'
-import ConnectionActions from '../actions/connection-actions'
-import contains from '../modules/contains'
+import { connect } from 'react-redux'
+import { connectToServer } from '../actions'
+import type { Dispatch } from '../flow'
 
-const ConnectionCreator = React.createClass({
-  mixins: [PureRenderMixin],
+type Props = {
+  dispatch: Dispatch
+};
 
-  storedKeys: ['realName', 'nickname', 'server', 'port'],
+type State = {
+  storedKeys: Array<string>,
+  isConnecting: boolean,
+  realName: string,
+  nickname: string,
+  server: string,
+  port: string,
+  password: string
+};
 
-  getInitialState () {
-    const state = {isConnecting: false}
-    this.storedKeys.forEach(key => {
+class ConnectionCreator extends React.Component<Props, State> {
+  constructor (props) {
+    super(props)
+    const storedKeys = ['realName', 'nickname', 'server', 'port']
+
+    const state = {
+      storedKeys,
+      isConnecting: false,
+      realName: '',
+      nickname: '',
+      server: '',
+      port: '',
+      password: ''
+    }
+
+    storedKeys.forEach(key => {
       state[key] = window.localStorage[key] || ''
     })
-    return state
-  },
+
+    this.state = state
+  }
 
   handleChange (key, event) {
     const { value } = event.target
 
-    if (contains(this.storedKeys, key)) {
+    if (this.state.storedKeys.includes(key)) {
       window.localStorage[key] = value
     }
 
     this.setState({
       [key]: value
     })
-  },
+  }
 
   handleFormSubmission (event) {
     event.preventDefault()
-    this.setState({isConnecting: true})
+    this.setState({ isConnecting: true })
 
     const { realName, nickname, password, server, port } = this.state
-    ConnectionActions.requestConnection({
-      realName, nickname, password, server, port: parseInt(port, 10)
-    })
-  },
+    this.props.dispatch(connectToServer({ realName, nickname, password, server, port: parseInt(port, 10) }))
+  }
 
   render () {
     const inputGroupClass = 'input-group'
@@ -75,40 +97,40 @@ const ConnectionCreator = React.createClass({
     ]
 
     return (
-      <form className="connection-creator" onSubmit={this.handleFormSubmission}>
+      <form className="connection-creator" onSubmit={this.handleFormSubmission.bind(this)}>
         <div className={inputGroupClass}>
           <label>Real Name</label>
           <input type="text"
-                 autoFocus
-                 required
-                 value={this.state.realName}
-                 disabled={this.state.isConnecting}
-                 onChange={this.handleChange.bind(this, 'realName')} />
+            autoFocus
+            required
+            value={this.state.realName}
+            disabled={this.state.isConnecting}
+            onChange={this.handleChange.bind(this, 'realName')} />
         </div>
 
         <div className={inputGroupClass}>
           <label>Nickname</label>
           <input type="text"
-                 required
-                 value={this.state.nickname}
-                 disabled={this.state.isConnecting}
-                 onChange={this.handleChange.bind(this, 'nickname')} />
+            required
+            value={this.state.nickname}
+            disabled={this.state.isConnecting}
+            onChange={this.handleChange.bind(this, 'nickname')} />
         </div>
 
         <div className={inputGroupClass}>
           <label>Password</label>
           <input type="password"
-                 disabled={this.state.isConnecting}
-                 onChange={this.handleChange.bind(this, 'password')} />
+            disabled={this.state.isConnecting}
+            onChange={this.handleChange.bind(this, 'password')} />
         </div>
 
         <div className={inputGroupClass}>
           <label>Server</label>
           <select required
-                  value={this.state.server}
-                  disabled={this.state.isConnecting}
-                  onChange={this.handleChange.bind(this, 'server')}>
-            <option value=""></option>
+            value={this.state.server}
+            disabled={this.state.isConnecting}
+            onChange={this.handleChange.bind(this, 'server')}>
+            <option value="" />
             {serverOptions.map((n, i) => {
               return <option value={n} key={i}>{n}</option>
             })}
@@ -118,10 +140,10 @@ const ConnectionCreator = React.createClass({
         <div className={inputGroupClass}>
           <label>Port</label>
           <input type="number"
-                 required
-                 value={this.state.port}
-                 disabled={this.state.isConnecting}
-                 onChange={this.handleChange.bind(this, 'port')} />
+            required
+            value={this.state.port}
+            disabled={this.state.isConnecting}
+            onChange={this.handleChange.bind(this, 'port')} />
         </div>
 
         <div className={inputGroupClass}>
@@ -130,6 +152,6 @@ const ConnectionCreator = React.createClass({
       </form>
     )
   }
-})
+}
 
-export default ConnectionCreator
+export default connect(state => ({}))(ConnectionCreator)

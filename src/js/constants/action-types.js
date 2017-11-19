@@ -1,6 +1,7 @@
 import keyMirror from 'keymirror'
 
-module.exports = keyMirror({
+// TODO: clean this up
+export default keyMirror({
   REQUEST_CONNECTION: null,
   RECEIVE_WELCOME: null,
 
