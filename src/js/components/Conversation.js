@@ -8,6 +8,7 @@ import type { ConversationT } from '../flow'
 
 type Props = {
   conversation: ConversationT,
+  onMessage: string => void,
   nickname: string
 };
 
@@ -52,9 +53,7 @@ class Conversation extends React.Component<Props, State> {
           <ComposeMessage
             conversation={conversation}
             nickname={nickname}
-            onMessage={msg => {
-              console.log('TODO:', msg)
-            }}
+            onMessage={this.props.onMessage}
           />
         </div>
       </div>

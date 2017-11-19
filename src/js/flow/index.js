@@ -6,7 +6,8 @@ import type {
 
 type IrcConnectionStream = {
   join: string => void,
-  nick: string => void
+  nick: string => void,
+  send: (to: string, msg: string) => void
 };
 
 export type ConnectionT = {
@@ -73,6 +74,7 @@ export type Action
   | { type: 'REQUEST_CONNECTION_SUCCESS', connectionId: string }
   | { type: 'REQUEST_CONNECTION_ERROR', connectionId: string, error: string }
   | { type: 'CONNECTION_CLOSED', connectionId: string }
+  | { type: 'SEND_MESSAGE', connectionId: string, from: string, to: string, message: string }
   | { type: 'RECEIVE_DIRECT_MESSAGE', from: string, message: string }
   | { type: 'RECEIVE_CHANNEL_MESSAGE', channel: string, from: string, message: string }
   | { type: 'RECEIVE_AWAY', message: string, nick: string }

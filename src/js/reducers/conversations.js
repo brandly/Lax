@@ -60,6 +60,14 @@ function list (
         to: action.nick,
         when: new Date()
       })
+    case 'SEND_MESSAGE':
+      return addMessageToIdInList(state, action.to, {
+        type: 'priv',
+        text: action.message,
+        from: action.from,
+        to: action.to,
+        when: new Date()
+      })
     case RECEIVE_DIRECT_MESSAGE:
       return addMessageToIdInList(state, action.from, {
         type: 'priv',

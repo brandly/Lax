@@ -12,7 +12,8 @@ import {
   getConversationByName
 } from '../reducers/selectors'
 import {
-  commandJoin
+  commandJoin,
+  sendMessage
 } from '../actions'
 import type {
   Dispatch,
@@ -79,6 +80,13 @@ class Connection extends React.Component<Props> {
         <Conversation
           nickname={connection.nickname}
           conversation={conversation}
+          onMessage={message => {
+            dispatch(sendMessage({
+              connectionId: connection.id,
+              to: conversation.name,
+              message
+            }))
+          }}
         />
       </div>
     )
