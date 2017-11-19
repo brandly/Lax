@@ -22,7 +22,7 @@ test('connection success creates conversation', () => {
   const id = 'fake'
   const { list } = apply([{
     type: REQUEST_CONNECTION.SUCCESS,
-    payload: {
+    connection: {
       id
     }
   }])
@@ -36,15 +36,13 @@ test('RECEIVE_JOIN adds someone to conversation.people and messages the channel'
   const id = 'abc123'
   const { list } = apply([{
     type: REQUEST_CONNECTION.SUCCESS,
-    payload: {
+    connection: {
       id
     }
   }, {
     type: RECEIVE_JOIN,
-    payload: {
-      channel: id,
-      from: 'matt'
-    }
+    channel: id,
+    from: 'matt'
   }])
 
   expect(list[0].messages.length).toBe(1)
@@ -59,26 +57,20 @@ test('RECEIVE_QUIT removes someone from relevant convos and messages the channel
 
   const { list } = apply([{
     type: REQUEST_CONNECTION.SUCCESS,
-    payload: {
+    connection: {
       id
     }
   }, {
     type: COMMAND.join,
-    payload: {
-      name: channel
-    }
+    name: channel
   }, {
     type: RECEIVE_JOIN,
-    payload: {
-      channel,
-      from: nick
-    }
+    channel,
+    from: nick
   }, {
     type: RECEIVE_QUIT,
-    payload: {
-      nick,
-      message: 'im gone'
-    }
+    nick,
+    message: 'im gone'
   }])
 
   expect(list.length).toBe(2)

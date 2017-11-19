@@ -2,7 +2,6 @@
 import { combineReducers } from 'redux'
 import {
   RECEIVE_CHANNEL_MESSAGE,
-  REQUEST_CONNECTION,
   RECEIVE_DIRECT_MESSAGE,
   RECEIVE_JOIN,
   RECEIVE_MOTD,
@@ -17,25 +16,26 @@ import {
 import type {
   ConversationT,
   MessageT,
+  PersonT,
   Action
 } from '../flow'
 
 function list (
   state : Array<ConversationT> = [],
-  { payload, type } : Action
+  action : Action
 ) : Array<ConversationT> {
-  switch (type) {
-    case REQUEST_CONNECTION.SUCCESS:
+  switch (action.type) {
+    case 'REQUEST_CONNECTION_SUCCESS':
       return state.concat([{
         type: 'CONNECTION',
-        name: payload.id,
+        name: action.connection.id,
         messages: [],
         people: []
       }])
     case RECEIVE_MOTD:
-      return addMessageToIdInList(state, payload.connectionId, {
+      return addMessageToIdInList(state, action.connectionId, {
         type: 'motd',
-        text: payload.motd,
+        text: action.motd,
         from: '',
         to: '',
         when: new Date()
@@ -43,93 +43,100 @@ function list (
     case RECEIVE_NOTICE:
       return addMessageToIdInList(
         state,
-        payload.to === '*' ? payload.connectionId : payload.to,
+        action.to === '*' ? action.connectionId : action.to,
         {
           type: 'notice',
-          text: payload.message,
-          from: payload.from,
-          to: payload.to,
+          text: action.message,
+          from: action.from,
+          to: action.to,
           when: new Date()
         }
       )
     case RECEIVE_WELCOME:
-      return addMessageToIdInList(state, payload.connectionId, {
+      return addMessageToIdInList(state, action.connectionId, {
         type: 'welcome',
         text: '',
         from: '',
-        to: payload.nick,
+        to: action.nick,
         when: new Date()
       })
     case RECEIVE_DIRECT_MESSAGE:
-      return addMessageToIdInList(state, payload.from, {
+      return addMessageToIdInList(state, action.from, {
         type: 'priv',
-        text: payload.message,
-        from: payload.from,
+        text: action.message,
+        from: action.from,
         to: '',
         when: new Date()
       })
     case RECEIVE_CHANNEL_MESSAGE:
-      return addMessageToIdInList(state, payload.channel, {
+      return addMessageToIdInList(state, action.channel, {
         type: 'priv',
-        text: payload.message,
-        from: payload.from,
-        to: payload.channel,
+        text: action.message,
+        from: action.from,
+        to: action.channel,
         when: new Date()
       })
     case COMMAND.join:
       return state.concat([{
         type: 'CHANNEL',
-        name: payload.name,
+        name: action.name,
         messages: [],
         people: []
       }])
-    case RECEIVE_NAMES:
-      return updateIdInList(state, payload.channel, convo => Object.assign({}, convo, {
-        people: payload.names
+    case RECEIVE_NAMES: {
+      const { names } = action
+      return updateIdInList(state, action.channel, convo => Object.assign({}, convo, {
+        people: names
       }))
-    case RECEIVE_JOIN:
-      return updateIdInList(state, payload.channel, convo => Object.assign({}, convo, {
+    }
+    case RECEIVE_JOIN: {
+      const { channel, from } = action
+      return updateIdInList(state, channel, convo => Object.assign({}, convo, {
         people: convo.people.concat({
-          name: payload.from,
-          mode: '' // TODO: ensure this structure is correct
+          name: from,
+          mode: ''
         }),
         messages: convo.messages.concat({
           type: 'join',
           text: '',
-          from: payload.from,
-          to: payload.channel,
+          from: from,
+          to: channel,
           when: new Date()
         })
       }))
-    case RECEIVE_QUIT:
+    }
+    case RECEIVE_QUIT: {
+      // TODO: flow isn't happy unless i pull these off early, hmmmm
+      const { nick, message } = action
       return applyToConversationsWhere(
         state,
-        convo => convo.people.map(p => p.name).includes(payload.nick),
+        convo => convo.people.map((p : PersonT) : string => p.name).includes(nick),
         convo => Object.assign({}, convo, {
-          people: convo.people.filter(person => person.name !== payload.nick),
+          people: convo.people.filter(person => person.name !== nick),
           messages: convo.messages.concat([{
             type: 'quit',
-            text: payload.message,
-            from: payload.nick,
+            text: message,
+            from: nick,
             to: '',
             when: new Date()
           }])
         })
       )
+    }
     case RECEIVE_PART:
-      return addMessageToIdInList(state, payload.nick, {
+      return addMessageToIdInList(state, action.nick, {
         type: 'part',
-        text: payload.message,
-        from: payload.nick,
+        text: action.message,
+        from: action.nick,
         to: '',
         when: new Date()
       })
     case RECEIVE_TOPIC:
-      return addMessageToIdInList(state, payload.channel, {
+      return addMessageToIdInList(state, action.channel, {
         type: 'topic',
-        text: payload.topic,
-        from: payload.channel,
-        to: payload.channel,
+        text: action.topic,
+        from: action.channel,
+        to: action.channel,
         when: new Date()
       })
     // case RECEIVE_NICK:
@@ -185,7 +192,7 @@ function applyToConversationsWhere (
   list : Array<ConversationT>,
   predicate : ConversationT => boolean,
   update : ConversationT => ConversationT
-) {
+) : Array<ConversationT> {
   return list.map(item =>
     predicate(item) ? update(item) : item
   )

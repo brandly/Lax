@@ -39,7 +39,7 @@ export const connectToServer = (credentials: Creds) : Thunk => {
 
     dispatch({
       type: REQUEST_CONNECTION.PENDING,
-      payload: {
+      connection: {
         id,
         isConnected: false,
         isWelcome: false,
@@ -80,42 +80,34 @@ export const connectToServer = (credentials: Creds) : Thunk => {
 
       dispatch({
         type: RECEIVE_NOTICE,
-        payload: {
-          connectionId: id,
-          from: e.from,
-          to,
-          message
-        }
+        connectionId: id,
+        from: e.from,
+        to,
+        message
       })
     })
 
     connection.on('away', e => {
       dispatch({
         type: RECEIVE_AWAY,
-        payload: {
-          nick: e.nick,
-          message: e.message
-        }
+        nick: e.nick,
+        message: e.message
       })
     })
 
     connection.on('part', e => {
       dispatch({
         type: RECEIVE_PART,
-        payload: {
-          nick: e.nick,
-          message: e.message
-        }
+        nick: e.nick,
+        message: e.message
       })
     })
 
     connection.on('quit', e => {
       dispatch({
         type: RECEIVE_QUIT,
-        payload: {
-          nick: e.nick,
-          message: e.message
-        }
+        nick: e.nick,
+        message: e.message
       })
     })
 
@@ -126,60 +118,48 @@ export const connectToServer = (credentials: Creds) : Thunk => {
     connection.on('motd', e => {
       dispatch({
         type: RECEIVE_MOTD,
-        payload: {
-          connectionId: id,
-          motd: e.motd.join('\n')
-        }
+        connectionId: id,
+        motd: e.motd.join('\n')
       })
     })
 
     connection.on('welcome', nick => {
       dispatch({
         type: RECEIVE_WELCOME,
-        payload: {
-          connectionId: id,
-          nick
-        }
+        connectionId: id,
+        nick
       })
     })
 
     connection.on('nick', e => {
       dispatch({
         type: RECEIVE_NICK,
-        payload: {
-          oldNickname: e.nick,
-          newNickname: e.new
-        }
+        oldNickname: e.nick,
+        newNickname: e.new
       })
     })
 
     connection.on('topic', e => {
       dispatch({
         type: RECEIVE_TOPIC,
-        payload: {
-          channel: e.channel,
-          topic: e.topic
-        }
+        channel: e.channel,
+        topic: e.topic
       })
     })
 
     connection.on('join', e => {
       dispatch({
         type: RECEIVE_JOIN,
-        payload: {
-          channel: e.channel,
-          from: e.nick
-        }
+        channel: e.channel,
+        from: e.nick
       })
     })
 
     connection.on('names', e => {
       dispatch({
         type: RECEIVE_NAMES,
-        payload: {
-          channel: e.channel,
-          names: e.names
-        }
+        channel: e.channel,
+        names: e.names
       })
     })
 
@@ -187,19 +167,15 @@ export const connectToServer = (credentials: Creds) : Thunk => {
       if (e.to === nickname) {
         dispatch({
           type: RECEIVE_DIRECT_MESSAGE,
-          payload: {
-            from: e.from,
-            message: e.message
-          }
+          from: e.from,
+          message: e.message
         })
       } else {
         dispatch({
           type: RECEIVE_CHANNEL_MESSAGE,
-          payload: {
-            channel: e.to,
-            from: e.from,
-            message: e.message
-          }
+          channel: e.to,
+          from: e.from,
+          message: e.message
         })
       }
     })

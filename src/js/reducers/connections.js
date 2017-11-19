@@ -2,25 +2,27 @@
 /* global $Shape */
 import { combineReducers } from 'redux'
 import {
-  REQUEST_CONNECTION,
   RECEIVE_WELCOME
 } from '../actions'
-import type { ConnectionT } from '../flow'
+import type { ConnectionT, Action } from '../flow'
 
-function list (state : Array<ConnectionT> = [], { type, payload }) : Array<ConnectionT> {
-  switch (type) {
-    case REQUEST_CONNECTION.PENDING:
-      return updateIdInList(state, payload.id, payload)
-    case REQUEST_CONNECTION.SUCCESS:
-      return updateIdInList(state, payload.id, {
+function list (
+  state : Array<ConnectionT> = [],
+  action : Action
+) : Array<ConnectionT> {
+  switch (action.type) {
+    case 'REQUEST_CONNECTION_PENDING':
+      return updateIdInList(state, action.connection.id, action.connection)
+    case 'REQUEST_CONNECTION_SUCCESS':
+      return updateIdInList(state, action.connection.id, {
         isConnected: true
       })
-    case REQUEST_CONNECTION.ERROR:
-      return updateIdInList(state, payload.id, {
-        error: payload.error
+    case 'REQUEST_CONNECTION_ERROR':
+      return updateIdInList(state, action.connection.id, {
+        error: action.error
       })
     case RECEIVE_WELCOME:
-      return updateIdInList(state, payload.connectionId, {
+      return updateIdInList(state, action.connectionId, {
         isWelcome: true
       })
     default:
