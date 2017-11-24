@@ -4,7 +4,7 @@ import type { Action } from '../src/js/flow'
 declare var test : any;
 declare var expect : any;
 
-const apply = (actions : Array<Action>, initial = {}) =>
+const apply = (actions: Array<Action>, initial = {}) =>
   actions.reduce(conversationsReducer, initial)
 
 test('connection success creates conversation', () => {

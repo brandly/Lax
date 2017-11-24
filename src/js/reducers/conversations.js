@@ -1,29 +1,15 @@
 // @flow
 import { combineReducers } from 'redux'
-import {
-  RECEIVE_CHANNEL_MESSAGE,
-  RECEIVE_DIRECT_MESSAGE,
-  RECEIVE_JOIN,
-  RECEIVE_MOTD,
-  RECEIVE_NAMES,
-  RECEIVE_NOTICE,
-  RECEIVE_PART,
-  RECEIVE_QUIT,
-  RECEIVE_TOPIC,
-  RECEIVE_WELCOME,
-  COMMAND
-} from '../actions'
 import type {
   ConversationT,
   MessageT,
-  PersonT,
   Action
 } from '../flow'
 
 function list (
-  state : Array<ConversationT> = [],
-  action : Action
-) : Array<ConversationT> {
+  state: Array<ConversationT> = [],
+  action: Action
+): Array<ConversationT> {
   switch (action.type) {
     case 'REQUEST_CONNECTION_SUCCESS':
       return state.concat([{
@@ -32,7 +18,7 @@ function list (
         messages: [],
         people: []
       }])
-    case RECEIVE_MOTD:
+    case 'RECEIVE_MOTD':
       return addMessageToIdInList(state, action.connectionId, {
         type: 'motd',
         text: action.motd,
@@ -40,7 +26,7 @@ function list (
         to: '',
         when: new Date()
       })
-    case RECEIVE_NOTICE:
+    case 'RECEIVE_NOTICE':
       return addMessageToIdInList(
         state,
         action.to === '*' ? action.connectionId : action.to,
@@ -52,7 +38,7 @@ function list (
           when: new Date()
         }
       )
-    case RECEIVE_WELCOME:
+    case 'RECEIVE_WELCOME':
       return addMessageToIdInList(state, action.connectionId, {
         type: 'welcome',
         text: '',
@@ -68,7 +54,7 @@ function list (
         to: action.to,
         when: new Date()
       })
-    case RECEIVE_DIRECT_MESSAGE:
+    case 'RECEIVE_DIRECT_MESSAGE':
       return addMessageToIdInList(state, action.from, {
         type: 'priv',
         text: action.message,
@@ -76,7 +62,7 @@ function list (
         to: '',
         when: new Date()
       })
-    case RECEIVE_CHANNEL_MESSAGE:
+    case 'RECEIVE_CHANNEL_MESSAGE':
       return addMessageToIdInList(state, action.channel, {
         type: 'priv',
         text: action.message,
@@ -84,20 +70,20 @@ function list (
         to: action.channel,
         when: new Date()
       })
-    case COMMAND.join:
+    case 'COMMAND_JOIN':
       return state.concat([{
         type: 'CHANNEL',
         name: action.name,
         messages: [],
         people: []
       }])
-    case RECEIVE_NAMES: {
+    case 'RECEIVE_NAMES': {
       const { names } = action
       return updateIdInList(state, action.channel, convo => Object.assign({}, convo, {
         people: names
       }))
     }
-    case RECEIVE_JOIN: {
+    case 'RECEIVE_JOIN': {
       const { channel, from } = action
       return updateIdInList(state, channel, convo => Object.assign({}, convo, {
         people: convo.people.concat({
@@ -113,12 +99,12 @@ function list (
         })
       }))
     }
-    case RECEIVE_QUIT: {
+    case 'RECEIVE_QUIT': {
       // TODO: flow isn't happy unless i pull these off early, hmmmm
       const { nick, message } = action
-      return applyToConversationsWhere(
+      return applyToListWhere(
         state,
-        convo => convo.people.map((p : PersonT) : string => p.name).includes(nick),
+        convo => convo.people.map(p => p.name).includes(nick),
         convo => Object.assign({}, convo, {
           people: convo.people.filter(person => person.name !== nick),
           messages: convo.messages.concat([{
@@ -131,7 +117,7 @@ function list (
         })
       )
     }
-    case RECEIVE_PART:
+    case 'RECEIVE_PART':
       return addMessageToIdInList(state, action.nick, {
         type: 'part',
         text: action.message,
@@ -139,7 +125,7 @@ function list (
         to: '',
         when: new Date()
       })
-    case RECEIVE_TOPIC:
+    case 'RECEIVE_TOPIC':
       return addMessageToIdInList(state, action.channel, {
         type: 'topic',
         text: action.topic,
@@ -155,24 +141,24 @@ function list (
 }
 
 function addMessageToIdInList (
-  state : Array<ConversationT>,
-  id : string,
-  message : MessageT
-) : Array<ConversationT> {
+  state: Array<ConversationT>,
+  id: string,
+  message: MessageT
+): Array<ConversationT> {
   return updateIdInList(
     state,
     id,
-    (convo : ConversationT) : ConversationT => Object.assign({}, convo, {
+    convo => Object.assign({}, convo, {
       messages: convo.messages.concat([ message ])
     })
   )
 }
 
 function updateIdInList (
-  state : Array<ConversationT>,
-  id : string,
-  update : ConversationT => ConversationT
-) : Array<ConversationT> {
+  state: Array<ConversationT>,
+  id: string,
+  update: ConversationT => ConversationT
+): Array<ConversationT> {
   let foundOne = false
 
   const result = state.map(conversation => {
@@ -196,11 +182,11 @@ function updateIdInList (
   }
 }
 
-function applyToConversationsWhere (
-  list : Array<ConversationT>,
-  predicate : ConversationT => boolean,
-  update : ConversationT => ConversationT
-) : Array<ConversationT> {
+function applyToListWhere<T> (
+  list: Array<T>,
+  predicate: T => boolean,
+  update: T => T
+): Array<T> {
   return list.map(item =>
     predicate(item) ? update(item) : item
   )

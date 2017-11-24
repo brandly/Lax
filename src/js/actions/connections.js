@@ -14,7 +14,7 @@ type Creds = {
   password: string
 };
 
-export const connectToServer = (credentials: Creds) : Thunk => {
+export const connectToServer = (credentials: Creds): Thunk => {
   const { realName, nickname, server, port } = credentials
 
   return dispatch => {

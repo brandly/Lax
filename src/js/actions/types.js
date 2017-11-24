@@ -16,18 +16,3 @@ export const COMMAND = {
   help: 'COMMAND_HELP',
   unrecognized: 'COMMAND_UNRECOGNIZED'
 }
-
-// REQUEST_CONNECTION: null,
-// RECEIVE_WELCOME: null,
-// SELECT_CHANNEL: null,
-// RECEIVE_NAMES: null,
-// RECEIVE_MESSAGE: null,
-// RECEIVE_DIRECT_MESSAGE: null,
-// SEND_MESSAGE: null,
-// RECEIVE_NOTICE: null,
-// RECEIVE_JOIN: null,
-// RECEIVE_AWAY: null,
-// RECEIVE_PART: null,
-// RECEIVE_QUIT: null,
-// RECEIVE_TOPIC: null,
-// RECEIVE_NICK: null

@@ -89,7 +89,7 @@ class ConversationList extends React.Component<Props> {
   }
 }
 
-export default connect((state: IrcState, ownProps) : $Shape<Props> => {
+export default connect((state: IrcState, ownProps): $Shape<Props> => {
   const { connectionId, selectedConversationId } = ownProps
   const conversations = getConversationsForConnection(state, connectionId)
 

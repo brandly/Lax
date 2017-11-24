@@ -93,7 +93,7 @@ class Connection extends React.Component<Props> {
   }
 }
 
-export default connect((state: IrcState, ownProps) : $Shape<Props> => {
+export default connect((state: IrcState, ownProps): $Shape<Props> => {
   const { connectionId, conversationId } = ownProps.params
 
   const connection = getConnectionById(state, connectionId)

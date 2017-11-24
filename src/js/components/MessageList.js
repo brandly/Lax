@@ -108,11 +108,11 @@ class MessageList extends React.Component<Props, State> {
   }
 }
 
-function formatDate (d: Date) : string {
+function formatDate (d: Date): string {
   return `${twoDigits(d.getHours())}:${twoDigits(d.getMinutes())}:${twoDigits(d.getSeconds())}`
 }
 
-function twoDigits (str: string | number) : string {
+function twoDigits (str: string | number): string {
   str = '' + str
   return (str.length < 2) ? ('0' + str) : str
 }
