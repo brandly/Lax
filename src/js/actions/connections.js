@@ -84,7 +84,8 @@ export const connectToServer = (credentials: Creds): Thunk => {
       dispatch({
         type: 'RECEIVE_PART',
         nick: e.nick,
-        message: e.message
+        message: e.message,
+        channels: e.channels
       })
     })
 

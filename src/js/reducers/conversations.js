@@ -117,14 +117,23 @@ function list (
         })
       )
     }
-    case 'RECEIVE_PART':
-      return addMessageToIdInList(state, action.nick, {
-        type: 'part',
-        text: action.message,
-        from: action.nick,
-        to: '',
-        when: new Date()
-      })
+    case 'RECEIVE_PART': {
+      const { nick, message, channels } = action
+      return applyToListWhere(
+        state,
+        convo => channels.includes(convo.name),
+        convo => Object.assign({}, convo, {
+          people: convo.people.filter(person => person.name !== nick),
+          messages: convo.messages.concat({
+            type: 'part',
+            text: message,
+            from: nick,
+            to: '',
+            when: new Date()
+          })
+        })
+      )
+    }
     case 'RECEIVE_TOPIC':
       return addMessageToIdInList(state, action.channel, {
         type: 'topic',
@@ -134,7 +143,22 @@ function list (
         when: new Date()
       })
     // case RECEIVE_NICK:
-    // case RECEIVE_AWAY:
+    case 'RECEIVE_AWAY': {
+      const { message, nick } = action
+      return applyToListWhere(
+        state,
+        convo => convo.people.map(p => p.name).includes(nick),
+        convo => Object.assign({}, convo, {
+          messages: convo.messages.concat({
+            type: 'away',
+            text: message,
+            from: nick,
+            to: '',
+            when: new Date()
+          })
+        })
+      )
+    }
     default:
       return state
   }

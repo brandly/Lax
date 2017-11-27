@@ -34,9 +34,10 @@ type MessageType
   | 'welcome'
   | 'topic'
   | 'flow'
+  | 'join'
+  | 'away'
   | 'part'
   | 'quit'
-  | 'join'
   ;
 
 export type MessageT = {
@@ -83,7 +84,7 @@ export type Action
   | { type: 'RECEIVE_NAMES', channel: string, names: Array<PersonT> }
   | { type: 'RECEIVE_NICK', oldNickname: string, newNickname: string }
   | { type: 'RECEIVE_NOTICE', connectionId: string, to: string, from: string, message: string }
-  | { type: 'RECEIVE_PART', message: string, nick: string }
+  | { type: 'RECEIVE_PART', message: string, nick: string, channels: Array<string> }
   | { type: 'RECEIVE_QUIT', message: string, nick: string }
   | { type: 'RECEIVE_TOPIC', channel: string, topic: string }
   | { type: 'RECEIVE_WELCOME', connectionId: string, nick: string }
