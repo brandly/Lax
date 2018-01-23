@@ -35,7 +35,7 @@
     "babel-eslint": "8.0.2",
     "babel-jest": "21.2.0",
     "babel-preset-flow": "6.23.0",
-    "electron": "1.7.9",
+    "electron": "1.7.11",
     "electron-devtools-installer": "2.2.1",
     "eslint": "4.11.0",
     "eslint-config-standard": "10.2.1",
