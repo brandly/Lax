@@ -62,11 +62,11 @@ function createCommand (connection: ConnectionT, message: string): Dispatchable 
       return sendMessage(connection, to, dm)
     }
     default:
-      console.error('TODO: handle unexected command')
+      console.error('TODO: handle unexpected command')
       return {
         type: 'RECEIVE_DIRECT_MESSAGE',
         from: connection.nickname,
-        message: `unexected command ${words[0]}`
+        message: `unexpected command ${words[0]}`
       }
   }
 }
