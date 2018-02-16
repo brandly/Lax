@@ -25,7 +25,7 @@ import type {
 type Props = {
   dispatch: Dispatch,
   connection: ConnectionT,
-  conversation: ConversationT
+  conversation?: ConversationT
 };
 
 class Connection extends React.Component<Props> {
@@ -65,7 +65,7 @@ class Connection extends React.Component<Props> {
               onSelectConversation={name => {
                 this.viewConversation(name)
               }}
-              selectedConversationId={conversation.name}
+              selectedConversationId={conversation && conversation.name}
             />
             {connection.isWelcome ? (
               <JoinConversation
@@ -77,17 +77,19 @@ class Connection extends React.Component<Props> {
             ) : null}
           </div>
         </div>
-        <Conversation
-          nickname={connection.nickname}
-          conversation={conversation}
-          onMessage={message => {
-            dispatch(sendMessage({
-              connectionId: connection.id,
-              to: conversation.name,
-              message
-            }))
-          }}
-        />
+        {conversation ? (
+          <Conversation
+            nickname={connection.nickname}
+            conversation={conversation}
+            onMessage={message => {
+              dispatch(sendMessage({
+                connectionId: connection.id,
+                to: conversation.name,
+                message
+              }))
+            }}
+          />
+        ) : null}
       </div>
     )
   }

@@ -62,3 +62,21 @@ test('RECEIVE_QUIT removes someone from relevant convos and messages the channel
   expect(convo.messages[1].type).toBe('quit')
   expect(convo.people.length).toBe(0)
 })
+
+test('RECEIVE_JOIN for ##programming removes #programming convo', () => {
+  const id = 'abc123'
+
+  const { list } = apply([{
+    type: 'REQUEST_CONNECTION_SUCCESS',
+    connectionId: id
+  }, {
+    type: 'COMMAND_JOIN',
+    name: '#programming'
+  }, {
+    type: 'RECEIVE_JOIN',
+    channel: '##programming',
+    from: 'nick'
+  }])
+
+  expect(list.length).toBe(2)
+})

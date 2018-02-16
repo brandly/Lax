@@ -58,7 +58,8 @@ export type ConversationT = {
   type: ConversationType,
   name: string,
   messages: Array<MessageT>,
-  people: Array<PersonT>
+  people: Array<PersonT>,
+  receivedJoin: boolean
 };
 
 export type IrcState = {

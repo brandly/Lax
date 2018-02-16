@@ -16,7 +16,8 @@ function list (
         type: 'CONNECTION',
         name: action.connectionId,
         messages: [],
-        people: []
+        people: [],
+        receivedJoin: true
       }])
     case 'RECEIVE_MOTD':
       return addMessageToIdInList(state, action.connectionId, {
@@ -75,17 +76,21 @@ function list (
         type: 'CHANNEL',
         name: action.name,
         messages: [],
-        people: []
+        people: [],
+        receivedJoin: false
       }])
     case 'RECEIVE_NAMES': {
-      const { names } = action
-      return updateIdInList(state, action.channel, convo => Object.assign({}, convo, {
+      const { names, channel } = action
+      return updateIdInList(state, channel, convo => Object.assign({}, convo, {
+        type: channel[0] === '#' ? 'CHANNEL' : 'DIRECT',
         people: names
       }))
     }
     case 'RECEIVE_JOIN': {
       const { channel, from } = action
       return updateIdInList(state, channel, convo => Object.assign({}, convo, {
+        type: channel[0] === '#' ? 'CHANNEL' : 'DIRECT',
+        receivedJoin: true,
         people: convo.people.concat({
           name: from,
           mode: ''
@@ -97,7 +102,9 @@ function list (
           to: channel,
           when: new Date()
         })
-      }))
+      })).filter(convo =>
+        convo.receivedJoin || withoutLeadingHash(channel) !== withoutLeadingHash(convo.name)
+      )
     }
     case 'RECEIVE_QUIT': {
       // TODO: flow isn't happy unless i pull these off early, hmmmm
@@ -201,7 +208,8 @@ function updateIdInList (
       type: 'DIRECT',
       name: id,
       messages: [],
-      people: []
+      people: [],
+      receivedJoin: true
     })])
   }
 }
@@ -214,6 +222,13 @@ function applyToListWhere<T> (
   return list.map(item =>
     predicate(item) ? update(item) : item
   )
+}
+
+function withoutLeadingHash (str: string): string {
+  while (str[0] === '#') {
+    str = str.slice(1)
+  }
+  return str
 }
 
 export default combineReducers({
