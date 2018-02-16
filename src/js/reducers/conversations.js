@@ -82,14 +82,12 @@ function list (
     case 'RECEIVE_NAMES': {
       const { names, channel } = action
       return updateIdInList(state, channel, convo => Object.assign({}, convo, {
-        type: channel[0] === '#' ? 'CHANNEL' : 'DIRECT',
         people: names
       }))
     }
     case 'RECEIVE_JOIN': {
       const { channel, from } = action
       return updateIdInList(state, channel, convo => Object.assign({}, convo, {
-        type: channel[0] === '#' ? 'CHANNEL' : 'DIRECT',
         receivedJoin: true,
         people: convo.people.concat({
           name: from,
@@ -205,7 +203,7 @@ function updateIdInList (
     return result
   } else {
     return result.concat([update({
-      type: 'DIRECT',
+      type: id[0] === '#' ? 'CHANNEL' : 'DIRECT',
       name: id,
       messages: [],
       people: [],

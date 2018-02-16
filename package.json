@@ -9,7 +9,7 @@
     "test": "npm run lint & npm run flow & npm run jest",
     "lint": "eslint src/ test/",
     "jest": "jest",
-    "flow": "flow"
+    "flow": "glow"
   },
   "main": "index.js",
   "main-html": "src/index.html",
@@ -48,6 +48,7 @@
     "eslint-plugin-react": "7.4.0",
     "eslint-plugin-standard": "3.0.1",
     "flow-bin": "0.59.0",
+    "glow": "1.2.2",
     "jest": "21.2.1",
     "redux-logger": "3.0.6"
   }

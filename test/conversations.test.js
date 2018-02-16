@@ -19,16 +19,20 @@ test('connection success creates conversation', () => {
   expect(list[0].name).toBe(id)
 })
 
+const withConnection = (actions: Array<Action>): Array<Action> => {
+  return [{
+    type: 'REQUEST_CONNECTION_SUCCESS',
+    connectionId: 'abc123'
+  }].concat(actions)
+}
+
 test('RECEIVE_JOIN adds someone to conversation.people and messages the channel', () => {
   const id = 'abc123'
-  const { list } = apply([{
-    type: 'REQUEST_CONNECTION_SUCCESS',
-    connectionId: id
-  }, {
+  const { list } = apply(withConnection([{
     type: 'RECEIVE_JOIN',
     channel: id,
     from: 'matt'
-  }])
+  }]))
 
   expect(list[0].messages.length).toBe(1)
   expect(list[0].messages[0].type).toBe('join')
@@ -36,14 +40,10 @@ test('RECEIVE_JOIN adds someone to conversation.people and messages the channel'
 })
 
 test('RECEIVE_QUIT removes someone from relevant convos and messages the channels', () => {
-  const id = 'abc123'
   const channel = '#jest'
   const nick = 'matt'
 
-  const { list } = apply([{
-    type: 'REQUEST_CONNECTION_SUCCESS',
-    connectionId: id
-  }, {
+  const { list } = apply(withConnection([{
     type: 'COMMAND_JOIN',
     name: channel
   }, {
@@ -54,7 +54,7 @@ test('RECEIVE_QUIT removes someone from relevant convos and messages the channel
     type: 'RECEIVE_QUIT',
     nick,
     message: 'im gone'
-  }])
+  }]))
 
   expect(list.length).toBe(2)
   const convo = list[1]
@@ -66,17 +66,15 @@ test('RECEIVE_QUIT removes someone from relevant convos and messages the channel
 test('RECEIVE_JOIN for ##programming removes #programming convo', () => {
   const id = 'abc123'
 
-  const { list } = apply([{
-    type: 'REQUEST_CONNECTION_SUCCESS',
-    connectionId: id
-  }, {
+  const { list } = apply(withConnection([{
     type: 'COMMAND_JOIN',
     name: '#programming'
   }, {
     type: 'RECEIVE_JOIN',
     channel: '##programming',
     from: 'nick'
-  }])
+  }]))
 
   expect(list.length).toBe(2)
+  expect(list[1].type).toBe('CHANNEL')
 })
