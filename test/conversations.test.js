@@ -64,8 +64,6 @@ test('RECEIVE_QUIT removes someone from relevant convos and messages the channel
 })
 
 test('RECEIVE_JOIN for ##programming removes #programming convo', () => {
-  const id = 'abc123'
-
   const { list } = apply(withConnection([{
     type: 'COMMAND_JOIN',
     name: '#programming'

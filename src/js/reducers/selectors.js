@@ -10,6 +10,5 @@ export function getConversationByName (state: IrcState, conversationId: string) 
 }
 
 export function getConversationsForConnection (state: IrcState, id: string) {
-  // TODO:
-  return state.conversations.list.filter(c => ['DIRECT', 'CHANNEL'].includes(c.type))
+  return state.conversations.list.filter(c => c.type !== 'CONNECTION')
 }

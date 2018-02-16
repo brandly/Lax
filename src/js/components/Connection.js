@@ -13,7 +13,7 @@ import {
 } from '../reducers/selectors'
 import {
   commandJoin,
-  sendMessage
+  createMessage
 } from '../actions'
 import type {
   Dispatch,
@@ -82,9 +82,9 @@ class Connection extends React.Component<Props> {
             nickname={connection.nickname}
             conversation={conversation}
             onMessage={message => {
-              dispatch(sendMessage({
+              dispatch(createMessage({
                 connectionId: connection.id,
-                to: conversation.name,
+                conversationName: conversation.name,
                 message
               }))
             }}
