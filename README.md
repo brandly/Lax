@@ -6,3 +6,9 @@
 $ npm install
 $ npm start
 ```
+
+to start this thing with react/redux devtools
+
+```shell
+$ npm run dev
+```

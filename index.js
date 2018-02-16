@@ -27,7 +27,7 @@ function createWindow () {
     win = null
   })
 
-  if (process.env.NODE_ENV !== 'production') {
+  if (process.env.NODE_ENV === 'development') {
     const { default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer')
 
     installExtension([ REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS ])

@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "start": "electron ./",
+    "dev": "NODE_ENV=development npm start",
     "test": "npm run lint & npm run flow & npm run jest",
     "lint": "eslint src/ test/",
     "jest": "jest",
