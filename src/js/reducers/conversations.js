@@ -139,6 +139,9 @@ function list (
         })
       )
     }
+    case 'COMMAND_PART': {
+      return state.filter(convo => convo.name !== action.channel)
+    }
     case 'RECEIVE_TOPIC':
       return addMessageToIdInList(state, action.channel, {
         type: 'topic',

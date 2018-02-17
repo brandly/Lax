@@ -45,7 +45,8 @@ function createCommand (connection: ConnectionT, conversationName: string, messa
       return commandMe(connection.id, conversationName, words.slice(1).join(' '))
     case '/nick':
       return commandNick(connection.id, words[1])
-    // case '/part':
+    case '/part':
+      return commandPart(connection.id, words[1])
     // case '/partall':
     // case '/ping':
     // case '/query':
@@ -113,6 +114,21 @@ export function commandNick (connectionId: string, newNickname: string): Dispatc
       dispatch({
         type: 'COMMAND_NICK',
         newNickname
+      })
+    }
+  }
+}
+
+function commandPart (connectionId: string, channel: string): Dispatchable {
+  return (dispatch, getState) => {
+    const connection = getConnectionById(getState(), connectionId)
+
+    if (connection) {
+      connection.stream.part([channel])
+
+      dispatch({
+        type: 'COMMAND_PART',
+        channel
       })
     }
   }

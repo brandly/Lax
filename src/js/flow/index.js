@@ -9,7 +9,8 @@ type IrcConnectionStream = {
   nick: string => void,
   send: (to: string, msg: string) => void,
   notice: (string, string) => void,
-  action: (target: string, msg: string) => void
+  action: (target: string, msg: string) => void,
+  part: (channel: Array<string>) => void
 };
 
 export type ConnectionT = {
@@ -95,6 +96,7 @@ export type Action
   | { type: 'COMMAND_ME', target: string, message: string }
   | { type: 'COMMAND_NICK', newNickname: string }
   | { type: 'COMMAND_NOTICE', to: string, message: string }
+  | { type: 'COMMAND_PART', channel: string }
   ;
 
 export type Store = ReduxStore<IrcState, Action>;
