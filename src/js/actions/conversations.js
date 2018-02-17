@@ -17,7 +17,7 @@ export function createMessage ({
 
     if (connection) {
       if (message[0] === '/') {
-        dispatch(createCommand(connection, message))
+        dispatch(createCommand(connection, conversationName, message))
       } else {
         dispatch(sendMessage(connection, conversationName, message))
       }
@@ -36,12 +36,13 @@ function sendMessage (connection: ConnectionT, to: string, message: string) {
   }
 }
 
-function createCommand (connection: ConnectionT, message: string): Dispatchable {
+function createCommand (connection: ConnectionT, conversationName: string, message: string): Dispatchable {
   const words = message.split(' ')
   switch (words[0]) {
     case '/join':
       return commandJoin(connection.id, words[1])
-    // case '/me':
+    case '/me':
+      return commandMe(connection.id, conversationName, words.slice(1).join(' '))
     case '/nick':
       return commandNick(connection.id, words[1])
     // case '/part':
@@ -81,6 +82,22 @@ export function commandJoin (connectionId: string, name: string): Dispatchable {
       dispatch({
         type: 'COMMAND_JOIN',
         name
+      })
+    }
+  }
+}
+
+function commandMe (connectionId: string, target: string, message: string): Dispatchable {
+  return (dispatch, getState) => {
+    const connection = getConnectionById(getState(), connectionId)
+
+    if (connection) {
+      connection.stream.action(target, message)
+
+      dispatch({
+        type: 'COMMAND_ME',
+        target,
+        message
       })
     }
   }

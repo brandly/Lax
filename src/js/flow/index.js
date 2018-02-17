@@ -8,7 +8,8 @@ type IrcConnectionStream = {
   join: string => void,
   nick: string => void,
   send: (to: string, msg: string) => void,
-  notice: (string, string) => void
+  notice: (string, string) => void,
+  action: (target: string, msg: string) => void
 };
 
 export type ConnectionT = {
@@ -91,6 +92,7 @@ export type Action
   | { type: 'RECEIVE_TOPIC', channel: string, topic: string }
   | { type: 'RECEIVE_WELCOME', connectionId: string, nick: string }
   | { type: 'COMMAND_JOIN', name: string }
+  | { type: 'COMMAND_ME', target: string, message: string }
   | { type: 'COMMAND_NICK', newNickname: string }
   | { type: 'COMMAND_NOTICE', to: string, message: string }
   ;
