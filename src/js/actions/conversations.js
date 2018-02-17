@@ -1,6 +1,7 @@
 // @flow
 import {
-  getConnectionById
+  getConnectionById,
+  getConversationsForConnection
 } from '../reducers/selectors'
 import type { ConnectionT, Dispatchable } from '../flow'
 
@@ -47,7 +48,8 @@ function createCommand (connection: ConnectionT, conversationName: string, messa
       return commandNick(connection.id, words[1])
     case '/part':
       return commandPart(connection.id, words[1])
-    // case '/partall':
+    case '/partall':
+      return commandPartAll(connection.id)
     // case '/ping':
     // case '/query':
     // case '/quit':
@@ -129,6 +131,23 @@ function commandPart (connectionId: string, channel: string): Dispatchable {
       dispatch({
         type: 'COMMAND_PART',
         channel
+      })
+    }
+  }
+}
+
+function commandPartAll (connectionId: string): Dispatchable {
+  return (dispatch, getState) => {
+    const connection = getConnectionById(getState(), connectionId)
+    const conversations = getConversationsForConnection(getState(), connectionId)
+
+    if (connection) {
+      const channels = conversations.map(convo => convo.name)
+      connection.stream.part(channels)
+
+      dispatch({
+        type: 'COMMAND_PART_ALL',
+        channels
       })
     }
   }

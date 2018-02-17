@@ -30,7 +30,7 @@ function list (
     case 'RECEIVE_NOTICE':
       return addMessageToIdInList(
         state,
-        action.to === '*' ? action.connectionId : action.to,
+        action.to === '*' ? action.connectionId : action.from,
         {
           type: 'notice',
           text: action.message,
@@ -142,6 +142,10 @@ function list (
     case 'COMMAND_PART': {
       const { channel } = action
       return state.filter(convo => convo.name !== channel)
+    }
+    case 'COMMAND_PART_ALL': {
+      const { channels } = action
+      return state.filter(convo => !channels.includes(convo.name))
     }
     case 'RECEIVE_TOPIC':
       return addMessageToIdInList(state, action.channel, {

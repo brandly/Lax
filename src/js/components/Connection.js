@@ -25,7 +25,7 @@ import type {
 type Props = {
   dispatch: Dispatch,
   connection: ConnectionT,
-  conversation?: ConversationT
+  conversation: ?ConversationT
 };
 
 class Connection extends React.Component<Props> {

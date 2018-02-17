@@ -97,6 +97,7 @@ export type Action
   | { type: 'COMMAND_NICK', newNickname: string }
   | { type: 'COMMAND_NOTICE', to: string, message: string }
   | { type: 'COMMAND_PART', channel: string }
+  | { type: 'COMMAND_PART_ALL', channels: Array<string> }
   ;
 
 export type Store = ReduxStore<IrcState, Action>;
