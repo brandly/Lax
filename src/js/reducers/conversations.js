@@ -104,7 +104,7 @@ function guaranteedList (
       const { names, channel } = action
       return updateIdInList(state, channel, convo => Object.assign({}, convo, {
         people: names
-      }))
+      })).selectWhere(convo => convo.name === channel)
     }
     case 'RECEIVE_JOIN': {
       const { channel, from } = action

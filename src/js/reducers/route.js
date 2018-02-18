@@ -9,20 +9,8 @@ function route (
     case 'REQUEST_CONNECTION_SUCCESS':
       return {
         view: 'CONNECTION',
-        connectionId: action.connectionId,
-        conversationId: undefined
+        connectionId: action.connectionId
       }
-    case 'RECEIVE_NAMES': {
-      if (state.view === 'CONNECTION') {
-        return {
-          view: 'CONNECTION',
-          connectionId: state.connectionId,
-          conversationId: action.channel
-        }
-      } else {
-        return state
-      }
-    }
     default:
       return state
   }
