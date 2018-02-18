@@ -66,7 +66,7 @@ class ConversationList extends React.Component<Props> {
     return (
       <ul className="channel-list">
         {conversations.map((convo, i) => {
-          const { name } = convo
+          const { name, unreadCount } = convo
 
           const classes = classNames({
             'channel-list-item': true,
@@ -80,7 +80,7 @@ class ConversationList extends React.Component<Props> {
               onClick={this.selectConversation.bind(this, name)}
             >
               <span className="channel-name">{name}</span>
-              {/* unreadCount ? <span className="unread-count">{unreadCount}</span> : null */}
+              { unreadCount ? <span className="unread-count">{unreadCount}</span> : null }
             </li>
           )
         })}

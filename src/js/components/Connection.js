@@ -7,8 +7,7 @@ import ConversationList from './ConversationList'
 import JoinConversation from './JoinConversation'
 import Conversation from './Conversation'
 import {
-  getConnectionById,
-  getConversationByName
+  getConnectionById
 } from '../reducers/selectors'
 import {
   commandJoin,
@@ -30,12 +29,9 @@ type Props = {
 class Connection extends React.Component<Props> {
   viewConversation (conversationId) {
     this.props.dispatch({
-      type: 'REDIRECT',
-      route: {
-        view: 'CONNECTION',
-        connectionId: this.props.connection.id,
-        conversationId
-      }
+      type: 'SELECT_CONVERSATION',
+      connectionId: this.props.connection.id,
+      conversationId
     })
   }
 
@@ -90,10 +86,10 @@ class Connection extends React.Component<Props> {
 
 export default connect((state: IrcState, ownProps): $Shape<Props> => {
   if (state.route.view !== 'CONNECTION') throw new Error()
-  const { connectionId, conversationId } = state.route
+  const { connectionId } = state.route
 
   const connection = getConnectionById(state, connectionId)
-  const conversation = getConversationByName(state, conversationId || connectionId)
+  const conversation = state.conversations.list ? state.conversations.list.getSelected() : null
 
   return {
     connection,

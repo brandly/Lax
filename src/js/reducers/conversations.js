@@ -1,5 +1,6 @@
 // @flow
 import { combineReducers } from 'redux'
+import SelectList from '../modules/SelectList'
 import type {
   ConversationT,
   MessageT,
@@ -7,18 +8,33 @@ import type {
 } from '../flow'
 
 function list (
-  state: Array<ConversationT> = [],
+  state: ?SelectList<ConversationT> = null,
   action: Action
-): Array<ConversationT> {
+): ?SelectList<ConversationT> {
+  if (action.type === 'REQUEST_CONNECTION_SUCCESS') {
+    const add = {
+      type: 'CONNECTION',
+      name: action.connectionId,
+      messages: [],
+      people: [],
+      receivedJoin: true,
+      unreadCount: 0
+    }
+    return state ? state.concat([]) : SelectList.fromElement(add)
+  } else if (!state) {
+    return null
+  } else {
+    return guaranteedList(state, action).applyToSelected(convo => Object.assign({}, convo, {
+      unreadCount: 0
+    }))
+  }
+}
+
+function guaranteedList (
+  state: SelectList<ConversationT>,
+  action: Action
+): SelectList<ConversationT> {
   switch (action.type) {
-    case 'REQUEST_CONNECTION_SUCCESS':
-      return state.concat([{
-        type: 'CONNECTION',
-        name: action.connectionId,
-        messages: [],
-        people: [],
-        receivedJoin: true
-      }])
     case 'RECEIVE_MOTD':
       return addMessageToIdInList(state, action.connectionId, {
         type: 'motd',
@@ -56,28 +72,33 @@ function list (
         when: new Date()
       })
     case 'RECEIVE_DIRECT_MESSAGE':
-      return addMessageToIdInList(state, action.from, {
-        type: 'priv',
-        text: action.message,
-        from: action.from,
-        to: '',
-        when: new Date()
-      })
+      return incrementUnreadCount(action.from,
+        addMessageToIdInList(state, action.from, {
+          type: 'priv',
+          text: action.message,
+          from: action.from,
+          to: '',
+          when: new Date()
+        })
+      )
     case 'RECEIVE_CHANNEL_MESSAGE':
-      return addMessageToIdInList(state, action.channel, {
-        type: 'priv',
-        text: action.message,
-        from: action.from,
-        to: action.channel,
-        when: new Date()
-      })
+      return incrementUnreadCount(action.channel,
+        addMessageToIdInList(state, action.channel, {
+          type: 'priv',
+          text: action.message,
+          from: action.from,
+          to: action.channel,
+          when: new Date()
+        })
+      )
     case 'COMMAND_JOIN':
       return state.concat([{
         type: 'CHANNEL',
         name: action.name,
         messages: [],
         people: [],
-        receivedJoin: false
+        receivedJoin: false,
+        unreadCount: 0
       }])
     case 'RECEIVE_NAMES': {
       const { names, channel } = action
@@ -102,7 +123,7 @@ function list (
         })
       })).filter(convo =>
         convo.receivedJoin || withoutLeadingHash(channel) !== withoutLeadingHash(convo.name)
-      )
+      ) || SelectList.fromElement(state.getSelected())
     }
     case 'RECEIVE_QUIT': {
       // TODO: flow isn't happy unless i pull these off early, hmmmm
@@ -141,11 +162,11 @@ function list (
     }
     case 'COMMAND_PART': {
       const { channel } = action
-      return state.filter(convo => convo.name !== channel)
+      return state.filter(convo => convo.name !== channel) || SelectList.fromElement(state.getSelected())
     }
     case 'COMMAND_PART_ALL': {
       const { channels } = action
-      return state.filter(convo => !channels.includes(convo.name))
+      return state.filter(convo => !channels.includes(convo.name)) || SelectList.fromElement(state.getSelected())
     }
     case 'RECEIVE_TOPIC':
       return addMessageToIdInList(state, action.channel, {
@@ -172,16 +193,31 @@ function list (
         })
       )
     }
+    case 'SELECT_CONVERSATION': {
+      const { conversationId } = action
+      return state.selectWhere(convo => conversationId === convo.name)
+    }
     default:
       return state
   }
 }
 
+function incrementUnreadCount (
+  conversation: string,
+  convos: SelectList<ConversationT>
+): SelectList<ConversationT> {
+  return convos.map(convo =>
+    convo.name === conversation ? Object.assign({}, convo, {
+      unreadCount: convo.unreadCount + 1
+    }) : convo
+  )
+}
+
 function addMessageToIdInList (
-  state: Array<ConversationT>,
+  state: SelectList<ConversationT>,
   id: string,
   message: MessageT
-): Array<ConversationT> {
+): SelectList<ConversationT> {
   return updateIdInList(
     state,
     id,
@@ -192,10 +228,10 @@ function addMessageToIdInList (
 }
 
 function updateIdInList (
-  state: Array<ConversationT>,
+  state: SelectList<ConversationT>,
   id: string,
   update: ConversationT => ConversationT
-): Array<ConversationT> {
+): SelectList<ConversationT> {
   let foundOne = false
 
   const result = state.map(conversation => {
@@ -215,16 +251,17 @@ function updateIdInList (
       name: id,
       messages: [],
       people: [],
-      receivedJoin: true
+      receivedJoin: true,
+      unreadCount: 0
     })])
   }
 }
 
 function applyToListWhere<T> (
-  list: Array<T>,
+  list: SelectList<T>,
   predicate: T => boolean,
   update: T => T
-): Array<T> {
+): SelectList<T> {
   return list.map(item =>
     predicate(item) ? update(item) : item
   )

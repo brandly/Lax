@@ -23,8 +23,6 @@ function route (
         return state
       }
     }
-    case 'REDIRECT':
-      return action.route
     default:
       return state
   }

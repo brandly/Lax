@@ -5,11 +5,11 @@ declare var test : any;
 declare var expect : any;
 
 const apply = (actions: Array<Action>, initial = {}) =>
-  actions.reduce(conversationsReducer, initial)
+  actions.reduce(conversationsReducer, initial).list.toArray()
 
 test('connection success creates conversation', () => {
   const id = 'fake'
-  const { list } = apply([{
+  const list = apply([{
     type: 'REQUEST_CONNECTION_SUCCESS',
     connectionId: id
   }])
@@ -28,7 +28,7 @@ const withConnection = (actions: Array<Action>): Array<Action> => {
 
 test('RECEIVE_JOIN adds someone to conversation.people and messages the channel', () => {
   const id = 'abc123'
-  const { list } = apply(withConnection([{
+  const list = apply(withConnection([{
     type: 'RECEIVE_JOIN',
     channel: id,
     from: 'matt'
@@ -43,7 +43,7 @@ test('RECEIVE_QUIT removes someone from relevant convos and messages the channel
   const channel = '#jest'
   const nick = 'matt'
 
-  const { list } = apply(withConnection([{
+  const list = apply(withConnection([{
     type: 'COMMAND_JOIN',
     name: channel
   }, {
@@ -64,7 +64,7 @@ test('RECEIVE_QUIT removes someone from relevant convos and messages the channel
 })
 
 test('RECEIVE_JOIN for ##programming removes #programming convo', () => {
-  const { list } = apply(withConnection([{
+  const list = apply(withConnection([{
     type: 'COMMAND_JOIN',
     name: '#programming'
   }, {
