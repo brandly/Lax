@@ -65,13 +65,19 @@ export type ConversationT = {
   receivedJoin: boolean
 };
 
+export type RouteT
+  = { view: 'CONNECTION_CREATOR' }
+  | { view: 'CONNECTION', connectionId: string, conversationId: ?string }
+  ;
+
 export type IrcState = {
   conversations: {
     list: Array<ConversationT>
   },
   connections: {
     list: Array<ConnectionT>
-  }
+  },
+  route: RouteT
 };
 
 export type Action
@@ -98,6 +104,7 @@ export type Action
   | { type: 'COMMAND_NOTICE', to: string, message: string }
   | { type: 'COMMAND_PART', channel: string }
   | { type: 'COMMAND_PART_ALL', channels: Array<string> }
+  | { type: 'REDIRECT', route: RouteT }
   ;
 
 export type Store = ReduxStore<IrcState, Action>;

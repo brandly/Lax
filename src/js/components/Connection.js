@@ -2,7 +2,6 @@
 /* global $Shape */
 import React from 'react'
 import { connect } from 'react-redux'
-import browserHistory from '../modules/browser-history'
 import ConnectionHeader from './ConnectionHeader'
 import ConversationList from './ConversationList'
 import JoinConversation from './JoinConversation'
@@ -29,21 +28,15 @@ type Props = {
 };
 
 class Connection extends React.Component<Props> {
-  componentWillMount () {
-    if (!this.props.connection) {
-      browserHistory.replace('/')
-    }
-  }
-
-  viewConversation (name) {
-    const dest = [
-      'connection',
-      this.props.connection.id,
-      'conversation',
-      encodeURIComponent(name)
-    ].map(v => '/' + v).join('')
-
-    browserHistory.push(dest)
+  viewConversation (conversationId) {
+    this.props.dispatch({
+      type: 'REDIRECT',
+      route: {
+        view: 'CONNECTION',
+        connectionId: this.props.connection.id,
+        conversationId
+      }
+    })
   }
 
   render () {
@@ -96,7 +89,8 @@ class Connection extends React.Component<Props> {
 }
 
 export default connect((state: IrcState, ownProps): $Shape<Props> => {
-  const { connectionId, conversationId } = ownProps.params
+  if (state.route.view !== 'CONNECTION') throw new Error()
+  const { connectionId, conversationId } = state.route
 
   const connection = getConnectionById(state, connectionId)
   const conversation = getConversationByName(state, conversationId || connectionId)

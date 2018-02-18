@@ -1,14 +1,11 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { Router, Route } from 'react-router'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, compose } from 'redux'
 import loggerMiddleware from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
 import { rootReducer } from './reducers'
-import ConnectionCreator from './components/ConnectionCreator'
-import Connection from './components/Connection'
-import browserHistory from './modules/browser-history'
+import Router from './components/Router'
 const inProduction = process.env.NODE_ENV === 'production'
 
 const initialState = {}
@@ -25,13 +22,7 @@ const store = createStore(
 
 render(
   <Provider store={store}>
-    <Router history={browserHistory}>
-      <Route path="/" component={ConnectionCreator} />
-      <Route
-        path="/connection/:connectionId/conversation(/:conversationId)"
-        component={Connection}
-      />
-    </Router>
+    <Router />
   </Provider>,
   document.getElementById('main')
 )

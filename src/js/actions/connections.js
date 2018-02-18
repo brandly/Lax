@@ -1,7 +1,6 @@
 // @flow
 import net from 'net'
 import irc from 'slate-irc'
-import browserHistory from '../modules/browser-history'
 import type { Thunk } from '../flow'
 
 export const CONNECTION_CLOSED = 'CONNECTION_CLOSED'
@@ -186,8 +185,6 @@ function createIrcStream (credentials, dispatch) {
       type: 'REQUEST_CONNECTION_SUCCESS',
       connectionId: id
     })
-
-    browserHistory.push(`/connection/${id}/conversation`)
   })
 
   stream.on('close', e => {
