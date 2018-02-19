@@ -7,7 +7,7 @@ body {
     "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans",
     "Droid Sans", "Helvetica Neue", sans-serif;
-  color: #333;
+  color: #383c4a;
 }
 
 /* make things more app-y */
@@ -70,13 +70,15 @@ body,
 .input-group input:focus,
 .input-group select:focus,
 .input-group input[type="submit"]:hover {
-  border-color: rgb(216, 197, 255);
+  border-color: #5294e2;
 }
 
 .left-panel {
   position: relative;
   width: 220px;
   float: left;
+  background: #373D48;
+  color: #FFF;
 }
 
 .right-panel {
@@ -137,8 +139,9 @@ body,
   border: none;
   outline: none;
   font-size: 0.75rem;
-  color: #333;
+  color: inherit;
   width: calc(100% - 30px);
+  background: inherit;
 }
 
 .join-channel input[type="submit"] {
@@ -147,13 +150,12 @@ body,
   outline: none;
   font-size: 1.0rem;
   font-weight: bold;
-  color: rgb(170, 154, 205);
+  color: #5294e2;
 }
 
 .header {
   height: 3.0rem;
   padding: 0 1.0rem;
-  border-bottom: 1px solid #EEE;
   cursor: default;
 }
 
@@ -167,19 +169,22 @@ body,
 }
 
 .channel-header {
+  border-bottom: 1px solid #EEE;
 }
 
 .channel-header .channel-name {
   display: inline-block;
   font-size: 0.9rem;
   letter-spacing: 0.6px;
+  font-weight: bold;
+  color: #383c4a;
 }
 
 .channel-header .channel-people-count {
   float: right;
   font-size: 0.8rem;
   font-weight: bold;
-  color: rgb(170, 154, 205);
+  color: #5294e2;
   letter-spacing: 0.4px;
 }
 
@@ -207,6 +212,10 @@ body,
   margin-bottom: 0.5rem;
 }
 
+.connection-header {
+  background: #303641;
+}
+
 .connection-header .server {
   font-size: 0.8rem;
 }
@@ -215,29 +224,44 @@ body,
   font-size: 0.8rem;
   cursor: default;
   -webkit-user-select: none;
+  margin: 18px 0;
 }
 
 .channel-list-item {
   height: 2.0rem;
   line-height: 2.0rem;
-  letter-spacing: 0.6px;
-  color: #777;
+  letter-spacing: 0.4px;
+  color: #FFF;
   padding: 0 1.0rem;
-  border-left: 0px solid rgb(216, 197, 255);
   transition: border-width 100ms ease-in-out;
 }
 
 .channel-list-item.is-selected {
-  border-width: 6px;
-  color: #333;
+  background: #5294E2;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.10);
+  font-weight: 200;
+}
+
+.channel-list-item .channel-name.has-unread {
+  font-weight: bold;
+}
+
+.channel-name .channel-prefix {
+  color: #afb1b5;
+  margin-right: 3px;
+  letter-spacing: 0;
 }
 
 .channel-list-item .unread-count {
   float: right;
+  background: #5294e2;
+  border-radius: 16px;
+  padding: 0 8px;
+  margin: 5px 0;
+  line-height: 1.7;
 }
 
 .nickname {
-  color: rgb(170, 154, 205);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -265,10 +289,13 @@ body,
   width: 120px;
   max-width: 120px;
   padding-right: 12px;
+  font-weight: bold;
+  color: #444;
+  padding-left: 12px;
 }
 
 .message-list .message .from {
-  padding-top: 2px; /* aligns text with .body, since smaller font-size */
+  padding-top: 4px; /* aligns text with .body, since smaller font-size */
 }
 
 .message .body {
@@ -282,7 +309,7 @@ body,
   display: table-cell;
   vertical-align: top;
   line-height: 1.3;
-  color: #CCC;
+  color: #7c818c;
   width: 56px;
   font-size: 0.7rem;
   padding-top: 3px;
@@ -290,12 +317,10 @@ body,
 
 .message .command {
   margin-right: 6px;
-  color: white;
-  background-color: #DDD;
+  border: 1px solid #eaeaea;
   font-size: 0.7rem;
   padding: 0.15rem 0.4rem;
   border-radius: 4px;
-  text-shadow: 0 1px 1px #CCC;
   letter-spacing: 0.5px;
 }
 
@@ -306,7 +331,7 @@ body,
 
 .message .text a {
   text-decoration: none;
-  color: rgb(170, 154, 205);
+  color: #5294e2;
 }
 
 .message.nick .text,

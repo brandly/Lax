@@ -109,7 +109,13 @@ class MessageList extends React.Component<Props, State> {
 }
 
 function formatDate (d: Date): string {
-  return `${twoDigits(d.getHours())}:${twoDigits(d.getMinutes())}:${twoDigits(d.getSeconds())}`
+  let hours = d.getHours()
+  const meridian = hours < 12 ? 'AM' : 'PM'
+
+  if (hours > 12) {
+    hours = hours - 12
+  }
+  return `${twoDigits(d.getHours())}:${twoDigits(d.getMinutes())} ${meridian}`
 }
 
 function twoDigits (str: string | number): string {

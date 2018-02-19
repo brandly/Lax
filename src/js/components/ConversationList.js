@@ -74,13 +74,19 @@ class ConversationList extends React.Component<Props> {
             'is-selected': name === selectedConversationId
           })
 
+          const [hash, nameWithoutHash] = splitOnHash(name)
+
           return (
             <li
               className={classes}
               key={name}
               onClick={this.selectConversation.bind(this, name)}
             >
-              <span className="channel-name">{name}</span>
+              <span className={classNames('channel-name', {
+                'has-unread': unreadCount > 0
+              })}>
+                {hash ? <span className="channel-prefix">{hash}</span> : null}{nameWithoutHash}
+              </span>
               { unreadCount ? <span className="unread-count">{unreadCount}</span> : null }
             </li>
           )
@@ -88,6 +94,15 @@ class ConversationList extends React.Component<Props> {
       </ul>
     )
   }
+}
+
+function splitOnHash (str) {
+  let hash = ''
+  while (str[0] === '#') {
+    hash += str[0]
+    str = str.slice(1)
+  }
+  return [hash, str]
 }
 
 export default connect((state: IrcState, ownProps): $Shape<Props> => {
