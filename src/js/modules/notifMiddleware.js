@@ -22,7 +22,11 @@ const notifMiddleware = (store: Store) => (next: Dispatch) => (action: Action) =
       })
 
       notif.addEventListener('click', () => {
-        console.log('Notification clicked')
+        const dispatch: Dispatch = store.dispatch
+        dispatch({
+          type: 'NOTIFICATION_CLICK',
+          via: action
+        })
       })
 
       // TODO: track these on a per convo basis, close them when convo is selected

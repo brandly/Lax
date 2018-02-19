@@ -111,6 +111,7 @@ export type Action
   | { type: 'COMMAND_PART_ALL', channels: Array<string> }
   | { type: 'SELECT_CONVERSATION', connectionId: string, conversationId: string }
   | { type: 'VISIBILITY_CHANGE', visible: boolean }
+  | { type: 'NOTIFICATION_CLICK', via: Action }
   ;
 
 export type Store = ReduxStore<IrcState, Action>;

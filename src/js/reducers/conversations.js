@@ -197,6 +197,14 @@ function guaranteedList (
       const { conversationId } = action
       return state.selectWhere(convo => conversationId === convo.name)
     }
+    case 'NOTIFICATION_CLICK': {
+      if (action.via.type === 'RECEIVE_DIRECT_MESSAGE') {
+        const { via } = action
+        return state.selectWhere(convo => via.from === convo.name)
+      } else {
+        return state
+      }
+    }
     default:
       return state
   }
