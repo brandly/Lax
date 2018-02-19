@@ -82,15 +82,22 @@ function guaranteedList (
           to: action.channel
         }))
       )
-    case 'COMMAND_JOIN':
-      return state.concat([{
-        type: 'CHANNEL',
-        name: action.name,
-        messages: [],
-        people: [],
-        receivedJoin: false,
-        unreadCount: 0
-      }])
+    case 'COMMAND_JOIN': {
+      const currentChannels = state.toArray().map(c => c.name)
+      if (currentChannels.includes(action.name)) {
+        const { name } = action
+        return state.selectWhere(convo => convo.name === name)
+      } else {
+        return state.concat([{
+          type: 'CHANNEL',
+          name: action.name,
+          messages: [],
+          people: [],
+          receivedJoin: false,
+          unreadCount: 0
+        }])
+      }
+    }
     case 'RECEIVE_NAMES': {
       const { names, channel } = action
       return updateIdInList(state, channel, convo => Object.assign({}, convo, {
