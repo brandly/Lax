@@ -188,6 +188,10 @@ body,
   letter-spacing: 0.4px;
 }
 
+.channel-heading {
+  display: inline-block;
+}
+
 .people-list {
   position: absolute;
   top: 3.0rem;

@@ -1,5 +1,6 @@
 // @flow
 import React from 'react'
+import ChannelName from './ChannelName'
 import type { ConversationT, PersonT } from '../flow'
 
 type Props = {
@@ -14,7 +15,9 @@ class ConversationHeader extends React.Component<Props> {
 
     var nameEl, countEl
     if (conversation) {
-      nameEl = <h2 className="channel-name vertical-center">{conversation.name}</h2>
+      nameEl = <h2 className="channel-heading vertical-center">
+        <ChannelName name={conversation.name} />
+      </h2>
       countEl = conversation.name[0] === '#' ? (
         <p
           className="channel-people-count vertical-center"
@@ -22,7 +25,7 @@ class ConversationHeader extends React.Component<Props> {
             this.props.onPeopleClick(people)
           }}
         >
-          {people.length} people
+          {people.length} {people.length === 1 ? 'person' : 'people'}
         </p>
       ) : null
     } else {
