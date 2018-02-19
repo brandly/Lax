@@ -90,7 +90,7 @@ class MessageList extends React.Component<Props, State> {
       })
 
       return (
-        <li className={classes} key={i}>
+        <li className={classes} key={msg.id}>
           <h3 className="nickname from">{showFrom ? msg.from : ''}</h3>
           <div className="body">{action}{this.renderMessage(msg.text)}</div>
           <p className="when">{formatDate(msg.when)}</p>

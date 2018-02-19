@@ -45,6 +45,7 @@ type MessageType
   ;
 
 export type MessageT = {
+  id: string,
   type: MessageType,
   text: string,
   from: string,

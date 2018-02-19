@@ -1,5 +1,7 @@
 // @flow
+/* global $Shape */
 import { combineReducers } from 'redux'
+import uuid from 'uuid/v4'
 import SelectList from '../modules/SelectList'
 import type {
   ConversationT,
@@ -36,60 +38,49 @@ function guaranteedList (
 ): SelectList<ConversationT> {
   switch (action.type) {
     case 'RECEIVE_MOTD':
-      return addMessageToIdInList(state, action.connectionId, {
+      return addMessageToIdInList(state, action.connectionId, makeMessage({
         type: 'motd',
-        text: action.motd,
-        from: '',
-        to: '',
-        when: new Date()
-      })
+        text: action.motd
+      }))
     case 'RECEIVE_NOTICE':
       return addMessageToIdInList(
         state,
         action.to === '*' ? action.connectionId : action.from,
-        {
+        makeMessage({
           type: 'notice',
           text: action.message,
           from: action.from,
-          to: action.to,
-          when: new Date()
-        }
+          to: action.to
+        })
       )
     case 'RECEIVE_WELCOME':
-      return addMessageToIdInList(state, action.connectionId, {
+      return addMessageToIdInList(state, action.connectionId, makeMessage({
         type: 'welcome',
-        text: '',
-        from: '',
-        to: action.nick,
-        when: new Date()
-      })
+        to: action.nick
+      }))
     case 'SEND_MESSAGE':
-      return addMessageToIdInList(state, action.to, {
+      return addMessageToIdInList(state, action.to, makeMessage({
         type: 'priv',
         text: action.message,
         from: action.from,
-        to: action.to,
-        when: new Date()
-      })
+        to: action.to
+      }))
     case 'RECEIVE_DIRECT_MESSAGE':
       return incrementUnreadCount(action.from,
-        addMessageToIdInList(state, action.from, {
+        addMessageToIdInList(state, action.from, makeMessage({
           type: 'priv',
           text: action.message,
-          from: action.from,
-          to: '',
-          when: new Date()
-        })
+          from: action.from
+        }))
       )
     case 'RECEIVE_CHANNEL_MESSAGE':
       return incrementUnreadCount(action.channel,
-        addMessageToIdInList(state, action.channel, {
+        addMessageToIdInList(state, action.channel, makeMessage({
           type: 'priv',
           text: action.message,
           from: action.from,
-          to: action.channel,
-          when: new Date()
-        })
+          to: action.channel
+        }))
       )
     case 'COMMAND_JOIN':
       return state.concat([{
@@ -114,13 +105,11 @@ function guaranteedList (
           name: from,
           mode: ''
         }),
-        messages: convo.messages.concat({
+        messages: convo.messages.concat(makeMessage({
           type: 'join',
-          text: '',
           from: from,
-          to: channel,
-          when: new Date()
-        })
+          to: channel
+        }))
       })).filter(convo =>
         convo.receivedJoin || withoutLeadingHash(channel) !== withoutLeadingHash(convo.name)
       ) || SelectList.fromElement(state.getSelected())
@@ -133,13 +122,11 @@ function guaranteedList (
         convo => convo.people.map(p => p.name).includes(nick),
         convo => Object.assign({}, convo, {
           people: convo.people.filter(person => person.name !== nick),
-          messages: convo.messages.concat([{
+          messages: convo.messages.concat([makeMessage({
             type: 'quit',
             text: message,
-            from: nick,
-            to: '',
-            when: new Date()
-          }])
+            from: nick
+          })])
         })
       )
     }
@@ -150,13 +137,11 @@ function guaranteedList (
         convo => channels.includes(convo.name),
         convo => Object.assign({}, convo, {
           people: convo.people.filter(person => person.name !== nick),
-          messages: convo.messages.concat({
+          messages: convo.messages.concat(makeMessage({
             type: 'part',
             text: message,
-            from: nick,
-            to: '',
-            when: new Date()
-          })
+            from: nick
+          }))
         })
       )
     }
@@ -169,13 +154,12 @@ function guaranteedList (
       return state.filter(convo => !channels.includes(convo.name)) || SelectList.fromElement(state.getSelected())
     }
     case 'RECEIVE_TOPIC':
-      return addMessageToIdInList(state, action.channel, {
+      return addMessageToIdInList(state, action.channel, makeMessage({
         type: 'topic',
         text: action.topic,
         from: action.channel,
-        to: action.channel,
-        when: new Date()
-      })
+        to: action.channel
+      }))
     // case RECEIVE_NICK:
     case 'RECEIVE_AWAY': {
       const { message, nick } = action
@@ -183,13 +167,11 @@ function guaranteedList (
         state,
         convo => convo.people.map(p => p.name).includes(nick),
         convo => Object.assign({}, convo, {
-          messages: convo.messages.concat({
+          messages: convo.messages.concat(makeMessage({
             type: 'away',
             text: message,
-            from: nick,
-            to: '',
-            when: new Date()
-          })
+            from: nick
+          }))
         })
       )
     }
@@ -280,6 +262,17 @@ function withoutLeadingHash (str: string): string {
     str = str.slice(1)
   }
   return str
+}
+
+function makeMessage (data: $Shape<MessageT>): MessageT {
+  return Object.assign({
+    id: uuid(),
+    when: new Date(),
+    from: '',
+    text: '',
+    to: '',
+    type: 'priv'
+  }, data)
 }
 
 export default combineReducers({
