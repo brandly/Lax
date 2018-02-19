@@ -47,6 +47,9 @@ class Connection extends React.Component<Props> {
         <div className="left-panel">
           <ConnectionHeader
             connection={connection}
+            onClick={() => {
+              this.viewConversation(connection.id)
+            }}
           />
           <div className="below-header scrolling-panel">
             <ConversationList

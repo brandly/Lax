@@ -3,16 +3,22 @@ import React from 'react'
 import type { ConnectionT } from '../flow'
 
 type Props = {
-  connection: ConnectionT
+  connection: ConnectionT,
+  onClick: (void) => void
 };
 
 class ConnectionHeader extends React.Component<Props> {
   render () {
-    const { connection } = this.props
+    const { connection, onClick } = this.props
 
     return (
       <div className="header connection-header">
-        <h2 className="vertical-center server">{connection.server}</h2>
+        <h2
+          className="vertical-center server"
+          onClick={() => {
+            onClick()
+          }}
+        >{connection.server}</h2>
       </div>
     )
   }
