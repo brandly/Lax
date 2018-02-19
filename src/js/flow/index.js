@@ -79,7 +79,10 @@ export type IrcState = {
   connections: {
     list: Array<ConnectionT>
   },
-  route: RouteT
+  route: RouteT,
+  ui: {
+    visible: boolean
+  }
 };
 
 export type Action
@@ -107,6 +110,7 @@ export type Action
   | { type: 'COMMAND_PART', channel: string }
   | { type: 'COMMAND_PART_ALL', channels: Array<string> }
   | { type: 'SELECT_CONVERSATION', connectionId: string, conversationId: string }
+  | { type: 'VISIBILITY_CHANGE', visible: boolean }
   ;
 
 export type Store = ReduxStore<IrcState, Action>;

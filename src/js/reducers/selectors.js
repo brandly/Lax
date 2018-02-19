@@ -15,3 +15,9 @@ export function getConversationsForConnection (state: IrcState, id: string): Arr
     return []
   }
 }
+
+export function getSelectedConversation (state: IrcState, connection: string): ?ConversationT {
+  if (!state.conversations.list) return null
+  // TODO: use connection
+  return state.conversations.list.getSelected()
+}
