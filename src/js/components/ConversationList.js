@@ -62,10 +62,11 @@ class ConversationList extends React.Component<Props> {
       selectedConversationId
     } = this.props
 
-    // TODO: sort these
     return (
       <ul className="channel-list">
-        {conversations.map((convo, i) => {
+        {conversations.sort((a, b) =>
+          (a.name < b.name) ? -1 : ((a.name > b.name) ? 1 : 0)
+        ).map((convo, i) => {
           const { name, unreadCount } = convo
 
           const classes = classNames({
