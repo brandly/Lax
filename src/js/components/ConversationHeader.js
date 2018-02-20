@@ -19,7 +19,7 @@ class ConversationHeader extends React.Component<Props> {
         className="header channel-header"
         onClick={isChannel ? () => {
           this.props.onPeopleClick(people)
-        }: null}
+        } : null}
       >
         <h2 className="channel-heading">
           <ChannelName name={conversation.name} />

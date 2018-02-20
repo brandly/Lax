@@ -115,7 +115,7 @@ function formatDate (d: Date): string {
   if (hours > 12) {
     hours = hours - 12
   }
-  return `${twoDigits(d.getHours())}:${twoDigits(d.getMinutes())} ${meridian}`
+  return `${twoDigits(hours)}:${twoDigits(d.getMinutes())} ${meridian}`
 }
 
 function twoDigits (str: string | number): string {
