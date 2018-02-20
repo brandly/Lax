@@ -51,23 +51,24 @@ class Connection extends React.Component<Props> {
               this.viewConversation(connection.id)
             }}
           />
-          <div className="below-header scrolling-panel">
-            <ConversationList
-              connectionId={connection.id}
-              onSelectConversation={name => {
-                this.viewConversation(name)
-              }}
-              selectedConversationId={conversation && conversation.name}
-            />
-            {connection.isWelcome ? (
+          {connection.isWelcome ? (
+            <div className="below-header scrolling-panel">
+              <h3 className="channel-list-heading">Conversations</h3>
+              <ConversationList
+                connectionId={connection.id}
+                onSelectConversation={name => {
+                  this.viewConversation(name)
+                }}
+                selectedConversationId={conversation && conversation.name}
+              />
               <JoinConversation
                 onJoin={name => {
                   dispatch(commandJoin(connection.id, name))
                   this.viewConversation(name)
                 }}
               />
-            ) : null}
-          </div>
+            </div>
+          ) : null}
         </div>
         {conversation ? (
           <Conversation

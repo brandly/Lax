@@ -101,6 +101,7 @@ body,
   right: 0;
   height: 4.0rem;
   width: 100%;
+  padding: 0 1.0rem;
 }
 
 .scrolling-panel {
@@ -215,19 +216,23 @@ body,
   margin-bottom: 0.5rem;
 }
 
-.connection-header {
-  background: #303641;
-}
-
 .connection-header .server {
   font-size: 1rem;
+}
+
+.channel-list-heading {
+  text-transform: uppercase;
+  color: #7c818c;
+  margin: 1.0rem 1.0rem 0.8rem;
+  font-size: 0.8rem;
+  font-weight: bold;
+  cursor: default;
 }
 
 .channel-list {
   font-size: 0.8rem;
   cursor: default;
   -webkit-user-select: none;
-  margin: 18px 0;
 }
 
 .channel-list-item {
@@ -276,6 +281,7 @@ body,
   width: 100%;
   max-width: 100%;
   border-spacing: 0 6px;
+  padding: 0 1.0rem;
 }
 
 .message {
@@ -294,7 +300,6 @@ body,
   padding-right: 12px;
   font-weight: bold;
   color: #444;
-  padding-left: 12px;
 }
 
 .message-list .message .from {
@@ -316,6 +321,7 @@ body,
   width: 56px;
   font-size: 0.7rem;
   padding-top: 3px;
+  text-align: right;
 }
 
 .message .command {

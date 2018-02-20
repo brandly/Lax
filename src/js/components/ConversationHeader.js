@@ -12,30 +12,23 @@ class ConversationHeader extends React.Component<Props> {
   render () {
     const { conversation } = this.props
     const { people } = conversation
-
-    var nameEl, countEl
-    if (conversation) {
-      nameEl = <h2 className="channel-heading">
-        <ChannelName name={conversation.name} />
-      </h2>
-      countEl = conversation.name[0] === '#' ? (
-        <p className="channel-people-count">
-          {people.length} {people.length === 1 ? 'person' : 'people'}
-        </p>
-      ) : null
-    } else {
-      nameEl = null
-      countEl = null
-    }
+    const isChannel = conversation.name[0] === '#'
 
     return (
       <div
         className="header channel-header"
-        onClick={() => {
+        onClick={isChannel ? () => {
           this.props.onPeopleClick(people)
-        }}
+        }: null}
       >
-        {nameEl}{countEl}
+        <h2 className="channel-heading">
+          <ChannelName name={conversation.name} />
+          {isChannel ? (
+            <p className="channel-people-count">
+              {people.length} {people.length === 1 ? 'person' : 'people'}
+            </p>
+          ) : null}
+        </h2>
       </div>
     )
   }
