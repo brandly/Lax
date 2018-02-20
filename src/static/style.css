@@ -154,47 +154,46 @@ body,
 }
 
 .header {
-  height: 3.0rem;
+  height: 4.0rem;
   padding: 0 1.0rem;
   cursor: default;
+  padding-top: 2px;
 }
 
 .header .vertical-center {
-  line-height: 3.0rem;
+  line-height: 4.0rem;
 }
 
 .below-header {
   position: relative;
-  height: calc(100% - 3.0rem);
+  height: calc(100% - 4.0rem);
 }
 
 .channel-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   border-bottom: 1px solid #EEE;
 }
 
 .channel-header .channel-name {
   display: inline-block;
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   letter-spacing: 0.6px;
   font-weight: bold;
   color: #383c4a;
 }
 
 .channel-header .channel-people-count {
-  float: right;
   font-size: 0.8rem;
-  font-weight: bold;
-  color: #5294e2;
   letter-spacing: 0.4px;
-}
-
-.channel-heading {
-  display: inline-block;
+  color: #7c818c;
+  margin-top: 6px;
 }
 
 .people-list {
   position: absolute;
-  top: 3.0rem;
+  top: 4.0rem;
   right: 0;
   height: calc(100% + 1.0rem); /* TODO: wtf is this */
   width: 180px;
@@ -221,7 +220,7 @@ body,
 }
 
 .connection-header .server {
-  font-size: 0.8rem;
+  font-size: 1rem;
 }
 
 .channel-list {
