@@ -112,7 +112,9 @@ function formatDate (d: Date): string {
   let hours = d.getHours()
   const meridian = hours < 12 ? 'AM' : 'PM'
 
-  if (hours > 12) {
+  if (hours === 0) {
+    hours = 12
+  } else if (hours > 12) {
     hours = hours - 12
   }
   return `${twoDigits(hours)}:${twoDigits(d.getMinutes())} ${meridian}`
