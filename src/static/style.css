@@ -22,13 +22,16 @@ body,
 }
 
 .connection-creator {
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
   width: 220px;
   margin: 0 auto;
 }
 
-.input-group {
-  margin: 1.4rem 0;
+.input-group + .input-group {
+  margin-top: 1.4rem;
 }
 
 .input-group label {

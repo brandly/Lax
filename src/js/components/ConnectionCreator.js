@@ -147,7 +147,11 @@ class ConnectionCreator extends React.Component<Props, State> {
         </div>
 
         <div className={inputGroupClass}>
-          <input type="submit" disabled={this.state.isConnecting} />
+          <input
+            type="submit"
+            disabled={this.state.isConnecting}
+            value="Log In"
+          />
         </div>
       </form>
     )
