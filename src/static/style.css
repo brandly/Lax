@@ -196,7 +196,7 @@ body,
   position: absolute;
   top: 4.0rem;
   right: 0;
-  height: calc(100% + 1.0rem); /* TODO: wtf is this */
+  height: 100%;
   width: 180px;
   background-color: #FFF;
   border-left: 1px solid #EEE;
