@@ -82,6 +82,14 @@ function guaranteedList (
           to: action.channel
         }))
       )
+    case 'RECEIVE_ACTION':
+      return incrementUnreadCount(action.channel,
+        addMessageToIdInList(state, action.channel, makeMessage({
+          type: 'action',
+          text: action.message,
+          from: action.from
+        }))
+      )
     case 'COMMAND_JOIN': {
       const currentChannels = state.toArray().map(c => c.name)
       if (currentChannels.includes(action.name)) {

@@ -34,6 +34,7 @@ export type PersonT = {
 type MessageType
   = 'notice'
   | 'priv'
+  | 'action'
   | 'motd'
   | 'welcome'
   | 'topic'
@@ -92,6 +93,7 @@ export type Action
   | { type: 'REQUEST_CONNECTION_ERROR', connectionId: string, error: string }
   | { type: 'CONNECTION_CLOSED', connectionId: string }
   | { type: 'SEND_MESSAGE', connectionId: string, from: string, to: string, message: string }
+  | { type: 'RECEIVE_ACTION', channel: string, from: string, message: string }
   | { type: 'RECEIVE_DIRECT_MESSAGE', from: string, message: string }
   | { type: 'RECEIVE_CHANNEL_MESSAGE', channel: string, from: string, message: string }
   | { type: 'RECEIVE_AWAY', message: string, nick: string }

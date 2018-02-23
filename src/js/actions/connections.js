@@ -149,7 +149,14 @@ export const connectToServer = (credentials: Creds): Thunk => {
     })
 
     stream.on('message', e => {
-      if (e.to === nickname) {
+      if (e.message.trim().startsWith('\u0001ACTION')) {
+        dispatch({
+          type: 'RECEIVE_ACTION',
+          channel: e.to === nickname ? e.from : e.to,
+          from: e.from,
+          message: `${e.from} ${e.message.replace(/^\u0001ACTION /, '').replace(/\u0001$/, '')}`
+        })
+      } else if (e.to === nickname) {
         dispatch({
           type: 'RECEIVE_DIRECT_MESSAGE',
           from: e.from,
