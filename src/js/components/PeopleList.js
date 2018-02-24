@@ -43,7 +43,7 @@ class PeopleList extends React.Component<Props, State> {
       <div className="people-list">
         <div className="scrolling-panel">
           <input
-            type="search"
+            type="text"
             placeholder="search..."
             className="people-search-field"
             autoFocus

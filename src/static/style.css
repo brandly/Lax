@@ -200,23 +200,29 @@ body,
   top: 4.0rem;
   right: 0;
   height: 100%;
-  width: 180px;
+  width: 220px;
   background-color: #FFF;
   border-left: 1px solid #EEE;
 }
 
 .people-list .scrolling-panel {
-  padding: 0.5rem;
+  padding: 0.8rem;
 }
 
 .people-list .nickname {
-  padding: 0.2rem 0;
+  font-size: 14px;
+  line-height: 1.75;
 }
 
 .people-search-field {
   display: block;
   width: 100%;
   margin-bottom: 0.5rem;
+  font-size: 14px;
+  line-height: 1.8;
+  padding: 0 8px;
+  border-radius: 6px;
+  border: 1px solid #cccfd6;
 }
 
 .connection-header .server {
