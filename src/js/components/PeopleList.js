@@ -1,6 +1,7 @@
 // @flow
 /* global SyntheticEvent, HTMLInputElement */
 import React from 'react'
+import sortBy from '../modules/sortBy'
 import type { PersonT } from '../flow'
 
 type Props = {
@@ -10,6 +11,8 @@ type Props = {
 type State = {
   filter: string
 };
+
+const byName = sortBy(p => p.name.toLowerCase())
 
 class PeopleList extends React.Component<Props, State> {
   constructor (props: Props) {
@@ -34,7 +37,7 @@ class PeopleList extends React.Component<Props, State> {
     const peopleElements =
       people
         .filter(p => p.name.toLowerCase().includes(this.state.filter))
-        // .sortBy(p => p.name.toLowerCase())
+        .sort(byName)
         .map((person, i) =>
           <h3 className="nickname" key={i}>{person.name}</h3>
         )

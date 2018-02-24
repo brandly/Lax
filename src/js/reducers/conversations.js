@@ -98,7 +98,7 @@ function guaranteedList (
       } else {
         return state.concat([{
           type: 'CHANNEL',
-          name: action.name,
+          name: action.name.toLowerCase(),
           messages: [],
           people: [],
           receivedJoin: false,

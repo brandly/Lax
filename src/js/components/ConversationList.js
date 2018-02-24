@@ -4,6 +4,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 import ChannelName from './ChannelName'
+import sortBy from '../modules/sortBy'
 import {
   getConversationsForConnection
 } from '../reducers/selectors'
@@ -15,6 +16,8 @@ type Props = {
   conversations: Array<ConversationT>,
   selectedConversationId: ?string
 };
+
+const byName = sortBy(c => c.name)
 
 class ConversationList extends React.Component<Props> {
   componentWillMount () {
@@ -65,9 +68,7 @@ class ConversationList extends React.Component<Props> {
 
     return (
       <ul className="channel-list">
-        {conversations.sort((a, b) =>
-          (a.name < b.name) ? -1 : ((a.name > b.name) ? 1 : 0)
-        ).map((convo, i) => {
+        {conversations.sort(byName).map((convo, i) => {
           const { name, unreadCount } = convo
 
           const classes = classNames({
