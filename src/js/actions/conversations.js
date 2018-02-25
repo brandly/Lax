@@ -69,6 +69,7 @@ function createCommand (connection: ConnectionT, conversationName: string, messa
       console.error('TODO: handle unexpected command')
       return {
         type: 'RECEIVE_DIRECT_MESSAGE',
+        connectionId: connection.id,
         from: connection.nickname,
         message: `unexpected command ${words[0]}`
       }
@@ -84,6 +85,7 @@ export function commandJoin (connectionId: string, name: string): Dispatchable {
 
       dispatch({
         type: 'COMMAND_JOIN',
+        connectionId,
         name
       })
     }
@@ -99,6 +101,7 @@ function commandMe (connectionId: string, target: string, message: string): Disp
 
       dispatch({
         type: 'COMMAND_ME',
+        connectionId,
         target,
         message
       })
@@ -115,6 +118,7 @@ export function commandNick (connectionId: string, newNickname: string): Dispatc
 
       dispatch({
         type: 'COMMAND_NICK',
+        connectionId,
         newNickname
       })
     }
@@ -130,6 +134,7 @@ function commandPart (connectionId: string, channel: string): Dispatchable {
 
       dispatch({
         type: 'COMMAND_PART',
+        connectionId,
         channel
       })
     }
@@ -147,6 +152,7 @@ function commandPartAll (connectionId: string): Dispatchable {
 
       dispatch({
         type: 'COMMAND_PART_ALL',
+        connectionId,
         channels
       })
     }
@@ -162,6 +168,7 @@ export function commandNotice (connectionId: string, to: string, message: string
 
       dispatch({
         type: 'COMMAND_NOTICE',
+        connectionId,
         to,
         message
       })

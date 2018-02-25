@@ -31,7 +31,8 @@ export const connectToServer = (credentials: Creds): Thunk => {
         server,
         port,
         stream,
-        error: null
+        error: null,
+        conversations: null
       }
     })
 
@@ -74,6 +75,7 @@ export const connectToServer = (credentials: Creds): Thunk => {
     stream.on('away', e => {
       dispatch({
         type: 'RECEIVE_AWAY',
+        connectionId: id,
         nick: e.nick,
         message: e.message
       })
@@ -82,6 +84,7 @@ export const connectToServer = (credentials: Creds): Thunk => {
     stream.on('part', e => {
       dispatch({
         type: 'RECEIVE_PART',
+        connectionId: id,
         nick: e.nick,
         message: e.message,
         channels: e.channels
@@ -91,6 +94,7 @@ export const connectToServer = (credentials: Creds): Thunk => {
     stream.on('quit', e => {
       dispatch({
         type: 'RECEIVE_QUIT',
+        connectionId: id,
         nick: e.nick,
         message: e.message
       })
@@ -119,6 +123,7 @@ export const connectToServer = (credentials: Creds): Thunk => {
     stream.on('nick', e => {
       dispatch({
         type: 'RECEIVE_NICK',
+        connectionId: id,
         oldNickname: e.nick,
         newNickname: e.new
       })
@@ -127,6 +132,7 @@ export const connectToServer = (credentials: Creds): Thunk => {
     stream.on('topic', e => {
       dispatch({
         type: 'RECEIVE_TOPIC',
+        connectionId: id,
         channel: e.channel,
         topic: e.topic
       })
@@ -135,6 +141,7 @@ export const connectToServer = (credentials: Creds): Thunk => {
     stream.on('join', e => {
       dispatch({
         type: 'RECEIVE_JOIN',
+        connectionId: id,
         channel: e.channel,
         from: e.nick
       })
@@ -143,6 +150,7 @@ export const connectToServer = (credentials: Creds): Thunk => {
     stream.on('names', e => {
       dispatch({
         type: 'RECEIVE_NAMES',
+        connectionId: id,
         channel: e.channel,
         names: e.names
       })
@@ -152,6 +160,7 @@ export const connectToServer = (credentials: Creds): Thunk => {
       if (e.message.trim().startsWith('\u0001ACTION')) {
         dispatch({
           type: 'RECEIVE_ACTION',
+          connectionId: id,
           channel: e.to === nickname ? e.from : e.to,
           from: e.from,
           message: `${e.from} ${e.message.replace(/^\u0001ACTION /, '').replace(/\u0001$/, '')}`
@@ -159,12 +168,14 @@ export const connectToServer = (credentials: Creds): Thunk => {
       } else if (e.to === nickname) {
         dispatch({
           type: 'RECEIVE_DIRECT_MESSAGE',
+          connectionId: id,
           from: e.from,
           message: e.message
         })
       } else {
         dispatch({
           type: 'RECEIVE_CHANNEL_MESSAGE',
+          connectionId: id,
           channel: e.to,
           from: e.from,
           message: e.message

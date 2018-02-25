@@ -1,6 +1,7 @@
 // @flow
 /* global $Shape */
 import { combineReducers } from 'redux'
+import conversationsList from './conversations'
 import type { ConnectionT, Action } from '../flow'
 
 function list (
@@ -32,6 +33,21 @@ function list (
   }
 }
 
+function withConversations (
+  state: Array<ConnectionT> = [],
+  action: Action
+): Array<ConnectionT> {
+  return state.map(connection => {
+    if (typeof action.connectionId === 'string' && connection.id === action.connectionId) {
+      return Object.assign({}, connection, {
+        conversations: conversationsList(connection.conversations, action)
+      })
+    } else {
+      return connection
+    }
+  })
+}
+
 function updateIdInList (
   state: Array<ConnectionT>,
   id: string,
@@ -50,6 +66,9 @@ function updateIdInList (
   return found ? result : result.concat([ update ])
 }
 
+const compose = (a, b) =>
+  (state, action) => b(a(state, action), action)
+
 export default combineReducers({
-  list
+  list: compose(list, withConversations)
 })

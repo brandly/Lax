@@ -1,23 +1,18 @@
 // @flow
-import type { IrcState, ConversationT } from '../flow'
+import type { IrcState, ConnectionT, ConversationT } from '../flow'
 
-export function getConnectionById (state: IrcState, connectionId: string) {
+export function getConnectionById (state: IrcState, connectionId: string): ?ConnectionT {
   return state.connections.list.find(({ id }) => id === connectionId)
 }
 
 export function getConversationsForConnection (state: IrcState, id: string): Array<ConversationT> {
-  if (!state.conversations.list) return []
-  // TODO: use id
-  const filtered = state.conversations.list.filter(c => c.type !== 'CONNECTION')
-  if (filtered) {
-    return filtered.toArray()
-  } else {
-    return []
-  }
+  const connection = getConnectionById(state, id)
+  if (!connection || !connection.conversations) return []
+  return connection.conversations.toArray().filter(c => c.type !== 'CONNECTION')
 }
 
-export function getSelectedConversation (state: IrcState, connection: string): ?ConversationT {
-  if (!state.conversations.list) return null
-  // TODO: use connection
-  return state.conversations.list.getSelected()
+export function getSelectedConversation (state: IrcState, id: string): ?ConversationT {
+  const connection = getConnectionById(state, id)
+  if (!connection || !connection.conversations) return null
+  return connection.conversations.getSelected()
 }

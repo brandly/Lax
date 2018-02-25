@@ -4,8 +4,10 @@ import type { Action } from '../src/js/flow'
 declare var test : any;
 declare var expect : any;
 
-const apply = (actions: Array<Action>, initial = {}) =>
-  actions.reduce(conversationsReducer, initial).list.toArray()
+const apply = (actions: Array<Action>, initial = null) => {
+  const result = actions.reduce(conversationsReducer, initial)
+  return result ? result.toArray() : []
+}
 
 test('connection success creates conversation', () => {
   const id = 'fake'
@@ -19,10 +21,11 @@ test('connection success creates conversation', () => {
   expect(list[0].name).toBe(id)
 })
 
+const connectionId = 'abc123'
 const withConnection = (actions: Array<Action>): Array<Action> => {
   return [{
     type: 'REQUEST_CONNECTION_SUCCESS',
-    connectionId: 'abc123'
+    connectionId
   }].concat(actions)
 }
 
@@ -30,6 +33,7 @@ test('RECEIVE_JOIN adds someone to conversation.people and messages the channel'
   const id = 'abc123'
   const list = apply(withConnection([{
     type: 'RECEIVE_JOIN',
+    connectionId,
     channel: id,
     from: 'matt'
   }]))
@@ -45,13 +49,16 @@ test('RECEIVE_QUIT removes someone from relevant convos and messages the channel
 
   const list = apply(withConnection([{
     type: 'COMMAND_JOIN',
+    connectionId,
     name: channel
   }, {
     type: 'RECEIVE_JOIN',
+    connectionId,
     channel,
     from: nick
   }, {
     type: 'RECEIVE_QUIT',
+    connectionId,
     nick,
     message: 'im gone'
   }]))
@@ -66,9 +73,11 @@ test('RECEIVE_QUIT removes someone from relevant convos and messages the channel
 test('RECEIVE_JOIN for ##programming removes #programming convo', () => {
   const list = apply(withConnection([{
     type: 'COMMAND_JOIN',
+    connectionId,
     name: '#programming'
   }, {
     type: 'RECEIVE_JOIN',
+    connectionId,
     channel: '##programming',
     from: 'nick'
   }]))
