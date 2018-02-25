@@ -14,18 +14,6 @@ type IrcConnectionStream = {
   part: (channel: Array<string>) => void
 };
 
-export type ConnectionT = {
-  id: string,
-  isConnected: boolean,
-  isWelcome: boolean,
-  nickname: string,
-  realName: string,
-  server: string,
-  port: number,
-  stream: IrcConnectionStream,
-  error: ?string
-};
-
 export type PersonT = {
   name: string,
   mode: string
@@ -69,15 +57,25 @@ export type ConversationT = {
   unreadCount: number
 };
 
+export type ConnectionT = {
+  id: string,
+  isConnected: boolean,
+  isWelcome: boolean,
+  nickname: string,
+  realName: string,
+  server: string,
+  port: number,
+  stream: IrcConnectionStream,
+  error: ?string,
+  conversations: ?SelectList<ConversationT>
+};
+
 export type RouteT
   = { view: 'CONNECTION_CREATOR' }
   | { view: 'CONNECTION', connectionId: string }
   ;
 
 export type IrcState = {
-  conversations: {
-    list: ?SelectList<ConversationT>
-  },
   connections: {
     list: Array<ConnectionT>
   },
@@ -93,25 +91,25 @@ export type Action
   | { type: 'REQUEST_CONNECTION_ERROR', connectionId: string, error: string }
   | { type: 'CONNECTION_CLOSED', connectionId: string }
   | { type: 'SEND_MESSAGE', connectionId: string, from: string, to: string, message: string }
-  | { type: 'RECEIVE_ACTION', channel: string, from: string, message: string }
-  | { type: 'RECEIVE_DIRECT_MESSAGE', from: string, message: string }
-  | { type: 'RECEIVE_CHANNEL_MESSAGE', channel: string, from: string, message: string }
-  | { type: 'RECEIVE_AWAY', message: string, nick: string }
-  | { type: 'RECEIVE_JOIN', channel: string, from: string }
+  | { type: 'RECEIVE_ACTION', connectionId: string, channel: string, from: string, message: string }
+  | { type: 'RECEIVE_DIRECT_MESSAGE', connectionId: string, from: string, message: string }
+  | { type: 'RECEIVE_CHANNEL_MESSAGE', connectionId: string, channel: string, from: string, message: string }
+  | { type: 'RECEIVE_AWAY', connectionId: string, message: string, nick: string }
+  | { type: 'RECEIVE_JOIN', connectionId: string, channel: string, from: string }
   | { type: 'RECEIVE_MOTD', connectionId: string, motd: string }
-  | { type: 'RECEIVE_NAMES', channel: string, names: Array<PersonT> }
-  | { type: 'RECEIVE_NICK', oldNickname: string, newNickname: string }
+  | { type: 'RECEIVE_NAMES', connectionId: string, channel: string, names: Array<PersonT> }
+  | { type: 'RECEIVE_NICK', connectionId: string, oldNickname: string, newNickname: string }
   | { type: 'RECEIVE_NOTICE', connectionId: string, to: string, from: string, message: string }
-  | { type: 'RECEIVE_PART', message: string, nick: string, channels: Array<string> }
-  | { type: 'RECEIVE_QUIT', message: string, nick: string }
-  | { type: 'RECEIVE_TOPIC', channel: string, topic: string }
+  | { type: 'RECEIVE_PART', connectionId: string, message: string, nick: string, channels: Array<string> }
+  | { type: 'RECEIVE_QUIT', connectionId: string, message: string, nick: string }
+  | { type: 'RECEIVE_TOPIC', connectionId: string, channel: string, topic: string }
   | { type: 'RECEIVE_WELCOME', connectionId: string, nick: string }
-  | { type: 'COMMAND_JOIN', name: string }
-  | { type: 'COMMAND_ME', target: string, message: string }
-  | { type: 'COMMAND_NICK', newNickname: string }
-  | { type: 'COMMAND_NOTICE', to: string, message: string }
-  | { type: 'COMMAND_PART', channel: string }
-  | { type: 'COMMAND_PART_ALL', channels: Array<string> }
+  | { type: 'COMMAND_JOIN', connectionId: string, name: string }
+  | { type: 'COMMAND_ME', connectionId: string, target: string, message: string }
+  | { type: 'COMMAND_NICK', connectionId: string, newNickname: string }
+  | { type: 'COMMAND_NOTICE', connectionId: string, to: string, message: string }
+  | { type: 'COMMAND_PART', connectionId: string, channel: string }
+  | { type: 'COMMAND_PART_ALL', connectionId: string, channels: Array<string> }
   | { type: 'SELECT_CONVERSATION', connectionId: string, conversationId: string }
   | { type: 'VISIBILITY_CHANGE', visible: boolean }
   | { type: 'NOTIFICATION_CLICK', via: Action }

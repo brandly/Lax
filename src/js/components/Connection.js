@@ -22,15 +22,17 @@ import type {
 
 type Props = {
   dispatch: Dispatch,
-  connection: ConnectionT,
+  connection: ?ConnectionT,
   conversation: ?ConversationT
 };
 
 class Connection extends React.Component<Props> {
   viewConversation (conversationId) {
-    this.props.dispatch({
+    const { dispatch, connection } = this.props
+
+    dispatch({
       type: 'SELECT_CONVERSATION',
-      connectionId: this.props.connection.id,
+      connectionId: connection ? connection.id : '',
       conversationId
     })
   }
@@ -41,6 +43,8 @@ class Connection extends React.Component<Props> {
       conversation,
       dispatch
     } = this.props
+
+    if (!connection) return <h1>Unexpected: No connection found</h1>
 
     return (
       <div className="message-center">
@@ -93,7 +97,7 @@ export default connect((state: IrcState, ownProps): $Shape<Props> => {
   const { connectionId } = state.route
 
   const connection = getConnectionById(state, connectionId)
-  const conversation = state.conversations.list ? state.conversations.list.getSelected() : null
+  const conversation = connection && connection.conversations ? connection.conversations.getSelected() : null
 
   return {
     connection,

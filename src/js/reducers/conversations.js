@@ -1,6 +1,5 @@
 // @flow
 /* global $Shape */
-import { combineReducers } from 'redux'
 import uuid from 'uuid/v4'
 import SelectList from '../modules/SelectList'
 import type {
@@ -290,6 +289,4 @@ function makeMessage (data: $Shape<MessageT>): MessageT {
   }, data)
 }
 
-export default combineReducers({
-  list
-})
+export default list
