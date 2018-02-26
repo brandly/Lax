@@ -28,16 +28,31 @@ body,
   float: left;
 }
 
+.connection-tabs .tab {
+  margin: 10px 10px 0;
+  background: #373D48;
+  border-radius: 6px;
+  color: #7c818c;
+}
+
+.connection-tabs .tab.selected {
+  width: 50px;
+  margin-right: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  color: #FFF;
+}
+
 .connection-tabs .tab button {
   outline: none;
   border: none;
+  background: none;
   width: 40px;
   height: 40px;
-  margin: 10px 10px 0;
-  background: #383c4a;
-  color: #FFF;
-  border-radius: 6px;
+  color: inherit;
+  font-size: 16px;
 }
+
 
 .connection-view {
   height: 100vh;
