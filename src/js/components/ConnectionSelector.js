@@ -2,33 +2,40 @@
 /* global $Shape */
 import * as React from 'react'
 import { connect } from 'react-redux'
+import classNames from 'classnames'
 import type {
   ConnectionT,
+  RouteT,
   IrcState,
   Dispatch
 } from '../flow'
 
 type Props = {
   connections: Array<ConnectionT>,
+  route: RouteT,
   children: React.Node,
   dispatch: Dispatch
 };
 
 class ConnectionSelector extends React.PureComponent<Props> {
   render () {
-    const { connections, children, dispatch } = this.props
+    const { route, connections, children, dispatch } = this.props
     return (
       <div>
         <div className="connection-tabs">
           <ul>
             {connections.map((conn, i) =>
-                <Tab onClick={() => {
+              <Tab
+                key={conn.id}
+                selected={route.view === 'CONNECTION' && route.connectionId === conn.id}
+                onClick={() => {
                   dispatch({
                     type: 'SELECT_CONVERSATION',
                     connectionId: conn.id,
                     conversationId: conn.id
                   })
-                }}>{i + 1}</Tab>
+                }}
+              >{i + 1}</Tab>
             )}
             <Tab onClick={() => {
               dispatch({
@@ -45,7 +52,7 @@ class ConnectionSelector extends React.PureComponent<Props> {
 }
 
 const Tab = props =>
-  <li className="tab">
+  <li className={classNames('tab', { selected: props.selected || false })}>
     <button
       onClick={() => {
         props.onClick()
@@ -55,6 +62,7 @@ const Tab = props =>
 
 export default connect((state: IrcState, ownProps): $Shape<Props> => {
   return {
-    connections: state.connections.list
+    connections: state.connections.list,
+    route: state.route
   }
 })(ConnectionSelector)
