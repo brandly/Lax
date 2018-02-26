@@ -12,6 +12,17 @@ function route (
         view: 'CONNECTION',
         connectionId: action.connectionId
       }
+    case 'NOTIFICATION_CLICK': {
+      if (action.via.type === 'RECEIVE_DIRECT_MESSAGE') {
+        const { via } = action
+        return {
+          view: 'CONNECTION',
+          connectionId: via.connectionId
+        }
+      } else {
+        return state
+      }
+    }
     case 'REDIRECT':
       return action.route
     default:

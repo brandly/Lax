@@ -38,7 +38,7 @@ function withConversations (
   action: Action
 ): Array<ConnectionT> {
   return state.map(connection => {
-    if (typeof action.connectionId === 'string' && connection.id === action.connectionId) {
+    if (action.type === 'NOTIFICATION_CLICK' || (typeof action.connectionId === 'string' && connection.id === action.connectionId)) {
       return Object.assign({}, connection, {
         conversations: conversationsList(connection.conversations, action)
       })
