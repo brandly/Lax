@@ -111,6 +111,7 @@ export type Action
   | { type: 'COMMAND_PART', connectionId: string, channel: string }
   | { type: 'COMMAND_PART_ALL', connectionId: string, channels: Array<string> }
   | { type: 'SELECT_CONVERSATION', connectionId: string, conversationId: string }
+  | { type: 'REDIRECT', route: RouteT }
   | { type: 'VISIBILITY_CHANGE', visible: boolean }
   | { type: 'NOTIFICATION_CLICK', via: Action }
   ;
