@@ -3,6 +3,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Connection from './Connection'
+import ConnectionSelector from './ConnectionSelector'
 import ConnectionCreator from './ConnectionCreator'
 import { listenToDocumentEvent } from '../actions/document'
 import type {
@@ -31,7 +32,7 @@ class Router extends React.Component<Props> {
     this.unlisten()
   }
 
-  render () {
+  renderContents () {
     const { route } = this.props
     switch (route.view) {
       case 'CONNECTION_CREATOR':
@@ -39,6 +40,12 @@ class Router extends React.Component<Props> {
       case 'CONNECTION':
         return <Connection />
     }
+  }
+
+  render () {
+    return <ConnectionSelector>
+      {this.renderContents()}
+    </ConnectionSelector>
   }
 }
 

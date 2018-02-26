@@ -7,10 +7,13 @@ function route (
 ): RouteT {
   switch (action.type) {
     case 'REQUEST_CONNECTION_SUCCESS':
+    case 'SELECT_CONVERSATION':
       return {
         view: 'CONNECTION',
         connectionId: action.connectionId
       }
+    case 'REDIRECT':
+      return action.route
     default:
       return state
   }
