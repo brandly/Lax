@@ -13,14 +13,16 @@ type Props = {
 };
 
 type State = {
-  showPeopleList: boolean
+  showPeopleList: boolean,
+  filterStatusUpdates: boolean
 };
 
-class Conversation extends React.Component<Props, State> {
+class Conversation extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props)
     this.state = {
-      showPeopleList: false
+      showPeopleList: false,
+      filterStatusUpdates: true
     }
   }
 
@@ -33,7 +35,7 @@ class Conversation extends React.Component<Props, State> {
   render () {
     const { conversation, nickname } = this.props
     const { messages } = conversation
-    const { showPeopleList } = this.state
+    const { showPeopleList, filterStatusUpdates } = this.state
 
     const peopleListEl = showPeopleList ? <PeopleList people={conversation.people} /> : null
 
@@ -42,10 +44,18 @@ class Conversation extends React.Component<Props, State> {
         <div className="above-bottom-panel">
           <ConversationHeader
             onPeopleClick={this.togglePeopleList.bind(this)}
+            onFilterClick={() => {
+              this.setState({
+                filterStatusUpdates: !filterStatusUpdates
+              })
+            }}
+            filterActive={filterStatusUpdates}
             conversation={conversation}
           />
           <div className="below-header">
-            <MessageList messages={messages} />
+            <MessageList
+              messages={filterStatusUpdates ? messages.filter(notStatusUpdate) : messages}
+            />
           </div>
           {peopleListEl}
         </div>
@@ -59,6 +69,11 @@ class Conversation extends React.Component<Props, State> {
       </div>
     )
   }
+}
+
+const statusUpdates = ['join', 'part', 'away', 'quit']
+function notStatusUpdate (message) {
+  return !statusUpdates.includes(message.type)
 }
 
 export default Conversation
