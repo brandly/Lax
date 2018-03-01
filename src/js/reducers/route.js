@@ -13,8 +13,8 @@ function route (
         connectionId: action.connectionId
       }
     case 'NOTIFICATION_CLICK': {
-      if (action.via.type === 'RECEIVE_DIRECT_MESSAGE') {
-        const { via } = action
+      const { via } = action
+      if (via.type === 'RECEIVE_DIRECT_MESSAGE' || via.type === 'RECEIVE_CHANNEL_MESSAGE') {
         return {
           view: 'CONNECTION',
           connectionId: via.connectionId
