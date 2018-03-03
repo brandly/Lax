@@ -1,11 +1,13 @@
 // @flow
 /* global SyntheticEvent, HTMLInputElement */
 import React from 'react'
+import Keydown from './Keydown'
 import sortBy from '../modules/sortBy'
 import type { PersonT } from '../flow'
 
 type Props = {
-  people: Array<PersonT>
+  people: Array<PersonT>,
+  onCloseRequest: () => void
 };
 
 type State = {
@@ -44,6 +46,7 @@ class PeopleList extends React.Component<Props, State> {
 
     return (
       <div className="people-list">
+        <Keydown on="Escape" fn={this.props.onCloseRequest} />
         <div className="scrolling-panel">
           <input
             type="text"

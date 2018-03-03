@@ -37,7 +37,9 @@ class Conversation extends React.PureComponent<Props, State> {
     const { messages } = conversation
     const { showPeopleList, filterStatusUpdates } = this.state
 
-    const peopleListEl = showPeopleList ? <PeopleList people={conversation.people} /> : null
+    const peopleListEl = showPeopleList ? (
+      <PeopleList people={conversation.people} onCloseRequest={this.togglePeopleList.bind(this)} />
+    ) : null
 
     return (
       <div className="right-panel channel">
