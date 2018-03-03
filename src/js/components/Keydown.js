@@ -1,6 +1,5 @@
 // @flow
 import React from 'react'
-import classNames from 'classnames'
 
 type Props = {
   on: string,
@@ -8,17 +7,18 @@ type Props = {
 };
 
 class Keydown extends React.PureComponent<Props> {
-  constructor (props) {
+  _handle: Event => void;
+  constructor (props: Props) {
     super(props)
-    this.handle = this.handle.bind(this)
+    this._handle = this.handle.bind(this)
   }
 
   componentDidMount () {
-    document.addEventListener('keydown', this.handle)
+    document.addEventListener('keydown', this._handle)
   }
 
   componentWillUnmount () {
-    document.removeEventListener('keydown', this.handle)
+    document.removeEventListener('keydown', this._handle)
   }
 
   handle (event: Event) {
