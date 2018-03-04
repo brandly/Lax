@@ -2,7 +2,6 @@ import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, compose } from 'redux'
-import loggerMiddleware from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
 import { rootReducer } from './reducers'
 import Router from './components/Router'
@@ -16,7 +15,7 @@ const middleware = [
 ]
 const composeEnhancers =
   inProduction ? compose : (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose)
-if (!inProduction) middleware.push(loggerMiddleware)
+if (!inProduction) middleware.push(require('redux-logger').default)
 
 const store = createStore(
   rootReducer,

@@ -12,3 +12,9 @@ to start this thing with react/redux devtools
 ```shell
 $ npm run dev
 ```
+
+to build an executable for your OS
+
+```shell
+$ npm run build
+```

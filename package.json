@@ -9,16 +9,14 @@
     "test": "npm run lint && npm run flow && npm run jest",
     "lint": "eslint src/ test/",
     "jest": "jest",
-    "flow": "glow"
+    "flow": "glow",
+    "build": "bin/build"
   },
   "main": "index.js",
   "main-html": "src/index.html",
-  "author": "",
+  "author": "Matthew Brandly, brandly.me",
   "license": "MIT",
   "dependencies": {
-    "babel-preset-es2015": "6.24.1",
-    "babel-preset-react": "6.24.1",
-    "babel-register": "6.26.0",
     "classnames": "2.2.5",
     "keymaster": "^1.6.2",
     "keymirror": "^0.1.1",
@@ -32,11 +30,17 @@
     "uuid": "3.2.1"
   },
   "devDependencies": {
+    "babel-cli": "6.26.0",
     "babel-eslint": "8.0.2",
     "babel-jest": "21.2.0",
+    "babel-plugin-transform-node-env-inline": "0.3.0",
+    "babel-preset-es2015": "6.24.1",
     "babel-preset-flow": "6.23.0",
+    "babel-preset-react": "6.24.1",
+    "babel-register": "6.26.0",
     "electron": "1.7.11",
     "electron-devtools-installer": "2.2.1",
+    "electron-packager": "11.0.1",
     "eslint": "4.11.0",
     "eslint-config-standard": "10.2.1",
     "eslint-config-standard-react": "5.0.0",
