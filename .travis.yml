@@ -1,5 +1,18 @@
+os: osx
 language: node_js
 node_js:
   - "8"
-  - "7"
-  - "6"
+
+deploy:
+  before_deploy:
+        - git config --local user.name "BRADLY DEPLOY BOT"
+        - git config --local user.email "BRADLY DEPLOY BOT MAIL"
+        - ./bin/build
+        - npm i -g asar
+        - asar pack dist/IRC-darwin-x64/IRC.app/ IRC.app
+  provider: releases
+  api_key: "BRADLEY DEPLOY BOT TOKEN"
+  file: "IRC.app"
+  skip_cleanup: true
+  on:
+    tags: true
