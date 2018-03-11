@@ -74,7 +74,9 @@ function quitConnectionsInList (
   state: Array<ConnectionT>
 ): Array<ConnectionT> {
   state.map(connection => {
-    return connection.quit(AUREVOIR_MESSAGE)
+    connection.stream.quit(AUREVOIR_MESSAGE)
+    connection.isConnected = false
+    return connection
   })
 }
 
