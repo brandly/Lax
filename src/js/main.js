@@ -24,7 +24,7 @@ const store = createStore(
   composeEnhancers(applyMiddleware.apply(null, middleware))
 )
 
-ipcRenderer.on('asynchronous-message', (event, arg) => {
+ipcRenderer.on('synchronous-message', (event, arg) => {
   if (arg === 'quit') {
     store.dispatch('QUIT_APP')
   }
