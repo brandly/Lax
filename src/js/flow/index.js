@@ -114,6 +114,7 @@ export type Action
   | { type: 'REDIRECT', route: RouteT }
   | { type: 'VISIBILITY_CHANGE', visible: boolean }
   | { type: 'NOTIFICATION_CLICK', via: Action }
+  | { type: 'QUIT_APP', via: Action }
   ;
 
 export type Store = ReduxStore<IrcState, Action>;

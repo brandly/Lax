@@ -4,6 +4,8 @@ import { combineReducers } from 'redux'
 import conversationsList from './conversations'
 import type { ConnectionT, Action } from '../flow'
 
+const AUREVOIR_MESSAGE = '[quit] Someone made an IRC client with Electron? Wut? https://github.com/brandly/irc!'
+
 function list (
   state: Array<ConnectionT> = [],
   action: Action
@@ -28,6 +30,8 @@ function list (
       return updateIdInList(state, action.connectionId, {
         isWelcome: true
       })
+    case 'QUIT_APP':
+      return quitConnectionsInList(state)
     default:
       return state
   }
@@ -64,6 +68,14 @@ function updateIdInList (
   })
 
   return found ? result : result.concat([ update ])
+}
+
+function quitConnectionsInList (
+  state: Array<ConnectionT>
+): Array<ConnectionT> {
+  state.map(connection => {
+    return connection.quit(AUREVOIR_MESSAGE)
+  })
 }
 
 const compose = (a, b) =>

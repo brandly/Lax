@@ -2,6 +2,7 @@ import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, compose } from 'redux'
+import { ipcRenderer } from 'electron'
 import thunkMiddleware from 'redux-thunk'
 import { rootReducer } from './reducers'
 import Router from './components/Router'
@@ -22,6 +23,12 @@ const store = createStore(
   initialState,
   composeEnhancers(applyMiddleware.apply(null, middleware))
 )
+
+ipcRenderer.on('asynchronous-message', (event, arg) => {
+  if (arg === 'quit') {
+    store.dispatch('QUIT_APP')
+  }
+})
 
 render(
   <Provider store={store}>

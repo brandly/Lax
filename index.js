@@ -60,3 +60,9 @@ app.on('activate', () => {
     createWindow()
   }
 })
+
+app.on('will-quit', () => {
+  if (win !== null) { // this is somehow buggy but what can we do about OSX window handling :)
+    win.webContents.send('synchronous-message', 'quit') // Send the message immediately
+  }
+})
