@@ -9,47 +9,65 @@ type Props = {
 };
 
 type State = {
-  storedKeys: Array<string>,
   isConnecting: boolean,
   realName: string,
   nickname: string,
   server: string,
   port: string,
-  password: string
+  password: string,
+  rememberPassword: boolean
 };
 
+const { localStorage } = window
+const storedKeys = ['realName', 'nickname', 'server', 'port']
 class ConnectionCreator extends React.Component<Props, State> {
   constructor (props) {
     super(props)
-    const storedKeys = ['realName', 'nickname', 'server', 'port']
 
-    const state = {
-      storedKeys,
+    this.state = {
       isConnecting: false,
       realName: '',
       nickname: '',
       server: '',
       port: '',
-      password: ''
+      password: '',
+      rememberPassword: localStorage.rememberPassword === 'true' || false
     }
 
-    storedKeys.forEach(key => {
-      state[key] = window.localStorage[key] || ''
+    this.getStoredKeys().forEach(key => {
+      this.state[key] = localStorage[key] || ''
     })
-
-    this.state = state
   }
 
-  handleChange (key, event) {
-    const { value } = event.target
+  getStoredKeys () {
+    return this.state.rememberPassword ? storedKeys.concat('password') : storedKeys
+  }
 
-    if (this.state.storedKeys.includes(key)) {
-      window.localStorage[key] = value
+  handleChange (event) {
+    const { name, value } = event.target
+    console.log('wow', name, value)
+
+    if (this.getStoredKeys().includes(name)) {
+      localStorage[name] = value
     }
 
     this.setState({
-      [key]: value
+      [name]: value
     })
+  }
+
+  handleRemember (event) {
+    const { name, checked } = event.target
+    localStorage[name] = checked
+    this.setState({
+      [name]: checked
+    })
+
+    if (checked) {
+      localStorage.password = this.state.password
+    } else {
+      localStorage.removeItem('password')
+    }
   }
 
   handleFormSubmission (event) {
@@ -100,36 +118,54 @@ class ConnectionCreator extends React.Component<Props, State> {
       <form className="connection-creator" onSubmit={this.handleFormSubmission.bind(this)}>
         <div className={inputGroupClass}>
           <label>Real Name</label>
-          <input type="text"
+          <input
+            type="text"
             autoFocus
             required
+            name="realName"
             value={this.state.realName}
             disabled={this.state.isConnecting}
-            onChange={this.handleChange.bind(this, 'realName')} />
+            onChange={this.handleChange.bind(this)} />
         </div>
 
         <div className={inputGroupClass}>
           <label>Nickname</label>
-          <input type="text"
+          <input
+            type="text"
             required
+            name="nickname"
             value={this.state.nickname}
             disabled={this.state.isConnecting}
-            onChange={this.handleChange.bind(this, 'nickname')} />
+            onChange={this.handleChange.bind(this)} />
         </div>
 
         <div className={inputGroupClass}>
           <label>Password</label>
-          <input type="password"
+          <input
+            type="password"
+            name="password"
+            value={this.state.password}
             disabled={this.state.isConnecting}
-            onChange={this.handleChange.bind(this, 'password')} />
+            onChange={this.handleChange.bind(this)} />
+          <label>
+            remember password? <input
+              type="checkbox"
+              name="rememberPassword"
+              onChange={this.handleRemember.bind(this)}
+              onClick={this.handleRemember.bind(this)}
+              checked={this.state.rememberPassword}
+            />
+          </label>
         </div>
 
         <div className={inputGroupClass}>
           <label>Server</label>
-          <select required
+          <select
+            required
+            name="server"
             value={this.state.server}
             disabled={this.state.isConnecting}
-            onChange={this.handleChange.bind(this, 'server')}>
+            onChange={this.handleChange.bind(this)}>
             <option value="" />
             {serverOptions.map((n, i) => {
               return <option value={n} key={i}>{n}</option>
@@ -139,11 +175,13 @@ class ConnectionCreator extends React.Component<Props, State> {
 
         <div className={inputGroupClass}>
           <label>Port</label>
-          <input type="number"
+          <input
+            type="number"
             required
+            name="port"
             value={this.state.port}
             disabled={this.state.isConnecting}
-            onChange={this.handleChange.bind(this, 'port')} />
+            onChange={this.handleChange.bind(this)} />
         </div>
 
         <div className={inputGroupClass}>
