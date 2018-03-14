@@ -4,6 +4,7 @@ import uuid from 'uuid/v4'
 import SelectList from '../modules/SelectList'
 import type {
   ConversationT,
+  ConversationType,
   MessageT,
   Action
 } from '../flow'

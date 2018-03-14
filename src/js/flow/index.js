@@ -42,7 +42,7 @@ export type MessageT = {
   when: Date
 };
 
-type ConversationType
+export type ConversationType
   = 'CHANNEL'
   | 'DIRECT'
   | 'CONNECTION'
