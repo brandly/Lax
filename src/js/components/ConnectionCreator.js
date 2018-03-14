@@ -45,7 +45,6 @@ class ConnectionCreator extends React.Component<Props, State> {
 
   handleChange (event) {
     const { name, value } = event.target
-    console.log('wow', name, value)
 
     if (this.getStoredKeys().includes(name)) {
       localStorage[name] = value
