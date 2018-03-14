@@ -6,12 +6,14 @@ import thunkMiddleware from 'redux-thunk'
 import { rootReducer } from './reducers'
 import Router from './components/Router'
 import notifMiddleware from './modules/notifMiddleware'
+import storeChannelsMiddleware from './modules/storeChannels'
 const inProduction = process.env.NODE_ENV === 'production'
 
 const initialState = {}
 const middleware = [
   thunkMiddleware,
-  notifMiddleware
+  notifMiddleware,
+  storeChannelsMiddleware
 ]
 const composeEnhancers =
   inProduction ? compose : (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose)
