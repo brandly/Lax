@@ -96,7 +96,7 @@ function guaranteedList (
         return state.selectWhere(convo => convo.name === name)
       } else {
         return state.concat([{
-          type: 'CHANNEL',
+          type: typeForId(action.name),
           name: action.name.toLowerCase(),
           messages: [],
           people: [],
@@ -251,7 +251,7 @@ function updateIdInList (
     return result
   } else {
     return result.concat([update({
-      type: id[0] === '#' ? 'CHANNEL' : 'DIRECT',
+      type: typeForId(id),
       name: id,
       messages: [],
       people: [],
@@ -259,6 +259,10 @@ function updateIdInList (
       unreadCount: 0
     })])
   }
+}
+
+function typeForId (id: string): ConversationType {
+  return id[0] === '#' ? 'CHANNEL' : 'DIRECT'
 }
 
 function applyToListWhere<T> (

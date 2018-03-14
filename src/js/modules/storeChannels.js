@@ -33,9 +33,13 @@ function read (id: string): Array<string> {
 const storeChannelsMiddleware = (store: Store) => (next: Dispatch) => (action: Action) => {
   if (typeof action.connectionId === 'string') {
     const connectionId = action.connectionId || ''
-    const before = getConversationsForConnection(store.getState(), connectionId)
+    const get = () =>
+      getConversationsForConnection(store.getState(), connectionId)
+        .filter(convo => convo.type === 'CHANNEL')
+
+    const before = get()
     next(action)
-    const after = getConversationsForConnection(store.getState(), connectionId)
+    const after = get()
 
     if (after.length !== before.length) {
       const names = after.map(convo => convo.name)
