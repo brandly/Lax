@@ -79,6 +79,7 @@ function createCommand (connection: ConnectionT, conversationName: string, messa
 export function commandJoin (connectionId: string, name: string): Dispatchable {
   return (dispatch, getState) => {
     const connection = getConnectionById(getState(), connectionId)
+    name = name.startsWith('#') ? name : '#' + name
 
     if (connection) {
       connection.stream.join(name)
