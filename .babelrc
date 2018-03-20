@@ -1,4 +1,11 @@
 {
-  "presets": ["es2015", "react"],
+  "presets": [
+    "react",
+    ["env", {
+      "targets": {
+        node: "7.9.0"
+      }
+    }]
+  ],
   "plugins": ["transform-node-env-inline"]
 }
