@@ -18,11 +18,12 @@
   "license": "MIT",
   "dependencies": {
     "classnames": "2.2.5",
+    "electron": "1.8.4",
     "keymaster": "^1.6.2",
     "keymirror": "^0.1.1",
-    "react-linkify": "0.2.1",
     "react": "16.2.0",
     "react-dom": "16.2.0",
+    "react-linkify": "0.2.1",
     "react-redux": "5.0.7",
     "redux": "3.7.2",
     "redux-thunk": "2.2.0",
