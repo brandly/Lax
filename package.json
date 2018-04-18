@@ -39,7 +39,6 @@
     "babel-preset-flow": "6.23.0",
     "babel-preset-react": "6.24.1",
     "babel-register": "6.26.0",
-    "electron": "1.7.11",
     "electron-devtools-installer": "2.2.1",
     "electron-packager": "11.0.1",
     "eslint": "4.11.0",
