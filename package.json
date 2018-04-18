@@ -6,7 +6,7 @@
   "scripts": {
     "start": "NODE_ENV=production electron ./",
     "dev": "NODE_ENV=development electron ./",
-    "test": "rm -rf node_modules/electron-packager/test/* && npm run lint && npm run flow && npm run jest",
+    "test": "npm run lint && npm run flow && npm run jest",
     "lint": "eslint src/ test/",
     "jest": "jest",
     "flow": "glow",
