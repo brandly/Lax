@@ -1,5 +1,6 @@
 // @flow
 import React from 'react'
+import classNames from 'classnames'
 import ConversationHeader from './ConversationHeader'
 import MessageList from './MessageList'
 import ComposeMessage from './ComposeMessage'
@@ -21,7 +22,7 @@ class Conversation extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props)
     this.state = {
-      showPeopleList: false,
+      showPeopleList: true,
       filterStatusUpdates: true
     }
   }
@@ -42,7 +43,9 @@ class Conversation extends React.PureComponent<Props, State> {
     ) : null
 
     return (
-      <div className="right-panel channel">
+      <div className={classNames('right-panel channel', {
+        'with-details': showPeopleList
+      })}>
         <div className="above-bottom-panel">
           <ConversationHeader
             onPeopleClick={this.togglePeopleList.bind(this)}
@@ -59,7 +62,6 @@ class Conversation extends React.PureComponent<Props, State> {
               messages={filterStatusUpdates ? messages.filter(notStatusUpdate) : messages}
             />
           </div>
-          {peopleListEl}
         </div>
         <div className="absolute-bottom-panel">
           <ComposeMessage
@@ -68,6 +70,7 @@ class Conversation extends React.PureComponent<Props, State> {
             onMessage={this.props.onMessage}
           />
         </div>
+        {peopleListEl}
       </div>
     )
   }

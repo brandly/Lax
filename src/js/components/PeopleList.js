@@ -47,14 +47,20 @@ class PeopleList extends React.Component<Props, State> {
     return (
       <div className="people-list">
         <Keydown on="Escape" fn={this.props.onCloseRequest} />
-        <div className="scrolling-panel">
+        <div className="header channel-header">
           <input
             type="text"
-            placeholder="search..."
+            placeholder={[
+              'search',
+              people.length,
+              (people.length === 1 ? 'person' : 'people')
+            ].join(' ')}
             className="people-search-field"
             autoFocus
             onChange={this.handleChange.bind(this)}
           />
+        </div>
+        <div className="scrolling-panel">
           {peopleElements}
         </div>
       </div>

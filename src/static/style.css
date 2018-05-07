@@ -145,6 +145,11 @@ body,
   padding: 0 1.0rem;
 }
 
+.right-panel.with-details .above-bottom-panel,
+.right-panel.with-details .absolute-bottom-panel {
+  width: calc(100% - 220px);
+}
+
 .scrolling-panel {
   height: 100%;
   overflow: auto;
@@ -243,7 +248,7 @@ body,
 
 .people-list {
   position: absolute;
-  top: 4.0rem;
+  top: 0;
   right: 0;
   height: 100%;
   width: 220px;
@@ -263,7 +268,6 @@ body,
 .people-search-field {
   display: block;
   width: 100%;
-  margin-bottom: 0.5rem;
   font-size: 14px;
   line-height: 1.8;
   padding: 0 8px;
