@@ -258,6 +258,7 @@ body,
 
 .people-list .scrolling-panel {
   padding: 0.8rem;
+  height: calc(100% - 4.0rem);
 }
 
 .people-list .nickname {
