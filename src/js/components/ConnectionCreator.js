@@ -5,7 +5,6 @@ import { connectToServer } from '../actions'
 import type { Dispatch } from '../flow'
 
 const serverOptions = [
-  '10.4.135.1',
   'chat.freenode.net',
   'irc.abjects.net',
   'irc.allnetwork.org',
