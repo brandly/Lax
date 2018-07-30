@@ -1,0 +1,32 @@
+// TODO: Use BEM
+.connection-tabs {
+  height: 100vh;
+  width: 60px;
+  background: #252525;
+  float: left;
+
+  .tab {
+    margin: 10px 10px 0;
+    background: #373D48;
+    border-radius: 6px;
+    color: #7c818c;
+  }
+
+  .tab.selected {
+    width: 50px;
+    margin-right: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    color: #FFF;
+  }
+
+  .tab button {
+    outline: none;
+    border: none;
+    background: none;
+    width: 40px;
+    height: 40px;
+    color: inherit;
+    font-size: 16px;
+  }
+}

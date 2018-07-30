@@ -1,0 +1,19 @@
+.header {
+  height: 4.0rem;
+  padding: 0 1.0rem;
+  cursor: default;
+  padding-top: 2px;
+}
+
+.header .vertical-center {
+  line-height: 4.0rem;
+}
+
+.below-header {
+  position: relative;
+  height: calc(100% - 4.0rem);
+}
+
+.connection-header .server {
+  font-size: 1rem;
+}

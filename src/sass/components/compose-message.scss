@@ -1,0 +1,22 @@
+.compose-message {
+  width: 100%;
+  height: 4.0rem;
+}
+
+.compose-message .from {
+  line-height: 4.0rem;
+}
+
+.compose-message input[type="text"] {
+  background: none;
+  border: none;
+  outline: none;
+  height: 100%;
+  width: 100%;
+  padding-right:1.0rem;
+  font-size: 0.8rem;
+}
+
+.compose-message input[type="submit"] {
+  display: none;
+}
