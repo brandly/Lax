@@ -4,8 +4,8 @@
   "description": "",
   "private": true,
   "scripts": {
-    "start": "gulp build && NODE_ENV=production electron ./",
-    "dev": "gulp build && NODE_ENV=development electron ./",
+    "start": "gulp sass && NODE_ENV=production electron ./",
+    "dev": "gulp sass && NODE_ENV=development electron ./",
     "test": "npm run lint && npm run flow && npm run jest",
     "lint": "eslint src/ test/",
     "jest": "jest",
