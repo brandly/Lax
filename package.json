@@ -19,6 +19,10 @@
   "dependencies": {
     "classnames": "2.2.5",
     "electron": "1.8.4",
+    "gulp": "^3.9.1",
+    "gulp-plumber": "^1.2.0",
+    "gulp-sass": "^4.0.1",
+    "gulp-sass-bulk-import": "^1.0.1",
     "keymaster": "^1.6.2",
     "keymirror": "^0.1.1",
     "react": "16.2.0",

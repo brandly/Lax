@@ -1,0 +1,80 @@
+.nickname {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.8rem;
+}
+
+.message-list {
+  display: table;
+  width: 100%;
+  max-width: 100%;
+  border-spacing: 0 6px;
+  padding: 0 1.0rem;
+}
+
+.message {
+  display: table-row;
+  word-wrap: break-word;
+  word-break: break-word;
+  font-size: 0.9rem;
+}
+
+.message .from {
+  display: table-cell;
+  vertical-align: top;
+  text-align: right;
+  width: 120px;
+  max-width: 120px;
+  padding-right: 12px;
+  font-weight: bold;
+  color: #444;
+}
+
+.message-list .message .from {
+  padding-top: 4px; /* aligns text with .body, since smaller font-size */
+}
+
+.message .body {
+  display: table-cell;
+  vertical-align: top;
+  line-height: 1.3;
+  padding-right: 12px;
+}
+
+.message .when {
+  display: table-cell;
+  vertical-align: top;
+  line-height: 1.3;
+  color: #7c818c;
+  width: 56px;
+  font-size: 0.7rem;
+  padding-top: 3px;
+  text-align: right;
+}
+
+.message .command {
+  margin-right: 6px;
+  border: 1px solid #eaeaea;
+  font-size: 0.7rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+.message.error .command {
+  background-color: #EDA5A5;
+  text-shadow: 0 0px 1px #C87F7F;
+}
+
+.message .text a {
+  text-decoration: none;
+  color: #5294e2;
+}
+
+.message.nick .text,
+.message.away .text,
+.message.quit .text,
+.message.error .text {
+  color: #BBB;
+}

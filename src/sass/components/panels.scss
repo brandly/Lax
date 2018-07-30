@@ -1,0 +1,40 @@
+.left-panel {
+  position: relative;
+  width: 220px;
+  float: left;
+  background: #373D48;
+  color: #FFF;
+}
+
+.right-panel {
+  position: relative;
+  width: calc(100% - 220px);
+  margin-left: 220px;
+}
+
+.above-bottom-panel {
+  position: relative;
+  height: calc(100% - 4.0rem);
+  margin-bottom: 4.0rem;
+}
+
+.absolute-bottom-panel {
+  position: absolute;
+  display: table;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4.0rem;
+  width: 100%;
+  padding: 0 1.0rem;
+}
+
+.right-panel.with-details .above-bottom-panel,
+.right-panel.with-details .absolute-bottom-panel {
+  width: calc(100% - 220px);
+}
+
+.scrolling-panel {
+  height: 100%;
+  overflow: auto;
+}

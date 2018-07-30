@@ -1,0 +1,102 @@
+// Normalize
+//------------------------------------------------------------------------------
+
+@import 'vendor/normalize-css/normalize';
+
+// Post-normalize resets
+// See https://github.com/suitcss/base/blob/master/lib/base.css
+//
+// 'A thin layer on top of normalize.css that provides a starting point more
+// suitable for web applications. Removes the default spacing and border for
+// appropriate elements.'
+//------------------------------------------------------------------------------
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+blockquote,
+dl,
+dd,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+figure,
+p,
+pre {
+  margin: 0;
+}
+
+button {
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+
+// Work around a Firefox/IE bug where the transparent `button` background
+// results in a loss of the default `button` focus styles.
+// scss-lint:disable DuplicateProperty
+button:focus {
+  outline: 1px dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+}
+
+fieldset {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+iframe {
+  border: 0;
+}
+
+ol,
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+// Suppress the focus outline on links that cannot be accessed via keyboard.
+// This prevents an unwanted focus outline from appearing around elements that
+// might still respond to pointer events.
+// scss-lint:disable ImportantRule
+[tabindex='-1']:focus {
+  outline: none !important;
+}
+
+// http://meyerweb.com/eric/thoughts/2012/12/17/where-to-avoid-css-hyphenation
+abbr,
+acronym,
+blockquote,
+code,
+dir,
+kbd,
+listing,
+plaintext,
+q,
+samp,
+tt,
+var,
+xmp {
+  hyphens: none;
+}
+
+// Prevent input focus zoom on iOS http://stackoverflow.com/a/16255670/750740
+select,
+input,
+textarea {
+  .modernizr-touchevents & {
+    font-size: 16px !important;
+  }
+}

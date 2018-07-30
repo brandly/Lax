@@ -1,0 +1,21 @@
+.join-channel ::-webkit-input-placeholder {
+  letter-spacing: 0;
+}
+
+.join-channel input[type="text"] {
+  border: none;
+  outline: none;
+  font-size: 0.75rem;
+  color: inherit;
+  width: calc(100% - 30px);
+  background: inherit;
+}
+
+.join-channel input[type="submit"] {
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 1.0rem;
+  font-weight: bold;
+  color: #5294e2;
+}

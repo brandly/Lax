@@ -1,0 +1,48 @@
+.channel-list-heading {
+  text-transform: uppercase;
+  color: #7c818c;
+  margin: 1.0rem 1.0rem 0.8rem;
+  font-size: 0.8rem;
+  font-weight: bold;
+  cursor: default;
+}
+
+.channel-list {
+  font-size: 0.8rem;
+  cursor: default;
+  -webkit-user-select: none;
+}
+
+.channel-list-item {
+  height: 2.0rem;
+  line-height: 2.0rem;
+  letter-spacing: 0.4px;
+  color: #FFF;
+  padding: 0 1.0rem;
+  transition: border-width 100ms ease-in-out;
+}
+
+.channel-list-item.is-selected {
+  background: #5294E2;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.10);
+  font-weight: 200;
+}
+
+.channel-list-item .channel-name.has-unread {
+  font-weight: bold;
+}
+
+.channel-name .channel-prefix {
+  color: #afb1b5;
+  margin-right: 3px;
+  letter-spacing: 0;
+}
+
+.channel-list-item .unread-count {
+  float: right;
+  background: #5294e2;
+  border-radius: 16px;
+  padding: 0 8px;
+  margin: 5px 0;
+  line-height: 1.7;
+}
