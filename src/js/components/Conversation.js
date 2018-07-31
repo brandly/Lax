@@ -36,7 +36,8 @@ class Conversation extends React.PureComponent<Props, State> {
   render () {
     const { conversation, nickname } = this.props
     const { messages } = conversation
-    const { showPeopleList, filterStatusUpdates } = this.state
+    const { filterStatusUpdates } = this.state
+    const showPeopleList = this.state.showPeopleList && conversation.people.length > 0
 
     const peopleListEl = showPeopleList ? (
       <PeopleList people={conversation.people} onCloseRequest={this.togglePeopleList.bind(this)} />
