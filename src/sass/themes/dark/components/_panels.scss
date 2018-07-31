@@ -1,8 +1,10 @@
-.scrolling-panel {
-  margin-right: 5px;
-  margin-top: 5px;
-}
+body.theme-dark {
+  .scrolling-panel {
+    margin-right: 5px;
+    margin-top: 5px;
+  }
 
-.left-panel .scrolling-panel {
-  height: calc(100% - 5rem);
+  .left-panel .scrolling-panel {
+    height: calc(100% - 5rem);
+  }
 }

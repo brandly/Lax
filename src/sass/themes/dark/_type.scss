@@ -1,13 +1,15 @@
-body,
-html {
-  background: #36393F;
-  color: #AAABAE;
-}
+body.theme-dark {
+  body,
+  html {
+    background: #36393F;
+    color: #AAABAE;
+  }
 
-button,
-select,
-input,
-textarea,
-.input-group input[type="submit"] {
-  color: white;
+  button,
+  select,
+  input,
+  textarea,
+  .input-group input[type="submit"] {
+    color: white;
+  }
 }

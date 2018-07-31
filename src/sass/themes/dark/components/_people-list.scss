@@ -1,8 +1,10 @@
-.left-panel,
-.people-list {
-  background: #2F3136;
-}
+body.theme-dark {
+  .left-panel,
+  .people-list {
+    background: #2F3136;
+  }
 
-.people-list {
-  border-left: 0;
+  .people-list {
+    border-left: 0;
+  }
 }

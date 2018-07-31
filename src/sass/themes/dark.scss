@@ -1,7 +1,11 @@
-body.theme-dark {
-  @import 'dark/type';
-  @import 'dark/components/*';
+@import 'dark/type';
+@import 'dark/components/people-list';
+@import 'dark/components/connection-tabs';
+@import 'dark/components/header';
+@import 'dark/components/message';
+@import 'dark/components/people-list';
 
+body.theme-dark {
   // Custom in-style scrollbars
  *{
    ::-webkit-scrollbar {
