@@ -85,3 +85,19 @@ test('RECEIVE_JOIN for ##programming removes #programming convo', () => {
   expect(list.length).toBe(2)
   expect(list[1].type).toBe('CHANNEL')
 })
+
+test('RECEIVE_DIRECT_MESSAGE doesnt care about case', () => {
+  const list = apply(withConnection([{
+    type: 'RECEIVE_DIRECT_MESSAGE',
+    connectionId,
+    from: 'someone',
+    message: 'hi'
+  }, {
+    type: 'RECEIVE_DIRECT_MESSAGE',
+    connectionId,
+    from: 'SOMEONE',
+    message: 'hello'
+  }]))
+
+  expect(list.length).toBe(2)
+})
