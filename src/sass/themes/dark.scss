@@ -1,9 +1,12 @@
 @import 'dark/type';
+
+// @TODO: Issue with `@import 'dark/components/*';` doing manual imports for now.
 @import 'dark/components/people-list';
 @import 'dark/components/connection-tabs';
 @import 'dark/components/header';
 @import 'dark/components/message';
 @import 'dark/components/people-list';
+@import 'dark/components/panels';
 
 body.theme-dark {
   // Custom in-style scrollbars
