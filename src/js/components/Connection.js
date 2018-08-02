@@ -97,6 +97,7 @@ class Connection extends React.Component<Props> {
                 message
               }))
             }}
+            disconnected={!connection.isConnected}
           />
         ) : null}
       </div>

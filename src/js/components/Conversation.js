@@ -10,7 +10,8 @@ import type { ConversationT } from '../flow'
 type Props = {
   conversation: ConversationT,
   onMessage: string => void,
-  nickname: string
+  nickname: string,
+  disconnected: boolean
 };
 
 type State = {
@@ -34,7 +35,7 @@ class Conversation extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { conversation, nickname } = this.props
+    const { conversation, nickname, disconnected } = this.props
     const { messages } = conversation
     const { filterStatusUpdates } = this.state
     const showPeopleList = this.state.showPeopleList && conversation.people.length > 0
@@ -59,6 +60,12 @@ class Conversation extends React.PureComponent<Props, State> {
             conversation={conversation}
           />
           <div className="below-header">
+            {disconnected && (
+              <p className="disconnected-error">
+                Your computer has disconnected from the server.
+              </p>
+              // but it's trying to reconnect.
+            )}
             <MessageList
               messages={filterStatusUpdates ? messages.filter(notStatusUpdate) : messages}
             />
