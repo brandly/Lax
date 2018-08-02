@@ -2,6 +2,7 @@
 /* global $Shape */
 import uuid from 'uuid/v4'
 import SelectList from '../modules/SelectList'
+import equalNames from '../modules/equalNames'
 import type {
   ConversationT,
   ConversationType,
@@ -94,7 +95,7 @@ function guaranteedList (
       const currentChannels = state.toArray().map(c => c.name)
       if (currentChannels.includes(action.name)) {
         const { name } = action
-        return state.selectWhere(convo => convo.name === name)
+        return state.selectWhere(convo => equalNames(convo.name, name))
       } else {
         return state.concat([{
           type: typeForId(action.name),
@@ -110,7 +111,7 @@ function guaranteedList (
       const { names, channel } = action
       return updateIdInList(state, channel, convo => Object.assign({}, convo, {
         people: names
-      })).selectWhere(convo => convo.name === channel)
+      })).selectWhere(convo => equalNames(convo.name, channel))
     }
     case 'RECEIVE_JOIN': {
       const { channel, from } = action
@@ -192,12 +193,12 @@ function guaranteedList (
     }
     case 'SELECT_CONVERSATION': {
       const { conversationId } = action
-      return state.selectWhere(convo => conversationId === convo.name)
+      return state.selectWhere(convo => equalNames(conversationId, convo.name))
     }
     case 'NOTIFICATION_CLICK': {
       const { via } = action
       if (via.type === 'RECEIVE_DIRECT_MESSAGE' || via.type === 'RECEIVE_CHANNEL_MESSAGE') {
-        return state.selectWhere(convo => via.from === convo.name)
+        return state.selectWhere(convo => equalNames(via.from, convo.name))
       } else {
         return state
       }
@@ -212,7 +213,7 @@ function incrementUnreadCount (
   convos: SelectList<ConversationT>
 ): SelectList<ConversationT> {
   return convos.map(convo =>
-    convo.name === conversation ? Object.assign({}, convo, {
+    equalNames(convo.name, conversation) ? Object.assign({}, convo, {
       unreadCount: convo.unreadCount + 1
     }) : convo
   )
@@ -240,7 +241,7 @@ function updateIdInList (
   let foundOne = false
 
   const result = state.map(conversation => {
-    if (conversation.name === id) {
+    if (equalNames(conversation.name, id)) {
       foundOne = true
       return update(conversation)
     } else {

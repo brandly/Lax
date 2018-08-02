@@ -1,6 +1,7 @@
 // @flow
 import net from 'net'
 import irc from 'slate-irc'
+import equalNames from '../modules/equalNames'
 import type { Thunk } from '../flow'
 
 export const CONNECTION_CLOSED = 'CONNECTION_CLOSED'
@@ -161,11 +162,11 @@ export const connectToServer = (credentials: Creds): Thunk => {
         dispatch({
           type: 'RECEIVE_ACTION',
           connectionId: id,
-          channel: e.to === nickname ? e.from : e.to,
+          channel: equalNames(e.to, nickname) ? e.from : e.to,
           from: e.from,
           message: `${e.from} ${e.message.replace(/^\u0001ACTION /, '').replace(/\u0001$/, '')}`
         })
-      } else if (e.to === nickname) {
+      } else if (equalNames(e.to, nickname)) {
         dispatch({
           type: 'RECEIVE_DIRECT_MESSAGE',
           connectionId: id,
