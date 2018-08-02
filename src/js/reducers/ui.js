@@ -11,6 +11,14 @@ function visible (state: boolean = true, action: Action): boolean {
   }
 }
 
+function isDark (state: boolean = false, action: Action): boolean {
+  switch (action.type) {
+    default:
+      return state
+  }
+}
+
 export default combineReducers({
-  visible
+  visible,
+  isDark
 })

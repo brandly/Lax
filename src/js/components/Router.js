@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import Connection from './Connection'
 import ConnectionSelector from './ConnectionSelector'
 import ConnectionCreator from './ConnectionCreator'
+import BodyColor from './BodyColor'
 import { listenToDocumentEvent } from '../actions/document'
 import type {
   IrcState,
@@ -43,9 +44,13 @@ class Router extends React.Component<Props> {
   }
 
   render () {
-    return <ConnectionSelector>
-      {this.renderContents()}
-    </ConnectionSelector>
+    return (
+      <BodyColor>
+        <ConnectionSelector>
+          {this.renderContents()}
+        </ConnectionSelector>
+      </BodyColor>
+    )
   }
 }
 

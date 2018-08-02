@@ -81,7 +81,8 @@ export type IrcState = {
   },
   route: RouteT,
   ui: {
-    visible: boolean
+    visible: boolean,
+    isDark: boolean
   }
 };
 
