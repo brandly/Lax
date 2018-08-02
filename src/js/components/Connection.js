@@ -71,6 +71,18 @@ class Connection extends React.Component<Props> {
                   this.viewConversation(name)
                 }}
               />
+              <button
+                style={{
+                  margin: '1rem',
+                  fontSize: 12
+                }}
+                onClick={e => {
+                  e.stopPropagation()
+                  dispatch({ type: 'TOGGLE_THEME'})
+                }}
+              >
+                theme
+              </button>
             </div>
           ) : null}
         </div>

@@ -114,6 +114,7 @@ export type Action
   | { type: 'SELECT_CONVERSATION', connectionId: string, conversationId: string }
   | { type: 'REDIRECT', route: RouteT }
   | { type: 'VISIBILITY_CHANGE', visible: boolean }
+  | { type: 'TOGGLE_THEME' }
   | { type: 'NOTIFICATION_CLICK', via: Action }
   ;
 
