@@ -78,7 +78,7 @@ class Connection extends React.Component<Props> {
                 }}
                 onClick={e => {
                   e.stopPropagation()
-                  dispatch({ type: 'TOGGLE_THEME'})
+                  dispatch({ type: 'TOGGLE_THEME' })
                 }}
               >
                 theme
