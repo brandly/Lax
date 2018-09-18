@@ -164,17 +164,12 @@ class ConnectionCreator extends React.Component<Props, State> {
 
         <div className={inputGroupClass}>
           <label>Server</label>
-          <select
-            required
+          <input
+            type="text"
             name="server"
             value={this.state.server}
             disabled={this.state.isConnecting}
-            onChange={this.handleChange.bind(this)}>
-            <option value="" />
-            {serverOptions.map((n, i) => {
-              return <option value={n} key={i}>{n}</option>
-            })}
-          </select>
+            onChange={this.handleChange.bind(this)} />
         </div>
 
         <div className={inputGroupClass}>
