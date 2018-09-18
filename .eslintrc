@@ -6,6 +6,10 @@
     "jsx-quotes": [2, "prefer-double"],
     "react/jsx-no-bind": 0,
     "react/prop-types": 0,
+    "space-before-function-paren": [
+      1,
+      "never"
+    ],
     "flowtype/boolean-style": [
       2,
       "boolean"
@@ -26,8 +30,8 @@
     ],
     "flowtype/require-valid-file-annotation": 2,
     "flowtype/semi": [
-      2,
-      "always"
+      1,
+      "never"
     ],
     "flowtype/space-after-type-colon": [
       2,
