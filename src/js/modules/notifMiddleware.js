@@ -11,7 +11,7 @@ import type {
 declare var Notification : any;
 
 const notifMiddleware = (store: Store) => (next: Dispatch) => (action: Action) => {
-  function fireNotif (from, body) {
+  function fireNotif(from, body) {
     const notif = new Notification(from, {
       body
     })

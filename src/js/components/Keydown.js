@@ -4,30 +4,30 @@ import React from 'react'
 type Props = {
   on: string,
   fn: void => void
-};
+}
 
 class Keydown extends React.PureComponent<Props> {
   _handle: Event => void;
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this._handle = this.handle.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     document.addEventListener('keydown', this._handle)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     document.removeEventListener('keydown', this._handle)
   }
 
-  handle (event: Event) {
+  handle(event: Event) {
     if (event.key === this.props.on) {
       this.props.fn()
     }
   }
 
-  render () {
+  render() {
     return null
   }
 }

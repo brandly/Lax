@@ -5,7 +5,7 @@ import {
 } from '../reducers/selectors'
 import type { ConnectionT, Dispatchable } from '../flow'
 
-export function createMessage ({
+export function createMessage({
   connectionId, conversationName, message
 }: {
   connectionId: string,
@@ -26,7 +26,7 @@ export function createMessage ({
   }
 }
 
-function sendMessage (connection: ConnectionT, to: string, message: string) {
+function sendMessage(connection: ConnectionT, to: string, message: string) {
   connection.stream.send(to, message)
   return {
     type: 'SEND_MESSAGE',
@@ -37,7 +37,7 @@ function sendMessage (connection: ConnectionT, to: string, message: string) {
   }
 }
 
-function createCommand (connection: ConnectionT, conversationName: string, message: string): Dispatchable {
+function createCommand(connection: ConnectionT, conversationName: string, message: string): Dispatchable {
   const words = message.split(' ')
   switch (words[0]) {
     case '/join':
@@ -76,7 +76,7 @@ function createCommand (connection: ConnectionT, conversationName: string, messa
   }
 }
 
-export function commandJoin (connectionId: string, name: string): Dispatchable {
+export function commandJoin(connectionId: string, name: string): Dispatchable {
   return (dispatch, getState) => {
     const connection = getConnectionById(getState(), connectionId)
     name = name.startsWith('#') ? name : '#' + name
@@ -93,7 +93,7 @@ export function commandJoin (connectionId: string, name: string): Dispatchable {
   }
 }
 
-function commandMe (connectionId: string, target: string, message: string): Dispatchable {
+function commandMe(connectionId: string, target: string, message: string): Dispatchable {
   return (dispatch, getState) => {
     const connection = getConnectionById(getState(), connectionId)
 
@@ -110,7 +110,7 @@ function commandMe (connectionId: string, target: string, message: string): Disp
   }
 }
 
-export function commandNick (connectionId: string, newNickname: string): Dispatchable {
+export function commandNick(connectionId: string, newNickname: string): Dispatchable {
   return (dispatch, getState) => {
     const connection = getConnectionById(getState(), connectionId)
 
@@ -126,7 +126,7 @@ export function commandNick (connectionId: string, newNickname: string): Dispatc
   }
 }
 
-function commandPart (connectionId: string, channel: string): Dispatchable {
+function commandPart(connectionId: string, channel: string): Dispatchable {
   return (dispatch, getState) => {
     const connection = getConnectionById(getState(), connectionId)
 
@@ -142,7 +142,7 @@ function commandPart (connectionId: string, channel: string): Dispatchable {
   }
 }
 
-function commandPartAll (connectionId: string): Dispatchable {
+function commandPartAll(connectionId: string): Dispatchable {
   return (dispatch, getState) => {
     const connection = getConnectionById(getState(), connectionId)
     const conversations = getConversationsForConnection(getState(), connectionId)
@@ -160,7 +160,7 @@ function commandPartAll (connectionId: string): Dispatchable {
   }
 }
 
-export function commandNotice (connectionId: string, to: string, message: string): Dispatchable {
+export function commandNotice(connectionId: string, to: string, message: string): Dispatchable {
   return (dispatch, getState) => {
     const connection = getConnectionById(getState(), connectionId)
 

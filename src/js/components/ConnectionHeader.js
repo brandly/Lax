@@ -5,10 +5,10 @@ import type { ConnectionT } from '../flow'
 type Props = {
   connection: ConnectionT,
   onClick: (void) => void
-};
+}
 
 class ConnectionHeader extends React.Component<Props> {
-  render () {
+  render() {
     const { connection, onClick } = this.props
 
     return (

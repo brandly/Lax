@@ -21,11 +21,11 @@ declare var Notification : any;
 
 const key = id => `channels-${id}`
 
-function write (id: string, list: Array<string>): void {
+function write(id: string, list: Array<string>): void {
   window.localStorage[key(id)] = JSON.stringify(list)
 }
 
-function read (id: string): Array<string> {
+function read(id: string): Array<string> {
   const raw = window.localStorage[key(id)]
   return raw ? JSON.parse(raw) : []
 }

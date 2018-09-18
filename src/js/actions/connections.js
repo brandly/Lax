@@ -12,7 +12,7 @@ type Creds = {
   server: string,
   port: number,
   password: string
-};
+}
 
 export const connectToServer = (credentials: Creds): Thunk => {
   const { realName, nickname, server, port } = credentials
@@ -186,11 +186,11 @@ export const connectToServer = (credentials: Creds): Thunk => {
   }
 }
 
-function credentialsToId ({ realName, server, port }) {
+function credentialsToId({ realName, server, port }) {
   return `${realName}@${server}:${port}`
 }
 
-function createIrcStream (credentials, dispatch) {
+function createIrcStream(credentials, dispatch) {
   const { realName, nickname, password, server, port } = credentials
   const id = credentialsToId(credentials)
 
@@ -236,7 +236,7 @@ function createIrcStream (credentials, dispatch) {
 }
 
 const leadingChannelName = /^\[(#\S+)\]/
-function getChannelFromNotice (message) {
+function getChannelFromNotice(message) {
   const match = message.match(leadingChannelName)
   return match ? match[1] : null
 }

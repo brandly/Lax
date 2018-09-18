@@ -44,7 +44,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 type Props = {
   dispatch: Dispatch
-};
+}
 
 type State = {
   isConnecting: boolean,
@@ -54,12 +54,12 @@ type State = {
   port: string,
   password: string,
   rememberPassword: boolean
-};
+}
 
 const { localStorage } = window
 const storedKeys = ['realName', 'nickname', 'server', 'port']
 class ConnectionCreator extends React.Component<Props, State> {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -77,11 +77,11 @@ class ConnectionCreator extends React.Component<Props, State> {
     })
   }
 
-  getStoredKeys () {
+  getStoredKeys() {
     return this.state.rememberPassword ? storedKeys.concat('password') : storedKeys
   }
 
-  handleChange (event) {
+  handleChange(event) {
     const { name, value } = event.target
 
     if (this.getStoredKeys().includes(name)) {
@@ -93,7 +93,7 @@ class ConnectionCreator extends React.Component<Props, State> {
     })
   }
 
-  handleRemember (event) {
+  handleRemember(event) {
     const { name, checked } = event.target
     localStorage[name] = checked
     this.setState({
@@ -107,7 +107,7 @@ class ConnectionCreator extends React.Component<Props, State> {
     }
   }
 
-  handleFormSubmission (event) {
+  handleFormSubmission(event) {
     event.preventDefault()
     this.setState({ isConnecting: true })
 
@@ -115,7 +115,7 @@ class ConnectionCreator extends React.Component<Props, State> {
     this.props.dispatch(connectToServer({ realName, nickname, password, server, port: parseInt(port, 10) }))
   }
 
-  render () {
+  render() {
     const inputGroupClass = 'input-group'
 
     return (

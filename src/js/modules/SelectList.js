@@ -1,28 +1,28 @@
 // @flow
 class SelectList<A> {
-  static fromElement (element: A): SelectList<A> {
+  static fromElement(element: A): SelectList<A> {
     return new SelectList([], element, [])
   }
 
   before: Array<A>;
   selected: A;
   after: Array<A>;
-  constructor (before: Array<A>, selected: A, after: Array<A>) {
+  constructor(before: Array<A>, selected: A, after: Array<A>) {
     this.before = before
     this.selected = selected
     this.after = after
   }
 
-  getSelected (): A {
+  getSelected(): A {
     return this.selected
   }
 
-  applyToSelected (fn: (A) => A): SelectList<A> {
+  applyToSelected(fn: (A) => A): SelectList<A> {
     this.selected = fn(this.selected)
     return this
   }
 
-  selectWhere (fn: (A) => boolean): SelectList<A> {
+  selectWhere(fn: (A) => boolean): SelectList<A> {
     const beforeIndex = this.before.findIndex(fn)
     if (beforeIndex >= 0) {
       const before = this.before.slice(0, beforeIndex)
@@ -46,15 +46,15 @@ class SelectList<A> {
     return this
   }
 
-  map (fn: (A) => A): SelectList<A> {
+  map(fn: (A) => A): SelectList<A> {
     return new SelectList(this.before.map(fn), fn(this.selected), this.after.map(fn))
   }
 
-  concat (vals: Array<A>): SelectList<A> {
+  concat(vals: Array<A>): SelectList<A> {
     return new SelectList(this.before, this.selected, this.after.concat(vals))
   }
 
-  filter (fn: (A) => boolean): ?SelectList<A> {
+  filter(fn: (A) => boolean): ?SelectList<A> {
     const before = this.before.filter(fn)
     const after = this.after.filter(fn)
 
@@ -71,15 +71,15 @@ class SelectList<A> {
     }
   }
 
-  find (fn: (A) => boolean): ?A {
+  find(fn: (A) => boolean): ?A {
     return this.before.find(fn) || (fn(this.selected) ? this.selected : undefined) || this.after.find(fn)
   }
 
-  toArray (): Array<A> {
+  toArray(): Array<A> {
     return [].concat(this.before, this.selected, this.after)
   }
 
-  length (): number {
+  length(): number {
     return this.before.length + 1 + this.after.length
   }
 }

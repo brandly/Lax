@@ -12,12 +12,12 @@ type IrcConnectionStream = {
   notice: (string, string) => void,
   action: (target: string, msg: string) => void,
   part: (channel: Array<string>) => void
-};
+}
 
 export type PersonT = {
   name: string,
   mode: string
-};
+}
 
 type MessageType
   = 'notice'
@@ -31,7 +31,6 @@ type MessageType
   | 'away'
   | 'part'
   | 'quit'
-  ;
 
 export type MessageT = {
   id: string,
@@ -40,13 +39,12 @@ export type MessageT = {
   from: string,
   to: string,
   when: Date
-};
+}
 
 export type ConversationType
   = 'CHANNEL'
   | 'DIRECT'
   | 'CONNECTION'
-  ;
 
 export type ConversationT = {
   type: ConversationType,
@@ -55,7 +53,7 @@ export type ConversationT = {
   people: Array<PersonT>,
   receivedJoin: boolean,
   unreadCount: number
-};
+}
 
 export type ConnectionT = {
   id: string,
@@ -68,12 +66,11 @@ export type ConnectionT = {
   stream: IrcConnectionStream,
   error: ?string,
   conversations: ?SelectList<ConversationT>
-};
+}
 
 export type RouteT
   = { view: 'CONNECTION_CREATOR' }
   | { view: 'CONNECTION', connectionId: string }
-  ;
 
 export type IrcState = {
   connections: {
@@ -84,7 +81,7 @@ export type IrcState = {
     visible: boolean,
     isDark: boolean
   }
-};
+}
 
 export type Action
   = { type: 'REQUEST_CONNECTION_PENDING', connection: ConnectionT }
@@ -116,12 +113,11 @@ export type Action
   | { type: 'VISIBILITY_CHANGE', visible: boolean }
   | { type: 'TOGGLE_THEME' }
   | { type: 'NOTIFICATION_CLICK', via: Action }
-  ;
 
-export type Store = ReduxStore<IrcState, Action>;
-export type GetState = () => IrcState;
+export type Store = ReduxStore<IrcState, Action>
+export type GetState = () => IrcState
 // export type Dispatch = ReduxDispatch<Action>;
 /* eslint-disable no-use-before-define */
-export type Dispatchable = Action | Thunk | Array<Action>;
-export type Dispatch = (action: Dispatchable) => any;
-export type Thunk = (dispatch: Dispatch, getState: GetState) => void;
+export type Dispatchable = Action | Thunk | Array<Action>
+export type Dispatch = (action: Dispatchable) => any
+export type Thunk = (dispatch: Dispatch, getState: GetState) => void

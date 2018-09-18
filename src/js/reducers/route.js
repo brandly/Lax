@@ -1,7 +1,7 @@
 // @flow
 import type { RouteT, Action } from '../flow'
 
-function route (
+function route(
   state: RouteT = { view: 'CONNECTION_CREATOR' },
   action: Action
 ): RouteT {

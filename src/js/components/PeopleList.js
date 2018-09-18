@@ -8,31 +8,31 @@ import type { PersonT } from '../flow'
 type Props = {
   people: Array<PersonT>,
   onCloseRequest: () => void
-};
+}
 
 type State = {
   filter: string
-};
+}
 
 const byName = sortBy(p => p.name.toLowerCase())
 
 class PeopleList extends React.Component<Props, State> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = { filter: '' }
   }
 
-  setFilteredValue (filter: string) {
+  setFilteredValue(filter: string) {
     this.setState({ filter })
   }
 
-  handleChange (event: SyntheticEvent<*>) {
+  handleChange(event: SyntheticEvent<*>) {
     if (event.target instanceof HTMLInputElement) {
       this.setFilteredValue(event.target.value)
     }
   }
 
-  render () {
+  render() {
     const { people } = this.props
     if (!people) return null
 

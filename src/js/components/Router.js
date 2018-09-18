@@ -16,11 +16,11 @@ import type {
 type Props = {
   route: RouteT,
   dispatch: Dispatch
-};
+}
 
 class Router extends React.Component<Props> {
   unlisten: void => void;
-  componentDidMount () {
+  componentDidMount() {
     this.unlisten = this.props.dispatch(listenToDocumentEvent('visibilitychange', event => {
       return {
         type: 'VISIBILITY_CHANGE',
@@ -29,11 +29,11 @@ class Router extends React.Component<Props> {
     }))
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.unlisten()
   }
 
-  renderContents () {
+  renderContents() {
     const { route } = this.props
     switch (route.view) {
       case 'CONNECTION_CREATOR':
@@ -43,7 +43,7 @@ class Router extends React.Component<Props> {
     }
   }
 
-  render () {
+  render() {
     return (
       <BodyColor>
         <ConnectionSelector>

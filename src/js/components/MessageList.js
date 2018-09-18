@@ -9,22 +9,22 @@ import type { MessageT } from '../flow'
 
 type Props = {
   messages: Array<MessageT>
-};
+}
 
 type State = {
   isBrowsingPriorMessages: boolean
-};
+}
 
 class MessageList extends React.PureComponent<Props, State> {
   scrollListener: EventHandler;
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       isBrowsingPriorMessages: false
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const el = findDOMNode(this.refs.scroller)
 
     this.scrollListener = () => {
@@ -37,26 +37,26 @@ class MessageList extends React.PureComponent<Props, State> {
     el && el.addEventListener('scroll', this.scrollListener)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     const el = findDOMNode(this.refs.scroller)
     el && el.removeEventListener('scroll', this.scrollListener)
   }
 
-  scrollToBottom () {
+  scrollToBottom() {
     const el = findDOMNode(this.refs.scroller)
     if (el instanceof HTMLDivElement) {
       el.scrollTop = el.scrollHeight
     }
   }
 
-  componentDidUpdate (nextProps: Props) {
+  componentDidUpdate(nextProps: Props) {
     const isDifferentChannel = nextProps.messages[0] !== this.props.messages[0]
     if (isDifferentChannel || !this.state.isBrowsingPriorMessages) {
       this.scrollToBottom()
     }
   }
 
-  render () {
+  render() {
     const { messages } = this.props
 
     if (!messages) {
@@ -80,9 +80,9 @@ class MessageList extends React.PureComponent<Props, State> {
 type MessageProps = {
   msg: MessageT,
   showFrom: boolean
-};
+}
 class Message extends React.PureComponent<MessageProps> {
-  handleLink (event: Event) {
+  handleLink(event: Event) {
     event.preventDefault()
     if (event.target instanceof HTMLAnchorElement) {
       const url = event.target.href
@@ -90,7 +90,7 @@ class Message extends React.PureComponent<MessageProps> {
     }
   }
 
-  renderText (text: string) {
+  renderText(text: string) {
     return text.split('\n').map((text, index) => {
       // TODO: should probably handle this with CSS
       const Wrap = ({ children }) => {
@@ -108,7 +108,7 @@ class Message extends React.PureComponent<MessageProps> {
     })
   }
 
-  render () {
+  render() {
     const { msg, showFrom } = this.props
     const action = (msg.type !== 'priv') ? <span className="command">{msg.type}</span> : null
 
@@ -127,7 +127,7 @@ class Message extends React.PureComponent<MessageProps> {
   }
 }
 
-function formatDate (d: Date): string {
+function formatDate(d: Date): string {
   let hours = d.getHours()
   const meridian = hours < 12 ? 'AM' : 'PM'
 
@@ -139,7 +139,7 @@ function formatDate (d: Date): string {
   return `${hours}:${twoDigits(d.getMinutes())} ${meridian}`
 }
 
-function twoDigits (str: string | number): string {
+function twoDigits(str: string | number): string {
   str = '' + str
   return (str.length < 2) ? ('0' + str) : str
 }

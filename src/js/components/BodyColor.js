@@ -7,24 +7,24 @@ import type {
 type Props = {
   isDark: boolean,
   children: React.Node
-};
+}
 
 const darkClass = 'theme-dark'
 
 class BodyColor extends React.PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     document.body && document.body.classList.toggle(darkClass, this.props.isDark)
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     document.body && document.body.classList.toggle(darkClass, nextProps.isDark)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     document.body && document.body.classList.remove(darkClass)
   }
 
-  render () {
+  render() {
     return this.props.children
   }
 }

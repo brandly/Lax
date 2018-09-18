@@ -10,7 +10,7 @@ import type {
   Action
 } from '../flow'
 
-function list (
+function list(
   state: ?SelectList<ConversationT> = null,
   action: Action
 ): ?SelectList<ConversationT> {
@@ -33,7 +33,7 @@ function list (
   }
 }
 
-function guaranteedList (
+function guaranteedList(
   state: SelectList<ConversationT>,
   action: Action
 ): SelectList<ConversationT> {
@@ -208,7 +208,7 @@ function guaranteedList (
   }
 }
 
-function incrementUnreadCount (
+function incrementUnreadCount(
   conversation: string,
   convos: SelectList<ConversationT>
 ): SelectList<ConversationT> {
@@ -219,7 +219,7 @@ function incrementUnreadCount (
   )
 }
 
-function addMessageToIdInList (
+function addMessageToIdInList(
   state: SelectList<ConversationT>,
   id: string,
   message: MessageT
@@ -233,7 +233,7 @@ function addMessageToIdInList (
   )
 }
 
-function updateIdInList (
+function updateIdInList(
   state: SelectList<ConversationT>,
   id: string,
   update: ConversationT => ConversationT
@@ -263,11 +263,11 @@ function updateIdInList (
   }
 }
 
-function typeForId (id: string): ConversationType {
+function typeForId(id: string): ConversationType {
   return id[0] === '#' ? 'CHANNEL' : 'DIRECT'
 }
 
-function applyToListWhere<T> (
+function applyToListWhere<T>(
   list: SelectList<T>,
   predicate: T => boolean,
   update: T => T
@@ -277,14 +277,14 @@ function applyToListWhere<T> (
   )
 }
 
-function withoutLeadingHash (str: string): string {
+function withoutLeadingHash(str: string): string {
   while (str[0] === '#') {
     str = str.slice(1)
   }
   return str
 }
 
-function makeMessage (data: $Shape<MessageT>): MessageT {
+function makeMessage(data: $Shape<MessageT>): MessageT {
   return Object.assign({
     id: uuid(),
     when: new Date(),

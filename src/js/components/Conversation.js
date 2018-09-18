@@ -12,15 +12,15 @@ type Props = {
   onMessage: string => void,
   nickname: string,
   disconnected: boolean
-};
+}
 
 type State = {
   showPeopleList: boolean,
   filterStatusUpdates: boolean
-};
+}
 
 class Conversation extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       showPeopleList: true,
@@ -28,13 +28,13 @@ class Conversation extends React.PureComponent<Props, State> {
     }
   }
 
-  togglePeopleList () {
+  togglePeopleList() {
     this.setState({
       showPeopleList: !this.state.showPeopleList
     })
   }
 
-  render () {
+  render() {
     const { conversation, nickname, disconnected } = this.props
     const { messages } = conversation
     const { filterStatusUpdates } = this.state
@@ -85,7 +85,7 @@ class Conversation extends React.PureComponent<Props, State> {
 }
 
 const statusUpdates = ['join', 'part', 'away', 'quit']
-function notStatusUpdate (message) {
+function notStatusUpdate(message) {
   return !statusUpdates.includes(message.type)
 }
 
