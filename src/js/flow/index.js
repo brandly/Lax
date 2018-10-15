@@ -19,8 +19,8 @@ export type PersonT = {
   mode: string
 }
 
-type MessageType
-  = 'notice'
+type MessageType =
+  | 'notice'
   | 'priv'
   | 'action'
   | 'motd'
@@ -41,10 +41,7 @@ export type MessageT = {
   when: Date
 }
 
-export type ConversationType
-  = 'CHANNEL'
-  | 'DIRECT'
-  | 'CONNECTION'
+export type ConversationType = 'CHANNEL' | 'DIRECT' | 'CONNECTION'
 
 export type ConversationT = {
   type: ConversationType,
@@ -68,8 +65,8 @@ export type ConnectionT = {
   conversations: ?SelectList<ConversationT>
 }
 
-export type RouteT
-  = { view: 'CONNECTION_CREATOR' }
+export type RouteT =
+  | { view: 'CONNECTION_CREATOR' }
   | { view: 'CONNECTION', connectionId: string }
 
 export type IrcState = {
@@ -83,32 +80,111 @@ export type IrcState = {
   }
 }
 
-export type Action
-  = { type: 'REQUEST_CONNECTION_PENDING', connection: ConnectionT }
+export type Action =
+  | { type: 'REQUEST_CONNECTION_PENDING', connection: ConnectionT }
   | { type: 'REQUEST_CONNECTION_SUCCESS', connectionId: string }
   | { type: 'REQUEST_CONNECTION_ERROR', connectionId: string, error: string }
   | { type: 'CONNECTION_CLOSED', connectionId: string }
-  | { type: 'SEND_MESSAGE', connectionId: string, from: string, to: string, message: string }
-  | { type: 'RECEIVE_ACTION', connectionId: string, channel: string, from: string, message: string }
-  | { type: 'RECEIVE_DIRECT_MESSAGE', connectionId: string, from: string, message: string }
-  | { type: 'RECEIVE_CHANNEL_MESSAGE', connectionId: string, channel: string, from: string, message: string }
-  | { type: 'RECEIVE_AWAY', connectionId: string, message: string, nick: string }
-  | { type: 'RECEIVE_JOIN', connectionId: string, channel: string, from: string }
+  | {
+      type: 'SEND_MESSAGE',
+      connectionId: string,
+      from: string,
+      to: string,
+      message: string
+    }
+  | {
+      type: 'RECEIVE_ACTION',
+      connectionId: string,
+      channel: string,
+      from: string,
+      message: string
+    }
+  | {
+      type: 'RECEIVE_DIRECT_MESSAGE',
+      connectionId: string,
+      from: string,
+      message: string
+    }
+  | {
+      type: 'RECEIVE_CHANNEL_MESSAGE',
+      connectionId: string,
+      channel: string,
+      from: string,
+      message: string
+    }
+  | {
+      type: 'RECEIVE_AWAY',
+      connectionId: string,
+      message: string,
+      nick: string
+    }
+  | {
+      type: 'RECEIVE_JOIN',
+      connectionId: string,
+      channel: string,
+      from: string
+    }
   | { type: 'RECEIVE_MOTD', connectionId: string, motd: string }
-  | { type: 'RECEIVE_NAMES', connectionId: string, channel: string, names: Array<PersonT> }
-  | { type: 'RECEIVE_NICK', connectionId: string, oldNickname: string, newNickname: string }
-  | { type: 'RECEIVE_NOTICE', connectionId: string, to: string, from: string, message: string }
-  | { type: 'RECEIVE_PART', connectionId: string, message: string, nick: string, channels: Array<string> }
-  | { type: 'RECEIVE_QUIT', connectionId: string, message: string, nick: string }
-  | { type: 'RECEIVE_TOPIC', connectionId: string, channel: string, topic: string }
+  | {
+      type: 'RECEIVE_NAMES',
+      connectionId: string,
+      channel: string,
+      names: Array<PersonT>
+    }
+  | {
+      type: 'RECEIVE_NICK',
+      connectionId: string,
+      oldNickname: string,
+      newNickname: string
+    }
+  | {
+      type: 'RECEIVE_NOTICE',
+      connectionId: string,
+      to: string,
+      from: string,
+      message: string
+    }
+  | {
+      type: 'RECEIVE_PART',
+      connectionId: string,
+      message: string,
+      nick: string,
+      channels: Array<string>
+    }
+  | {
+      type: 'RECEIVE_QUIT',
+      connectionId: string,
+      message: string,
+      nick: string
+    }
+  | {
+      type: 'RECEIVE_TOPIC',
+      connectionId: string,
+      channel: string,
+      topic: string
+    }
   | { type: 'RECEIVE_WELCOME', connectionId: string, nick: string }
   | { type: 'COMMAND_JOIN', connectionId: string, name: string }
-  | { type: 'COMMAND_ME', connectionId: string, target: string, message: string }
+  | {
+      type: 'COMMAND_ME',
+      connectionId: string,
+      target: string,
+      message: string
+    }
   | { type: 'COMMAND_NICK', connectionId: string, newNickname: string }
-  | { type: 'COMMAND_NOTICE', connectionId: string, to: string, message: string }
+  | {
+      type: 'COMMAND_NOTICE',
+      connectionId: string,
+      to: string,
+      message: string
+    }
   | { type: 'COMMAND_PART', connectionId: string, channel: string }
   | { type: 'COMMAND_PART_ALL', connectionId: string, channels: Array<string> }
-  | { type: 'SELECT_CONVERSATION', connectionId: string, conversationId: string }
+  | {
+      type: 'SELECT_CONVERSATION',
+      connectionId: string,
+      conversationId: string
+    }
   | { type: 'REDIRECT', route: RouteT }
   | { type: 'VISIBILITY_CHANGE', visible: boolean }
   | { type: 'TOGGLE_THEME' }

@@ -6,7 +6,9 @@ import {
 import type { ConnectionT, Dispatchable } from '../flow'
 
 export function createMessage({
-  connectionId, conversationName, message
+  connectionId,
+  conversationName,
+  message
 }: {
   connectionId: string,
   conversationName: string,
@@ -37,13 +39,21 @@ function sendMessage(connection: ConnectionT, to: string, message: string) {
   }
 }
 
-function createCommand(connection: ConnectionT, conversationName: string, message: string): Dispatchable {
+function createCommand(
+  connection: ConnectionT,
+  conversationName: string,
+  message: string
+): Dispatchable {
   const words = message.split(' ')
   switch (words[0]) {
     case '/join':
       return commandJoin(connection.id, words[1])
     case '/me':
-      return commandMe(connection.id, conversationName, words.slice(1).join(' '))
+      return commandMe(
+        connection.id,
+        conversationName,
+        words.slice(1).join(' ')
+      )
     case '/nick':
       return commandNick(connection.id, words[1])
     case '/part':
@@ -93,7 +103,11 @@ export function commandJoin(connectionId: string, name: string): Dispatchable {
   }
 }
 
-function commandMe(connectionId: string, target: string, message: string): Dispatchable {
+function commandMe(
+  connectionId: string,
+  target: string,
+  message: string
+): Dispatchable {
   return (dispatch, getState) => {
     const connection = getConnectionById(getState(), connectionId)
 
@@ -110,7 +124,10 @@ function commandMe(connectionId: string, target: string, message: string): Dispa
   }
 }
 
-export function commandNick(connectionId: string, newNickname: string): Dispatchable {
+export function commandNick(
+  connectionId: string,
+  newNickname: string
+): Dispatchable {
   return (dispatch, getState) => {
     const connection = getConnectionById(getState(), connectionId)
 
@@ -145,7 +162,10 @@ function commandPart(connectionId: string, channel: string): Dispatchable {
 function commandPartAll(connectionId: string): Dispatchable {
   return (dispatch, getState) => {
     const connection = getConnectionById(getState(), connectionId)
-    const conversations = getConversationsForConnection(getState(), connectionId)
+    const conversations = getConversationsForConnection(
+      getState(),
+      connectionId
+    )
 
     if (connection) {
       const channels = conversations.map(convo => convo.name)
@@ -160,7 +180,11 @@ function commandPartAll(connectionId: string): Dispatchable {
   }
 }
 
-export function commandNotice(connectionId: string, to: string, message: string): Dispatchable {
+export function commandNotice(
+  connectionId: string,
+  to: string,
+  message: string
+): Dispatchable {
   return (dispatch, getState) => {
     const connection = getConnectionById(getState(), connectionId)
 
