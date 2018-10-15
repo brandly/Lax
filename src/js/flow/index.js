@@ -80,7 +80,7 @@ export type IrcState = {
   }
 }
 
-export type Action = 
+export type Action =
   | { type: 'REQUEST_CONNECTION_PENDING', connection: ConnectionT }
   | { type: 'REQUEST_CONNECTION_SUCCESS', connectionId: string }
   | { type: 'REQUEST_CONNECTION_ERROR', connectionId: string, error: string }
