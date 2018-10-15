@@ -11,7 +11,8 @@ type Props = {
   conversation: ConversationT,
   onMessage: string => void,
   nickname: string,
-  disconnected: boolean
+  disconnected: boolean,
+  onPersonClick: string => void
 }
 
 type State = {
@@ -38,16 +39,23 @@ class Conversation extends React.PureComponent<Props, State> {
     const { conversation, nickname, disconnected } = this.props
     const { messages } = conversation
     const { filterStatusUpdates } = this.state
-    const showPeopleList = this.state.showPeopleList && conversation.people.length > 0
+    const showPeopleList =
+      this.state.showPeopleList && conversation.people.length > 0
 
     const peopleListEl = showPeopleList ? (
-      <PeopleList people={conversation.people} onCloseRequest={this.togglePeopleList.bind(this)} />
+      <PeopleList
+        people={conversation.people}
+        onCloseRequest={this.togglePeopleList.bind(this)}
+        onPersonClick={this.props.onPersonClick}
+      />
     ) : null
 
     return (
-      <div className={classNames('right-panel channel', {
-        'with-details': showPeopleList
-      })}>
+      <div
+        className={classNames('right-panel channel', {
+          'with-details': showPeopleList
+        })}
+      >
         <div className="above-bottom-panel">
           <ConversationHeader
             onPeopleClick={this.togglePeopleList.bind(this)}
@@ -67,7 +75,11 @@ class Conversation extends React.PureComponent<Props, State> {
               // but it's trying to reconnect.
             )}
             <MessageList
-              messages={filterStatusUpdates ? messages.filter(notStatusUpdate) : messages}
+              messages={
+                filterStatusUpdates
+                  ? messages.filter(notStatusUpdate)
+                  : messages
+              }
             />
           </div>
         </div>

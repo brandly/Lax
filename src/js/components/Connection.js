@@ -73,6 +73,13 @@ class Connection extends React.Component<Props> {
                 })
               )
             }}
+            onPersonClick={name => {
+              dispatch({
+                type: 'SELECT_CONVERSATION',
+                connectionId: connection.id,
+                conversationId: name
+              })
+            }}
             disconnected={!connection.isConnected}
           />
         ) : null}

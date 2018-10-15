@@ -7,7 +7,8 @@ import type { PersonT } from '../flow'
 
 type Props = {
   people: Array<PersonT>,
-  onCloseRequest: () => void
+  onCloseRequest: () => void,
+  onPersonClick: string => void
 }
 
 type State = {
@@ -33,16 +34,23 @@ class PeopleList extends React.Component<Props, State> {
   }
 
   render() {
-    const { people } = this.props
+    const { people, onPersonClick } = this.props
     if (!people) return null
 
-    const peopleElements =
-      people
-        .filter(p => p.name.toLowerCase().includes(this.state.filter))
-        .sort(byName)
-        .map((person, i) =>
-          <h3 className="nickname" key={i}>{person.name}</h3>
-        )
+    const peopleElements = people
+      .filter(p => p.name.toLowerCase().includes(this.state.filter))
+      .sort(byName)
+      .map((person, i) => (
+        <button
+          className="nickname"
+          key={i}
+          onClick={() => {
+            onPersonClick(person.name)
+          }}
+        >
+          <h3>{person.name}</h3>
+        </button>
+      ))
 
     return (
       <div className="people-list">
@@ -53,16 +61,14 @@ class PeopleList extends React.Component<Props, State> {
             placeholder={[
               'search',
               people.length,
-              (people.length === 1 ? 'person' : 'people')
+              people.length === 1 ? 'person' : 'people'
             ].join(' ')}
             className="people-search-field"
             autoFocus
             onChange={this.handleChange.bind(this)}
           />
         </div>
-        <div className="scrolling-panel">
-          {peopleElements}
-        </div>
+        <div className="scrolling-panel">{peopleElements}</div>
       </div>
     )
   }
