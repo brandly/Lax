@@ -8,37 +8,37 @@ type Props = {
   conversation: ConversationT,
   nickname: string,
   onMessage: string => void
-};
+}
 
 type State = {
   message: string
-};
+}
 
 class ComposeMessage extends React.Component<Props, State> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       message: ''
     }
   }
 
-  handleFormSubmission (event: SyntheticEvent<*>) {
+  handleFormSubmission(event: SyntheticEvent<*>) {
     event.preventDefault()
     this.props.onMessage(this.state.message)
     this.setMessage('')
   }
 
-  setMessage (message: string) {
+  setMessage(message: string) {
     this.setState({ message })
   }
 
-  handleChange (event: SyntheticEvent<*>) {
+  handleChange(event: SyntheticEvent<*>) {
     if (event.target instanceof HTMLInputElement) {
       this.setMessage(event.target.value)
     }
   }
 
-  render () {
+  render() {
     const { conversation, nickname } = this.props
     if (!conversation) return null
 

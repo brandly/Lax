@@ -4,37 +4,37 @@ import React from 'react'
 
 type Props = {
   onJoin: string => void
-};
+}
 
 type State = {
   channelName: string
-};
+}
 
 class JoinConversation extends React.Component<Props, State> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       channelName: ''
     }
   }
 
-  setChannelName (channelName: string) {
+  setChannelName(channelName: string) {
     this.setState({ channelName })
   }
 
-  handleChange (event: SyntheticEvent<*>) {
+  handleChange(event: SyntheticEvent<*>) {
     if (event.target instanceof HTMLInputElement) {
       this.setChannelName(event.target.value)
     }
   }
 
-  handleFormSubmission (event: SyntheticEvent<*>) {
+  handleFormSubmission(event: SyntheticEvent<*>) {
     event.preventDefault()
     this.props.onJoin(this.state.channelName)
     this.setChannelName('')
   }
 
-  render () {
+  render() {
     return (
       <form
         className="join-channel"

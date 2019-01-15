@@ -5,9 +5,9 @@ import classNames from 'classnames'
 type Props = {
   name: string,
   unreadCount?: number
-};
+}
 
-function splitOnHash (str) {
+function splitOnHash(str) {
   let hash = ''
   while (str[0] === '#') {
     hash += str[0]

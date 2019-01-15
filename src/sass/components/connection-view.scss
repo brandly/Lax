@@ -11,3 +11,13 @@
   width: 220px;
   margin: 0 auto;
 }
+
+.disconnected-error {
+  position: absolute;
+  margin: 1rem;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid #fb933a;
+  border-radius: 6px;
+  background: #fde5d1;
+  font-weight: bold;
+}

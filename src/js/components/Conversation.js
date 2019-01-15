@@ -10,16 +10,18 @@ import type { ConversationT } from '../flow'
 type Props = {
   conversation: ConversationT,
   onMessage: string => void,
-  nickname: string
-};
+  nickname: string,
+  disconnected: boolean,
+  onPersonClick: string => void
+}
 
 type State = {
   showPeopleList: boolean,
   filterStatusUpdates: boolean
-};
+}
 
 class Conversation extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       showPeopleList: true,
@@ -27,25 +29,33 @@ class Conversation extends React.PureComponent<Props, State> {
     }
   }
 
-  togglePeopleList () {
+  togglePeopleList() {
     this.setState({
       showPeopleList: !this.state.showPeopleList
     })
   }
 
-  render () {
-    const { conversation, nickname } = this.props
+  render() {
+    const { conversation, nickname, disconnected } = this.props
     const { messages } = conversation
-    const { showPeopleList, filterStatusUpdates } = this.state
+    const { filterStatusUpdates } = this.state
+    const showPeopleList =
+      this.state.showPeopleList && conversation.people.length > 0
 
     const peopleListEl = showPeopleList ? (
-      <PeopleList people={conversation.people} onCloseRequest={this.togglePeopleList.bind(this)} />
+      <PeopleList
+        people={conversation.people}
+        onCloseRequest={this.togglePeopleList.bind(this)}
+        onPersonClick={this.props.onPersonClick}
+      />
     ) : null
 
     return (
-      <div className={classNames('right-panel channel', {
-        'with-details': showPeopleList
-      })}>
+      <div
+        className={classNames('right-panel channel', {
+          'with-details': showPeopleList
+        })}
+      >
         <div className="above-bottom-panel">
           <ConversationHeader
             onPeopleClick={this.togglePeopleList.bind(this)}
@@ -58,8 +68,18 @@ class Conversation extends React.PureComponent<Props, State> {
             conversation={conversation}
           />
           <div className="below-header">
+            {disconnected && (
+              <p className="disconnected-error">
+                Your computer has disconnected from the server.
+              </p>
+              // but it's trying to reconnect.
+            )}
             <MessageList
-              messages={filterStatusUpdates ? messages.filter(notStatusUpdate) : messages}
+              messages={
+                filterStatusUpdates
+                  ? messages.filter(notStatusUpdate)
+                  : messages
+              }
             />
           </div>
         </div>
@@ -77,7 +97,7 @@ class Conversation extends React.PureComponent<Props, State> {
 }
 
 const statusUpdates = ['join', 'part', 'away', 'quit']
-function notStatusUpdate (message) {
+function notStatusUpdate(message) {
   return !statusUpdates.includes(message.type)
 }
 

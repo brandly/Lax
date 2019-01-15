@@ -5,7 +5,7 @@ import route from './route'
 import ui from './ui'
 import type { IrcState, Action } from '../flow'
 
-type Root = (IrcState, Action) => IrcState;
+type Root = (IrcState, Action) => IrcState
 
 export const rootReducer : Root = combineReducers({
   connections,

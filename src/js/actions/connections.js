@@ -1,6 +1,7 @@
 // @flow
 import net from 'net'
 import irc from 'slate-irc'
+import equalNames from '../modules/equalNames'
 import type { Thunk } from '../flow'
 
 export const CONNECTION_CLOSED = 'CONNECTION_CLOSED'
@@ -11,7 +12,7 @@ type Creds = {
   server: string,
   port: number,
   password: string
-};
+}
 
 export const connectToServer = (credentials: Creds): Thunk => {
   const { realName, nickname, server, port } = credentials
@@ -161,11 +162,11 @@ export const connectToServer = (credentials: Creds): Thunk => {
         dispatch({
           type: 'RECEIVE_ACTION',
           connectionId: id,
-          channel: e.to === nickname ? e.from : e.to,
+          channel: equalNames(e.to, nickname) ? e.from : e.to,
           from: e.from,
           message: `${e.from} ${e.message.replace(/^\u0001ACTION /, '').replace(/\u0001$/, '')}`
         })
-      } else if (e.to === nickname) {
+      } else if (equalNames(e.to, nickname)) {
         dispatch({
           type: 'RECEIVE_DIRECT_MESSAGE',
           connectionId: id,
@@ -185,11 +186,11 @@ export const connectToServer = (credentials: Creds): Thunk => {
   }
 }
 
-function credentialsToId ({ realName, server, port }) {
+function credentialsToId({ realName, server, port }) {
   return `${realName}@${server}:${port}`
 }
 
-function createIrcStream (credentials, dispatch) {
+function createIrcStream(credentials, dispatch) {
   const { realName, nickname, password, server, port } = credentials
   const id = credentialsToId(credentials)
 
@@ -235,7 +236,7 @@ function createIrcStream (credentials, dispatch) {
 }
 
 const leadingChannelName = /^\[(#\S+)\]/
-function getChannelFromNotice (message) {
+function getChannelFromNotice(message) {
   const match = message.match(leadingChannelName)
   return match ? match[1] : null
 }

@@ -8,10 +8,10 @@ type Props = {
   filterActive: boolean,
   onPeopleClick: Array<PersonT> => void,
   onFilterClick: void => void
-};
+}
 
 class ConversationHeader extends React.Component<Props> {
-  render () {
+  render() {
     const { conversation, onFilterClick, filterActive } = this.props
     const { people } = conversation
     const isChannel = conversation.name[0] === '#'

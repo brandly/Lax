@@ -6,28 +6,18 @@ import ConnectionHeader from './ConnectionHeader'
 import ConversationList from './ConversationList'
 import JoinConversation from './JoinConversation'
 import Conversation from './Conversation'
-import {
-  getConnectionById
-} from '../reducers/selectors'
-import {
-  commandJoin,
-  createMessage
-} from '../actions'
-import type {
-  Dispatch,
-  IrcState,
-  ConnectionT,
-  ConversationT
-} from '../flow'
+import { getConnectionById } from '../reducers/selectors'
+import { commandJoin, createMessage } from '../actions'
+import type { Dispatch, IrcState, ConnectionT, ConversationT } from '../flow'
 
 type Props = {
   dispatch: Dispatch,
   connection: ?ConnectionT,
   conversation: ?ConversationT
-};
+}
 
 class Connection extends React.Component<Props> {
-  viewConversation (conversationId) {
+  viewConversation(conversationId) {
     const { dispatch, connection } = this.props
 
     dispatch({
@@ -37,12 +27,8 @@ class Connection extends React.Component<Props> {
     })
   }
 
-  render () {
-    const {
-      connection,
-      conversation,
-      dispatch
-    } = this.props
+  render() {
+    const { connection, conversation, dispatch } = this.props
 
     if (!connection) return <h1>Unexpected: No connection found</h1>
 
@@ -79,12 +65,22 @@ class Connection extends React.Component<Props> {
             nickname={connection.nickname}
             conversation={conversation}
             onMessage={message => {
-              dispatch(createMessage({
-                connectionId: connection.id,
-                conversationName: conversation.name,
-                message
-              }))
+              dispatch(
+                createMessage({
+                  connectionId: connection.id,
+                  conversationName: conversation.name,
+                  message
+                })
+              )
             }}
+            onPersonClick={name => {
+              dispatch({
+                type: 'SELECT_CONVERSATION',
+                connectionId: connection.id,
+                conversationId: name
+              })
+            }}
+            disconnected={!connection.isConnected}
           />
         ) : null}
       </div>
@@ -92,15 +88,20 @@ class Connection extends React.Component<Props> {
   }
 }
 
-export default connect((state: IrcState, ownProps): $Shape<Props> => {
-  if (state.route.view !== 'CONNECTION') throw new Error()
-  const { connectionId } = state.route
+export default connect(
+  (state: IrcState, ownProps): $Shape<Props> => {
+    if (state.route.view !== 'CONNECTION') throw new Error()
+    const { connectionId } = state.route
 
-  const connection = getConnectionById(state, connectionId)
-  const conversation = connection && connection.conversations ? connection.conversations.getSelected() : null
+    const connection = getConnectionById(state, connectionId)
+    const conversation =
+      connection && connection.conversations
+        ? connection.conversations.getSelected()
+        : null
 
-  return {
-    connection,
-    conversation
+    return {
+      connection,
+      conversation
+    }
   }
-})(Connection)
+)(Connection)

@@ -4,7 +4,7 @@ import { combineReducers } from 'redux'
 import conversationsList from './conversations'
 import type { ConnectionT, Action } from '../flow'
 
-function list (
+function list(
   state: Array<ConnectionT> = [],
   action: Action
 ): Array<ConnectionT> {
@@ -33,7 +33,7 @@ function list (
   }
 }
 
-function withConversations (
+function withConversations(
   state: Array<ConnectionT> = [],
   action: Action
 ): Array<ConnectionT> {
@@ -48,7 +48,7 @@ function withConversations (
   })
 }
 
-function updateIdInList (
+function updateIdInList(
   state: Array<ConnectionT>,
   id: string,
   update: $Shape<ConnectionT>

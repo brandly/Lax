@@ -4,17 +4,18 @@
   right: 0;
   height: 100%;
   width: 220px;
-  background-color: #FFF;
-  border-left: 1px solid #EEE;
+  background-color: #fff;
+  border-left: 1px solid #eee;
 }
 
 .people-list .scrolling-panel {
   padding: 0.8rem;
-  height: calc(100% - 4.0rem);
+  height: calc(100% - 4rem);
 }
 
 .people-list .nickname {
-  font-size: 14px;
+  display: block;
+  font-size: 12px;
   line-height: 1.75;
 }
 
