@@ -4,8 +4,6 @@ import React from 'react'
 import type { ConversationT } from '../flow'
 
 type Props = {
-  // TODO: probably unnecessary
-  conversation: ConversationT,
   nickname: string,
   onMessage: string => void
 }
@@ -39,8 +37,7 @@ class ComposeMessage extends React.Component<Props, State> {
   }
 
   render() {
-    const { conversation, nickname } = this.props
-    if (!conversation) return null
+    const { nickname } = this.props
 
     return (
       <form className="message compose-message" onSubmit={this.handleFormSubmission.bind(this)}>

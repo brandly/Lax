@@ -85,7 +85,6 @@ class Conversation extends React.PureComponent<Props, State> {
         </div>
         <div className="absolute-bottom-panel">
           <ComposeMessage
-            conversation={conversation}
             nickname={nickname}
             onMessage={this.props.onMessage}
           />
