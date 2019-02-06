@@ -10,7 +10,6 @@ import {
 } from '../reducers/selectors'
 import type { IrcState, ConversationT } from '../flow'
 
-// TODO: probably refactor state tree to store list of convos on a per connection basis
 type Props = {
   onSelectConversation: string => void,
   conversations: Array<ConversationT>,

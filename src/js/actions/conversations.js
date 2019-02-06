@@ -76,7 +76,6 @@ function createCommand(
       return sendMessage(connection, to, dm)
     }
     default:
-      console.error('TODO: handle unexpected command')
       return {
         type: 'RECEIVE_DIRECT_MESSAGE',
         connectionId: connection.id,

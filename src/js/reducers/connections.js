@@ -15,7 +15,6 @@ function list(
       return updateIdInList(state, action.connectionId, {
         isConnected: true
       })
-    // TODO: display connection status somewhere in UI, click to reconnect
     case 'CONNECTION_CLOSED':
       return updateIdInList(state, action.connectionId, {
         isConnected: false
