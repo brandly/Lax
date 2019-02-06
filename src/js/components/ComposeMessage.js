@@ -1,7 +1,6 @@
 // @flow
 /* global SyntheticEvent, HTMLInputElement */
 import React from 'react'
-import type { ConversationT } from '../flow'
 
 type Props = {
   nickname: string,
