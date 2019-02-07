@@ -1,8 +1,8 @@
 // @flow
 import conversationsReducer from '../src/js/reducers/conversations'
 import type { Action } from '../src/js/flow'
-declare var test : any;
-declare var expect : any;
+declare var test: any
+declare var expect: any
 
 const apply = (actions: Array<Action>, initial = null) => {
   const result = actions.reduce(conversationsReducer, initial)
@@ -11,10 +11,12 @@ const apply = (actions: Array<Action>, initial = null) => {
 
 test('connection success creates conversation', () => {
   const id = 'fake'
-  const list = apply([{
-    type: 'REQUEST_CONNECTION_SUCCESS',
-    connectionId: id
-  }])
+  const list = apply([
+    {
+      type: 'REQUEST_CONNECTION_SUCCESS',
+      connection: stubConnection(id)
+    }
+  ])
 
   expect(list.length).toBe(1)
   expect(list[0].type).toBe('CONNECTION')
@@ -23,20 +25,26 @@ test('connection success creates conversation', () => {
 
 const connectionId = 'abc123'
 const withConnection = (actions: Array<Action>): Array<Action> => {
-  return [{
-    type: 'REQUEST_CONNECTION_SUCCESS',
-    connectionId
-  }].concat(actions)
+  return [
+    {
+      type: 'REQUEST_CONNECTION_SUCCESS',
+      connection: stubConnection(connectionId)
+    }
+  ].concat(actions)
 }
 
 test('RECEIVE_JOIN adds someone to conversation.people and messages the channel', () => {
   const id = 'abc123'
-  const list = apply(withConnection([{
-    type: 'RECEIVE_JOIN',
-    connectionId,
-    channel: id,
-    from: 'matt'
-  }]))
+  const list = apply(
+    withConnection([
+      {
+        type: 'RECEIVE_JOIN',
+        connectionId,
+        channel: id,
+        from: 'matt'
+      }
+    ])
+  )
 
   expect(list[0].messages.length).toBe(1)
   expect(list[0].messages[0].type).toBe('join')
@@ -47,21 +55,27 @@ test('RECEIVE_QUIT removes someone from relevant convos and messages the channel
   const channel = '#jest'
   const nick = 'matt'
 
-  const list = apply(withConnection([{
-    type: 'COMMAND_JOIN',
-    connectionId,
-    name: channel
-  }, {
-    type: 'RECEIVE_JOIN',
-    connectionId,
-    channel,
-    from: nick
-  }, {
-    type: 'RECEIVE_QUIT',
-    connectionId,
-    nick,
-    message: 'im gone'
-  }]))
+  const list = apply(
+    withConnection([
+      {
+        type: 'COMMAND_JOIN',
+        connectionId,
+        name: channel
+      },
+      {
+        type: 'RECEIVE_JOIN',
+        connectionId,
+        channel,
+        from: nick
+      },
+      {
+        type: 'RECEIVE_QUIT',
+        connectionId,
+        nick,
+        message: 'im gone'
+      }
+    ])
+  )
 
   expect(list.length).toBe(2)
   const convo = list[1]
@@ -71,33 +85,65 @@ test('RECEIVE_QUIT removes someone from relevant convos and messages the channel
 })
 
 test('RECEIVE_JOIN for ##programming removes #programming convo', () => {
-  const list = apply(withConnection([{
-    type: 'COMMAND_JOIN',
-    connectionId,
-    name: '#programming'
-  }, {
-    type: 'RECEIVE_JOIN',
-    connectionId,
-    channel: '##programming',
-    from: 'nick'
-  }]))
+  const list = apply(
+    withConnection([
+      {
+        type: 'COMMAND_JOIN',
+        connectionId,
+        name: '#programming'
+      },
+      {
+        type: 'RECEIVE_JOIN',
+        connectionId,
+        channel: '##programming',
+        from: 'nick'
+      }
+    ])
+  )
 
   expect(list.length).toBe(2)
   expect(list[1].type).toBe('CHANNEL')
 })
 
 test('RECEIVE_DIRECT_MESSAGE doesnt care about case', () => {
-  const list = apply(withConnection([{
-    type: 'RECEIVE_DIRECT_MESSAGE',
-    connectionId,
-    from: 'someone',
-    message: 'hi'
-  }, {
-    type: 'RECEIVE_DIRECT_MESSAGE',
-    connectionId,
-    from: 'SOMEONE',
-    message: 'hello'
-  }]))
+  const list = apply(
+    withConnection([
+      {
+        type: 'RECEIVE_DIRECT_MESSAGE',
+        connectionId,
+        from: 'someone',
+        message: 'hi'
+      },
+      {
+        type: 'RECEIVE_DIRECT_MESSAGE',
+        connectionId,
+        from: 'SOMEONE',
+        message: 'hello'
+      }
+    ])
+  )
 
   expect(list.length).toBe(2)
 })
+
+function stubConnection(id) {
+  return {
+    id,
+    isConnected: true,
+    isWelcome: true,
+    nickname: 'string',
+    realName: 'string',
+    server: 'string',
+    port: 6667,
+    stream: {
+      join: s => {},
+      nick: s => {},
+      send: (to: string, msg: string) => {},
+      notice: (a: string, b: string) => {},
+      action: (target: string, msg: string) => {},
+      part: (channel: Array<string>) => {}
+    },
+    error: null,
+    conversations: null
+  }
+}

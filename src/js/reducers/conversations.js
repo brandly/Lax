@@ -12,7 +12,7 @@ function list(
   if (action.type === 'REQUEST_CONNECTION_SUCCESS') {
     const add = {
       type: 'CONNECTION',
-      name: action.connectionId,
+      name: action.connection.id,
       messages: [],
       people: [],
       receivedJoin: true,
@@ -283,13 +283,12 @@ function incrementUnreadCount(
   conversation: string,
   convos: SelectList<ConversationT>
 ): SelectList<ConversationT> {
-  return convos.map(
-    convo =>
-      equalNames(convo.name, conversation)
-        ? Object.assign({}, convo, {
-            unreadCount: convo.unreadCount + 1
-          })
-        : convo
+  return convos.map(convo =>
+    equalNames(convo.name, conversation)
+      ? Object.assign({}, convo, {
+          unreadCount: convo.unreadCount + 1
+        })
+      : convo
   )
 }
 

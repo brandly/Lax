@@ -9,12 +9,8 @@ function list(
   action: Action
 ): Array<ConnectionT> {
   switch (action.type) {
-    case 'REQUEST_CONNECTION_PENDING':
-      return updateIdInList(state, action.connection.id, action.connection)
     case 'REQUEST_CONNECTION_SUCCESS':
-      return updateIdInList(state, action.connectionId, {
-        isConnected: true
-      })
+      return updateIdInList(state, action.connection.id, action.connection)
     case 'CONNECTION_CLOSED':
       return updateIdInList(state, action.connectionId, {
         isConnected: false
@@ -40,7 +36,10 @@ function withConversations(
     if (
       action.type === 'NOTIFICATION_CLICK' ||
       (typeof action.connectionId === 'string' &&
-        connection.id === action.connectionId)
+        connection.id === action.connectionId) ||
+      (action.connection &&
+        typeof action.connection.id === 'string' &&
+        connection.id === action.connection.id)
     ) {
       return Object.assign({}, connection, {
         conversations: conversationsList(connection.conversations, action)

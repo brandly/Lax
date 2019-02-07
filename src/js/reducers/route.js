@@ -9,6 +9,10 @@ function route(
 ): RouteT {
   switch (action.type) {
     case 'REQUEST_CONNECTION_SUCCESS':
+      return {
+        view: 'CONNECTION',
+        connectionId: action.connection.id
+      }
     case 'SELECT_CONVERSATION':
       return {
         view: 'CONNECTION',

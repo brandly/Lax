@@ -12,7 +12,8 @@ export function init(): CreatorState {
       server: '',
       port: '',
       password: ''
-    }
+    },
+    connection: null
   }
 
   return state
@@ -26,11 +27,15 @@ function creator(state: CreatorState = init(), action: Action): CreatorState {
       })
     }
     case 'REQUEST_CONNECTION_PENDING': {
-      return Object.assign({}, state, { isConnecting: true })
+      return Object.assign({}, state, {
+        isConnecting: true,
+        connection: action.connection
+      })
     }
     case 'REQUEST_CONNECTION_SUCCESS': {
       return Object.assign({}, state, {
         isConnecting: false,
+        connection: null,
         credentials: {
           realName: '',
           nickname: '',

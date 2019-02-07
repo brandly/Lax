@@ -77,7 +77,8 @@ export type CreatorState = {
   // TODO: this should be `status` like idle | connection | error
   isConnecting: boolean,
   rememberPassword: boolean,
-  credentials: CredentialsT
+  credentials: CredentialsT,
+  connection: ?ConnectionT
 }
 
 export type RouteT =
@@ -98,7 +99,7 @@ export type IrcState = {
 
 export type Action =
   | { type: 'REQUEST_CONNECTION_PENDING', connection: ConnectionT }
-  | { type: 'REQUEST_CONNECTION_SUCCESS', connectionId: string }
+  | { type: 'REQUEST_CONNECTION_SUCCESS', connection: ConnectionT }
   | { type: 'REQUEST_CONNECTION_ERROR', connectionId: string, error: string }
   | { type: 'CONNECTION_CLOSED', connectionId: string }
   | {

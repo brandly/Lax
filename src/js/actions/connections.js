@@ -17,9 +17,9 @@ type Creds = {
 export const connectToServer = (credentials: Creds): Thunk => {
   const { realName, nickname, server, port } = credentials
 
-  return dispatch => {
+  return (dispatch, getState) => {
     const id = credentialsToId(credentials)
-    const stream = createIrcStream(credentials, dispatch)
+    const stream = createIrcStream(credentials, dispatch, getState)
 
     dispatch({
       type: 'REQUEST_CONNECTION_PENDING',
@@ -164,7 +164,9 @@ export const connectToServer = (credentials: Creds): Thunk => {
           connectionId: id,
           channel: equalNames(e.to, nickname) ? e.from : e.to,
           from: e.from,
-          message: `${e.from} ${e.message.replace(/^\u0001ACTION /, '').replace(/\u0001$/, '')}`
+          message: `${e.from} ${e.message
+            .replace(/^\u0001ACTION /, '')
+            .replace(/\u0001$/, '')}`
         })
       } else if (equalNames(e.to, nickname)) {
         dispatch({
@@ -190,7 +192,7 @@ function credentialsToId({ realName, server, port }) {
   return `${realName}@${server}:${port}`
 }
 
-function createIrcStream(credentials, dispatch) {
+function createIrcStream(credentials, dispatch, getState) {
   const { realName, nickname, password, server, port } = credentials
   const id = credentialsToId(credentials)
 
@@ -200,9 +202,12 @@ function createIrcStream(credentials, dispatch) {
   })
 
   stream.on('connect', e => {
+    const { connection } = getState().creator
     dispatch({
       type: 'REQUEST_CONNECTION_SUCCESS',
-      connectionId: id
+      connection: Object.assign({}, connection, {
+        isConnected: true
+      })
     })
   })
 
