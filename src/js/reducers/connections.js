@@ -10,9 +10,8 @@ function list(
 ): Array<ConnectionT> {
   switch (action.type) {
     case 'REQUEST_CONNECTION_SUCCESS':
-      return updateIdInList(state, action.connection.id, action.connection)
+      return state.concat([action.connection])
     case 'CONNECTION_CLOSED':
-      // TODO: only update if it's already in the list
       return updateIdInList(state, action.connectionId, {
         isConnected: false
       })
@@ -52,17 +51,13 @@ function updateIdInList(
   id: string,
   update: $Shape<ConnectionT>
 ): Array<ConnectionT> {
-  let found = false
-  const result = state.map(connection => {
+  return state.map(connection => {
     if (connection.id === id) {
-      found = true
       return Object.assign({}, connection, update)
     } else {
       return connection
     }
   })
-
-  return found ? result : result.concat([update])
 }
 
 const compose = (a, b) => (state, action) => b(a(state, action), action)
