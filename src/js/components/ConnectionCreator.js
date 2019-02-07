@@ -93,87 +93,89 @@ class ConnectionCreator extends React.Component<Props> {
 
   render() {
     const inputGroupClass = 'input-group'
-    const { isConnecting, rememberPassword, credentials } = this.props
+    const { isConnecting, rememberPassword, credentials, error } = this.props
     const { realName, nickname, password, server, port } = credentials
 
     return (
-      <form
-        className="connection-creator"
-        onSubmit={this.handleFormSubmission.bind(this)}
-      >
-        <div className={inputGroupClass}>
-          <label>Real Name</label>
-          <input
-            type="text"
-            autoFocus
-            required
-            name="realName"
-            value={realName}
-            disabled={isConnecting}
-            onChange={this.handleChange.bind(this)}
-          />
-        </div>
-
-        <div className={inputGroupClass}>
-          <label>Nickname</label>
-          <input
-            type="text"
-            required
-            name="nickname"
-            value={nickname}
-            disabled={isConnecting}
-            onChange={this.handleChange.bind(this)}
-          />
-        </div>
-
-        <div className={inputGroupClass}>
-          <label>Password</label>
-          <input
-            type="password"
-            name="password"
-            value={password}
-            disabled={isConnecting}
-            onChange={this.handleChange.bind(this)}
-          />
-          <label>
-            remember password?{' '}
+      <React.Fragment>
+        {error && (
+          <div className="connection-error">
+            <p>{error}</p>
+          </div>
+        )}
+        <form
+          className="connection-creator"
+          onSubmit={this.handleFormSubmission.bind(this)}
+        >
+          <div className={inputGroupClass}>
+            <label>Real Name</label>
             <input
-              type="checkbox"
-              name="rememberPassword"
-              onChange={this.handleRemember.bind(this)}
-              onClick={this.handleRemember.bind(this)}
-              checked={rememberPassword}
+              type="text"
+              autoFocus
+              required
+              name="realName"
+              value={realName}
+              disabled={isConnecting}
+              onChange={this.handleChange.bind(this)}
             />
-          </label>
-        </div>
-
-        <div className={inputGroupClass}>
-          <label>Server</label>
-          <input
-            type="text"
-            name="server"
-            value={server}
-            disabled={isConnecting}
-            onChange={this.handleChange.bind(this)}
-          />
-        </div>
-
-        <div className={inputGroupClass}>
-          <label>Port</label>
-          <input
-            type="number"
-            required
-            name="port"
-            value={port}
-            disabled={isConnecting}
-            onChange={this.handleChange.bind(this)}
-          />
-        </div>
-
-        <div className={inputGroupClass}>
-          <input type="submit" disabled={isConnecting} value="Log In" />
-        </div>
-      </form>
+          </div>
+          <div className={inputGroupClass}>
+            <label>Nickname</label>
+            <input
+              type="text"
+              required
+              name="nickname"
+              value={nickname}
+              disabled={isConnecting}
+              onChange={this.handleChange.bind(this)}
+            />
+          </div>
+          <div className={inputGroupClass}>
+            <label>Password</label>
+            <input
+              type="password"
+              name="password"
+              value={password}
+              disabled={isConnecting}
+              onChange={this.handleChange.bind(this)}
+            />
+            <label>
+              remember password?{' '}
+              <input
+                type="checkbox"
+                name="rememberPassword"
+                onChange={this.handleRemember.bind(this)}
+                onClick={this.handleRemember.bind(this)}
+                checked={rememberPassword}
+              />
+            </label>
+          </div>
+          <div className={inputGroupClass}>
+            <label>Server</label>
+            <input
+              type="text"
+              name="server"
+              value={server}
+              disabled={isConnecting}
+              onChange={this.handleChange.bind(this)}
+            />
+          </div>
+          <div className={inputGroupClass}>
+            <label>Port</label>
+            <input
+              type="number"
+              required
+              name="port"
+              value={port}
+              disabled={isConnecting}
+              onChange={this.handleChange.bind(this)}
+            />
+          </div>
+          <div className={inputGroupClass}>
+            <input type="submit" disabled={isConnecting} value="Log In" />
+          </div>
+        </form>
+      </React.Fragment>
     )
   }
 }

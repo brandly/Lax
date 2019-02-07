@@ -13,7 +13,8 @@ export function init(): CreatorState {
       port: '',
       password: ''
     },
-    connection: null
+    connection: null,
+    error: null
   }
 
   return state
@@ -29,6 +30,7 @@ function creator(state: CreatorState = init(), action: Action): CreatorState {
     case 'REQUEST_CONNECTION_PENDING': {
       return Object.assign({}, state, {
         isConnecting: true,
+        error: null,
         connection: action.connection
       })
     }
@@ -36,6 +38,7 @@ function creator(state: CreatorState = init(), action: Action): CreatorState {
       return Object.assign({}, state, {
         isConnecting: false,
         connection: null,
+        error: null,
         credentials: {
           realName: '',
           nickname: '',
@@ -46,7 +49,21 @@ function creator(state: CreatorState = init(), action: Action): CreatorState {
       })
     }
     case 'REQUEST_CONNECTION_ERROR': {
-      return Object.assign({}, state, { isConnecting: false })
+      return Object.assign({}, state, {
+        isConnecting: false,
+        error: action.error
+      })
+    }
+    case 'CONNECTION_CLOSED': {
+      if (state.connection && action.connectionId === state.connection.id) {
+        return Object.assign({}, state, {
+          connection: Object.assign({}, state.connection, {
+            isConnected: false
+          })
+        })
+      } else {
+        return state
+      }
     }
     default:
       return state

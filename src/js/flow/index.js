@@ -74,11 +74,11 @@ export type CredentialsT = {
 }
 
 export type CreatorState = {
-  // TODO: this should be `status` like idle | connection | error
   isConnecting: boolean,
   rememberPassword: boolean,
   credentials: CredentialsT,
-  connection: ?ConnectionT
+  connection: ?ConnectionT,
+  error: ?string
 }
 
 export type RouteT =

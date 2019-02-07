@@ -227,7 +227,7 @@ function createIrcStream(credentials, dispatch, getState) {
     dispatch({
       type: 'REQUEST_CONNECTION_ERROR',
       connectionId: id,
-      error: e
+      error: e.message
     })
   })
 

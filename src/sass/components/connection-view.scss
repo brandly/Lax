@@ -1,4 +1,7 @@
 .connection-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   height: 100vh;
   margin-left: 60px;
 }
@@ -6,10 +9,17 @@
 .connection-creator {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  height: 100vh;
   width: 220px;
   margin: 0 auto;
+}
+
+.connection-error {
+  text-align: center;
+  padding: 12px 0;
+  margin: 18px 0;
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
 }
 
 .disconnected-error {

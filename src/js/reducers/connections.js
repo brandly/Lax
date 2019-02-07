@@ -12,13 +12,10 @@ function list(
     case 'REQUEST_CONNECTION_SUCCESS':
       return updateIdInList(state, action.connection.id, action.connection)
     case 'CONNECTION_CLOSED':
+      // TODO: only update if it's already in the list
       return updateIdInList(state, action.connectionId, {
         isConnected: false
       })
-    case 'REQUEST_CONNECTION_ERROR': {
-      const { connectionId } = action
-      return state.filter(connection => connection.id === connectionId)
-    }
     case 'RECEIVE_WELCOME':
       return updateIdInList(state, action.connectionId, {
         isWelcome: true
