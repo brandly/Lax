@@ -19,10 +19,10 @@ function list(
       return updateIdInList(state, action.connectionId, {
         isConnected: false
       })
-    case 'REQUEST_CONNECTION_ERROR':
-      return updateIdInList(state, action.connectionId, {
-        error: action.error
-      })
+    case 'REQUEST_CONNECTION_ERROR': {
+      const { connectionId } = action
+      return state.filter(connection => connection.id === connectionId)
+    }
     case 'RECEIVE_WELCOME':
       return updateIdInList(state, action.connectionId, {
         isWelcome: true
@@ -37,7 +37,11 @@ function withConversations(
   action: Action
 ): Array<ConnectionT> {
   return state.map(connection => {
-    if (action.type === 'NOTIFICATION_CLICK' || (typeof action.connectionId === 'string' && connection.id === action.connectionId)) {
+    if (
+      action.type === 'NOTIFICATION_CLICK' ||
+      (typeof action.connectionId === 'string' &&
+        connection.id === action.connectionId)
+    ) {
       return Object.assign({}, connection, {
         conversations: conversationsList(connection.conversations, action)
       })
@@ -62,12 +66,14 @@ function updateIdInList(
     }
   })
 
-  return found ? result : result.concat([ update ])
+  return found ? result : result.concat([update])
 }
 
-const compose = (a, b) =>
-  (state, action) => b(a(state, action), action)
+const compose = (a, b) => (state, action) => b(a(state, action), action)
 
 export default combineReducers({
-  list: compose(list, withConversations)
+  list: compose(
+    list,
+    withConversations
+  )
 })

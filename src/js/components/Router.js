@@ -7,11 +7,7 @@ import ConnectionSelector from './ConnectionSelector'
 import ConnectionCreator from './ConnectionCreator'
 import BodyColor from './BodyColor'
 import { listenToDocumentEvent } from '../actions/document'
-import type {
-  IrcState,
-  RouteT,
-  Dispatch
-} from '../flow'
+import type { IrcState, RouteT, Dispatch } from '../flow'
 
 type Props = {
   route: RouteT,
@@ -19,14 +15,16 @@ type Props = {
 }
 
 class Router extends React.Component<Props> {
-  unlisten: void => void;
+  unlisten: void => void
   componentDidMount() {
-    this.unlisten = this.props.dispatch(listenToDocumentEvent('visibilitychange', event => {
-      return {
-        type: 'VISIBILITY_CHANGE',
-        visible: event.returnValue
-      }
-    }))
+    this.unlisten = this.props.dispatch(
+      listenToDocumentEvent('visibilitychange', event => {
+        return {
+          type: 'VISIBILITY_CHANGE',
+          visible: event.returnValue
+        }
+      })
+    )
   }
 
   componentWillUnmount() {
@@ -46,16 +44,16 @@ class Router extends React.Component<Props> {
   render() {
     return (
       <BodyColor>
-        <ConnectionSelector>
-          {this.renderContents()}
-        </ConnectionSelector>
+        <ConnectionSelector>{this.renderContents()}</ConnectionSelector>
       </BodyColor>
     )
   }
 }
 
-export default connect((state: IrcState, ownProps): $Shape<Props> => {
-  return {
-    route: state.route
+export default connect(
+  (state: IrcState, ownProps): $Shape<Props> => {
+    return {
+      route: state.route
+    }
   }
-})(Router)
+)(Router)

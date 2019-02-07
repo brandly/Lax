@@ -2,7 +2,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { connectToServer } from '../actions'
-import type { Dispatch } from '../flow'
+import type { Dispatch, CreatorState } from '../flow'
 
 const serverOptions = [
   'chat.freenode.net',
@@ -43,83 +43,85 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 type Props = {
-  dispatch: Dispatch
-}
-
-type State = {
-  isConnecting: boolean,
-  realName: string,
-  nickname: string,
-  server: string,
-  port: string,
-  password: string,
-  rememberPassword: boolean
+  dispatch: Dispatch,
+  connection: CreatorState
 }
 
 const { localStorage } = window
 const storedKeys = ['realName', 'nickname', 'server', 'port']
-class ConnectionCreator extends React.Component<Props, State> {
+class ConnectionCreator extends React.Component<Props> {
   constructor(props) {
     super(props)
 
-    this.state = {
-      isConnecting: false,
-      realName: '',
-      nickname: '',
-      server: '',
-      port: '',
-      password: '',
-      rememberPassword: localStorage.rememberPassword === 'true' || false
-    }
-
-    this.getStoredKeys().forEach(key => {
-      this.state[key] = localStorage[key] || ''
-    })
+    // this.getStoredKeys().forEach(key => {
+    //   this.state[key] = localStorage[key] || ''
+    // })
   }
 
-  getStoredKeys() {
-    return this.state.rememberPassword ? storedKeys.concat('password') : storedKeys
-  }
+  // getStoredKeys() {
+  //   return this.state.rememberPassword
+  //     ? storedKeys.concat('password')
+  //     : storedKeys
+  // }
 
   handleChange(event) {
     const { name, value } = event.target
-
-    if (this.getStoredKeys().includes(name)) {
-      localStorage[name] = value
-    }
-
-    this.setState({
-      [name]: value
+    // if (this.getStoredKeys().includes(name)) {
+    //   localStorage[name] = value
+    // }
+    this.props.dispatch({
+      type: 'CONNECTION_CREATOR_UPDATE',
+      update: {
+        [name]: value
+      }
     })
   }
 
   handleRemember(event) {
-    const { name, checked } = event.target
-    localStorage[name] = checked
-    this.setState({
-      [name]: checked
-    })
-
-    if (checked) {
-      localStorage.password = this.state.password
-    } else {
-      localStorage.removeItem('password')
-    }
+    // const { name, checked } = event.target
+    // localStorage[name] = checked
+    // this.setState({
+    //   [name]: checked
+    // })
+    // if (checked) {
+    //   localStorage.password = this.state.password
+    // } else {
+    //   localStorage.removeItem('password')
+    // }
   }
 
   handleFormSubmission(event) {
     event.preventDefault()
-    this.setState({ isConnecting: true })
 
-    const { realName, nickname, password, server, port } = this.state
-    this.props.dispatch(connectToServer({ realName, nickname, password, server, port: parseInt(port, 10) }))
+    const { realName, nickname, password, server, port } = this.props.connection
+    this.props.dispatch(
+      connectToServer({
+        realName,
+        nickname,
+        password,
+        server,
+        port: parseInt(port, 10)
+      })
+    )
   }
 
   render() {
     const inputGroupClass = 'input-group'
+    const {
+      realName,
+      nickname,
+      password,
+      server,
+      port,
+      isConnecting,
+      rememberPassword
+    } = this.props.connection
 
     return (
-      <form className="connection-creator" onSubmit={this.handleFormSubmission.bind(this)}>
+      <form
+        className="connection-creator"
+        onSubmit={this.handleFormSubmission.bind(this)}
+      >
         <div className={inputGroupClass}>
           <label>Real Name</label>
           <input
@@ -127,9 +129,10 @@ class ConnectionCreator extends React.Component<Props, State> {
             autoFocus
             required
             name="realName"
-            value={this.state.realName}
-            disabled={this.state.isConnecting}
-            onChange={this.handleChange.bind(this)} />
+            value={realName}
+            disabled={isConnecting}
+            onChange={this.handleChange.bind(this)}
+          />
         </div>
 
         <div className={inputGroupClass}>
@@ -138,9 +141,10 @@ class ConnectionCreator extends React.Component<Props, State> {
             type="text"
             required
             name="nickname"
-            value={this.state.nickname}
-            disabled={this.state.isConnecting}
-            onChange={this.handleChange.bind(this)} />
+            value={nickname}
+            disabled={isConnecting}
+            onChange={this.handleChange.bind(this)}
+          />
         </div>
 
         <div className={inputGroupClass}>
@@ -148,16 +152,18 @@ class ConnectionCreator extends React.Component<Props, State> {
           <input
             type="password"
             name="password"
-            value={this.state.password}
-            disabled={this.state.isConnecting}
-            onChange={this.handleChange.bind(this)} />
+            value={password}
+            disabled={isConnecting}
+            onChange={this.handleChange.bind(this)}
+          />
           <label>
-            remember password? <input
+            remember password?{' '}
+            <input
               type="checkbox"
               name="rememberPassword"
               onChange={this.handleRemember.bind(this)}
               onClick={this.handleRemember.bind(this)}
-              checked={this.state.rememberPassword}
+              checked={rememberPassword}
             />
           </label>
         </div>
@@ -167,9 +173,10 @@ class ConnectionCreator extends React.Component<Props, State> {
           <input
             type="text"
             name="server"
-            value={this.state.server}
-            disabled={this.state.isConnecting}
-            onChange={this.handleChange.bind(this)} />
+            value={server}
+            disabled={isConnecting}
+            onChange={this.handleChange.bind(this)}
+          />
         </div>
 
         <div className={inputGroupClass}>
@@ -178,21 +185,20 @@ class ConnectionCreator extends React.Component<Props, State> {
             type="number"
             required
             name="port"
-            value={this.state.port}
-            disabled={this.state.isConnecting}
-            onChange={this.handleChange.bind(this)} />
+            value={port}
+            disabled={isConnecting}
+            onChange={this.handleChange.bind(this)}
+          />
         </div>
 
         <div className={inputGroupClass}>
-          <input
-            type="submit"
-            disabled={this.state.isConnecting}
-            value="Log In"
-          />
+          <input type="submit" disabled={isConnecting} value="Log In" />
         </div>
       </form>
     )
   }
 }
 
-export default connect(state => ({}))(ConnectionCreator)
+export default connect(state => ({
+  connection: state.route.state
+}))(ConnectionCreator)
