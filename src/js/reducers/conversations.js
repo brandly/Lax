@@ -35,6 +35,15 @@ function guaranteedList(
   action: Action
 ): SelectList<ConversationT> {
   switch (action.type) {
+    case 'IRC_ERROR':
+      return addMessageToIdInList(
+        state,
+        action.connectionId,
+        makeMessage({
+          type: 'error',
+          text: action.message
+        })
+      )
     case 'RECEIVE_MOTD':
       return addMessageToIdInList(
         state,

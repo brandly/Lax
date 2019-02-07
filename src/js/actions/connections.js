@@ -38,7 +38,7 @@ export const connectToServer = (credentials: Creds): Thunk => {
     })
 
     stream.on('errors', e => {
-      console.log('errors', e)
+      dispatch({ type: 'IRC_ERROR', connectionId: id, message: e.message })
     })
 
     stream.on('mode', e => {

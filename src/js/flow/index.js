@@ -31,6 +31,7 @@ type MessageType =
   | 'away'
   | 'part'
   | 'quit'
+  | 'error'
 
 export type MessageT = {
   id: string,
@@ -102,6 +103,7 @@ export type Action =
   | { type: 'REQUEST_CONNECTION_SUCCESS', connection: ConnectionT }
   | { type: 'REQUEST_CONNECTION_ERROR', connectionId: string, error: string }
   | { type: 'CONNECTION_CLOSED', connectionId: string }
+  | { type: 'IRC_ERROR', connectionId: string, message: string }
   | {
       type: 'SEND_MESSAGE',
       connectionId: string,
