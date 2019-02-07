@@ -1,5 +1,5 @@
 // @flow
-import type { IrcState, ConnectionT, ConversationT, RouteT } from '../flow'
+import type { IrcState, ConnectionT, ConversationT } from '../flow'
 
 export function getConnectionById(
   state: IrcState,

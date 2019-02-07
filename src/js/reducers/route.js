@@ -1,23 +1,10 @@
 // @flow
 import type { RouteT, Action } from '../flow'
 
-export function connectionCreatorRoute(): RouteT {
-  return {
-    view: 'CONNECTION_CREATOR',
-    state: {
-      isConnecting: false,
-      realName: '',
-      nickname: '',
-      server: '',
-      port: '',
-      password: '',
-      rememberPassword: localStorage.rememberPassword === 'true' || false
-    }
-  }
-}
-
 function route(
-  state: RouteT = connectionCreatorRoute(),
+  state: RouteT = {
+    view: 'CONNECTION_CREATOR'
+  },
   action: Action
 ): RouteT {
   switch (action.type) {
@@ -43,33 +30,6 @@ function route(
     }
     case 'REDIRECT':
       return action.route
-    case 'CONNECTION_CREATOR_UPDATE': {
-      if (state.view === 'CONNECTION_CREATOR') {
-        return Object.assign({}, state, {
-          state: Object.assign({}, state.state, action.update)
-        })
-      } else {
-        return state
-      }
-    }
-    case 'REQUEST_CONNECTION_PENDING': {
-      if (state.view === 'CONNECTION_CREATOR') {
-        return Object.assign({}, state, {
-          state: Object.assign({}, state.state, { isConnecting: true })
-        })
-      } else {
-        return state
-      }
-    }
-    case 'REQUEST_CONNECTION_ERROR': {
-      if (state.view === 'CONNECTION_CREATOR') {
-        return Object.assign({}, state, {
-          state: Object.assign({}, state.state, { isConnecting: false })
-        })
-      } else {
-        return state
-      }
-    }
     default:
       return state
   }

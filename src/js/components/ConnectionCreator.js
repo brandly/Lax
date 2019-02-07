@@ -42,35 +42,15 @@ if (process.env.NODE_ENV !== 'production') {
   serverOptions.unshift('127.0.0.1')
 }
 
-type Props = {
-  dispatch: Dispatch,
-  connection: CreatorState
+type Props = CreatorState & {
+  dispatch: Dispatch
 }
 
-const { localStorage } = window
-const storedKeys = ['realName', 'nickname', 'server', 'port']
 class ConnectionCreator extends React.Component<Props> {
-  constructor(props) {
-    super(props)
-
-    // this.getStoredKeys().forEach(key => {
-    //   this.state[key] = localStorage[key] || ''
-    // })
-  }
-
-  // getStoredKeys() {
-  //   return this.state.rememberPassword
-  //     ? storedKeys.concat('password')
-  //     : storedKeys
-  // }
-
   handleChange(event) {
     const { name, value } = event.target
-    // if (this.getStoredKeys().includes(name)) {
-    //   localStorage[name] = value
-    // }
     this.props.dispatch({
-      type: 'CONNECTION_CREATOR_UPDATE',
+      type: 'CREDENTIALS_UPDATE',
       update: {
         [name]: value
       }
@@ -93,7 +73,13 @@ class ConnectionCreator extends React.Component<Props> {
   handleFormSubmission(event) {
     event.preventDefault()
 
-    const { realName, nickname, password, server, port } = this.props.connection
+    const {
+      realName,
+      nickname,
+      password,
+      server,
+      port
+    } = this.props.credentials
     this.props.dispatch(
       connectToServer({
         realName,
@@ -107,15 +93,8 @@ class ConnectionCreator extends React.Component<Props> {
 
   render() {
     const inputGroupClass = 'input-group'
-    const {
-      realName,
-      nickname,
-      password,
-      server,
-      port,
-      isConnecting,
-      rememberPassword
-    } = this.props.connection
+    const { isConnecting, rememberPassword, credentials } = this.props
+    const { realName, nickname, password, server, port } = credentials
 
     return (
       <form
@@ -199,6 +178,4 @@ class ConnectionCreator extends React.Component<Props> {
   }
 }
 
-export default connect(state => ({
-  connection: state.route.state
-}))(ConnectionCreator)
+export default connect(state => state.creator)(ConnectionCreator)

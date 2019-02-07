@@ -3,7 +3,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
-import { connectionCreatorRoute } from '../reducers/route'
 import type { ConnectionT, RouteT, IrcState, Dispatch } from '../flow'
 
 type Props = {
@@ -41,7 +40,7 @@ class ConnectionSelector extends React.PureComponent<Props> {
               onClick={() => {
                 dispatch({
                   type: 'REDIRECT',
-                  route: connectionCreatorRoute()
+                  route: { view: 'CONNECTION_CREATOR' }
                 })
               }}
             >

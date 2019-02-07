@@ -65,22 +65,27 @@ export type ConnectionT = {
   conversations: ?SelectList<ConversationT>
 }
 
-export type CreatorState = {
-  // TODO: this should be `status` like idle | connection | error
-  isConnecting: boolean,
+export type CredentialsT = {
   realName: string,
   nickname: string,
   server: string,
   port: string,
-  password: string,
-  rememberPassword: boolean
+  password: string
+}
+
+export type CreatorState = {
+  // TODO: this should be `status` like idle | connection | error
+  isConnecting: boolean,
+  rememberPassword: boolean,
+  credentials: CredentialsT
 }
 
 export type RouteT =
-  | { view: 'CONNECTION_CREATOR', state: CreatorState }
+  | { view: 'CONNECTION_CREATOR' }
   | { view: 'CONNECTION', connectionId: string }
 
 export type IrcState = {
+  creator: CreatorState,
   connections: {
     list: Array<ConnectionT>
   },
@@ -200,7 +205,7 @@ export type Action =
   | { type: 'VISIBILITY_CHANGE', visible: boolean }
   | { type: 'TOGGLE_THEME' }
   | { type: 'NOTIFICATION_CLICK', via: Action }
-  | { type: 'CONNECTION_CREATOR_UPDATE', update: $Shape<CreatorState> }
+  | { type: 'CREDENTIALS_UPDATE', update: $Shape<CredentialsT> }
 
 export type Store = ReduxStore<IrcState, Action>
 export type GetState = () => IrcState
