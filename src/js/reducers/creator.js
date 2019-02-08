@@ -2,17 +2,19 @@
 import type { Action, CreatorState } from '../flow'
 const { localStorage } = window
 
+const defaultCreds = {
+  realName: '',
+  nickname: '',
+  server: '',
+  port: 6667,
+  password: ''
+}
+
 export function init(): CreatorState {
   const state = {
     isConnecting: false,
     rememberPassword: localStorage.rememberPassword === 'true' || false,
-    credentials: {
-      realName: '',
-      nickname: '',
-      server: '',
-      port: '',
-      password: ''
-    },
+    credentials: defaultCreds,
     connection: null,
     error: null
   }
@@ -39,13 +41,7 @@ function creator(state: CreatorState = init(), action: Action): CreatorState {
         isConnecting: false,
         connection: null,
         error: null,
-        credentials: {
-          realName: '',
-          nickname: '',
-          server: '',
-          port: '',
-          password: ''
-        }
+        credentials: defaultCreds
       })
     }
     case 'REQUEST_CONNECTION_ERROR': {

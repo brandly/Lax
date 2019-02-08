@@ -2,19 +2,11 @@
 import net from 'net'
 import irc from 'slate-irc'
 import equalNames from '../modules/equalNames'
-import type { Thunk } from '../flow'
+import type { Thunk, CredentialsT } from '../flow'
 
 export const CONNECTION_CLOSED = 'CONNECTION_CLOSED'
 
-type Creds = {
-  realName: string,
-  nickname: string,
-  server: string,
-  port: number,
-  password: string
-}
-
-export const connectToServer = (credentials: Creds): Thunk => {
+export const connectToServer = (credentials: CredentialsT): Thunk => {
   const { realName, nickname, server, port } = credentials
 
   return (dispatch, getState) => {

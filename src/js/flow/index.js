@@ -70,7 +70,7 @@ export type CredentialsT = {
   realName: string,
   nickname: string,
   server: string,
-  port: string,
+  port: number,
   password: string
 }
 
