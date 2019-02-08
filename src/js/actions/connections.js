@@ -213,6 +213,10 @@ function createIrcStream(credentials, dispatch, getState) {
           isConnected: true
         })
       })
+      dispatch({
+        type: 'WORKING_CREDENTIALS',
+        credentials
+      })
     })
     .on('close', e => {
       // TODO: figure out how to recover

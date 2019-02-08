@@ -104,6 +104,7 @@ export type Action =
   | { type: 'REQUEST_CONNECTION_ERROR', connectionId: string, error: string }
   | { type: 'CONNECTION_CLOSED', connectionId: string }
   | { type: 'IRC_ERROR', connectionId: string, message: string }
+  | { type: 'WORKING_CREDENTIALS', credentials: CredentialsT }
   | {
       type: 'SEND_MESSAGE',
       connectionId: string,
