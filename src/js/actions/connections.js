@@ -1,6 +1,7 @@
 // @flow
 import net from 'net'
 import irc from 'slate-irc'
+import { credentialsToId } from '../reducers/credentials'
 import equalNames from '../modules/equalNames'
 import type { Thunk, CredentialsT } from '../flow'
 
@@ -178,10 +179,6 @@ export const connectToServer = (credentials: CredentialsT): Thunk => {
       }
     })
   }
-}
-
-function credentialsToId({ realName, server, port }) {
-  return `${realName}@${server}:${port}`
 }
 
 function createIrcStream(credentials, dispatch, getState) {
