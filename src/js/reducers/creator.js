@@ -10,6 +10,7 @@ const defaultCreds = {
   password: ''
 }
 
+// TODO: call this LoginState
 export function init(): CreatorState {
   const state = {
     isConnecting: false,

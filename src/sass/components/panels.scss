@@ -2,8 +2,6 @@
   position: relative;
   width: 220px;
   float: left;
-  background: #373D48;
-  color: #FFF;
 }
 
 .right-panel {
@@ -14,8 +12,8 @@
 
 .above-bottom-panel {
   position: relative;
-  height: calc(100% - 4.0rem);
-  margin-bottom: 4.0rem;
+  height: calc(100% - 4rem);
+  margin-bottom: 4rem;
 }
 
 .absolute-bottom-panel {
@@ -24,9 +22,9 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 4.0rem;
+  height: 4rem;
   width: 100%;
-  padding: 0 1.0rem;
+  padding: 0 1rem;
 }
 
 .right-panel.with-details .above-bottom-panel,

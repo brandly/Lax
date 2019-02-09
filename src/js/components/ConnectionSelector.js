@@ -16,7 +16,7 @@ class ConnectionSelector extends React.PureComponent<Props> {
   render() {
     const { route, connections, children, dispatch } = this.props
     return (
-      <div>
+      <React.Fragment>
         <div className="connection-tabs">
           <ul>
             {connections.map((conn, i) => (
@@ -67,7 +67,7 @@ class ConnectionSelector extends React.PureComponent<Props> {
           </ul>
         </div>
         <div className="connection-view">{children}</div>
-      </div>
+      </React.Fragment>
     )
   }
 }

@@ -1,12 +1,8 @@
 .connection-view {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100vh;
   margin-left: 60px;
 }
 
-.connection-creator {
+.login-form {
   display: flex;
   flex-direction: column;
   width: 220px;
@@ -30,4 +26,17 @@
   border-radius: 6px;
   background: #fde5d1;
   font-weight: bold;
+}
+
+.conversation-list {
+  background: #373d48;
+  color: #fff;
+}
+
+.connection-creator .right-panel,
+.connection-creator .full-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
 }
