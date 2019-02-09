@@ -93,7 +93,7 @@ class ConnectionCreator extends React.Component<Props> {
 
   render() {
     const inputGroupClass = 'input-group'
-    const { isConnecting, rememberPassword, credentials, error } = this.props
+    const { isConnecting, credentials, error } = this.props
     const { realName, nickname, password, server, port } = credentials
 
     return (
@@ -139,7 +139,7 @@ class ConnectionCreator extends React.Component<Props> {
               disabled={isConnecting}
               onChange={this.handleChange.bind(this)}
             />
-            <label>
+            {/*<label>
               remember password?{' '}
               <input
                 type="checkbox"
@@ -148,7 +148,7 @@ class ConnectionCreator extends React.Component<Props> {
                 onClick={this.handleRemember.bind(this)}
                 checked={rememberPassword}
               />
-            </label>
+            </label>*/}
           </div>
           <div className={inputGroupClass}>
             <label>Server</label>

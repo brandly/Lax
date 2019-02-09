@@ -11,6 +11,7 @@
       1,
       "never"
     ],
+    "spaced-comment": 0,
     "flowtype/boolean-style": [
       2,
       "boolean"
