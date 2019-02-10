@@ -1,16 +1,16 @@
-.nickname {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: 0.8rem;
-}
-
 .message-list {
   display: table;
   width: 100%;
   max-width: 100%;
   border-spacing: 0 6px;
   padding: 0 1rem;
+}
+
+.message-list .nickname {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.8rem;
 }
 
 .message {

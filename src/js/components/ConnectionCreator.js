@@ -52,19 +52,20 @@ class ConnectionCreator extends React.Component<Props> {
   render() {
     const { isConnecting, credentials, error, savedCreds } = this.props
     const listItems = savedCreds.map(cred => (
-      <li
-        key={credentialsToId(cred)}
-        onClick={() => {
-          this.props.dispatch({
-            type: 'CREDENTIALS_UPDATE',
-            update: cred
-          })
-        }}
-      >
-        <p>{cred.nickname}</p>
-        <small>
-          {cred.server}:{cred.port}
-        </small>
+      <li className="saved-credentials" key={credentialsToId(cred)}>
+        <button
+          onClick={() => {
+            this.props.dispatch({
+              type: 'CREDENTIALS_UPDATE',
+              update: cred
+            })
+          }}
+        >
+          <p className="nickname">{cred.nickname}</p>
+          <small>
+            {cred.server}:{cred.port}
+          </small>
+        </button>
       </li>
     ))
     return (

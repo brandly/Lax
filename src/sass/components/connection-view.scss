@@ -40,3 +40,17 @@
   justify-content: center;
   height: 100vh;
 }
+.connection-creator .left-panel {
+  border-right: 1px solid #ccc;
+}
+
+.saved-credentials button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 12px 18px;
+  outline: none;
+}
+.saved-credentials button:hover .nickname {
+  text-decoration: underline;
+}
