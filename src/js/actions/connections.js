@@ -8,9 +8,8 @@ import type { Thunk, CredentialsT } from '../flow'
 export const CONNECTION_CLOSED = 'CONNECTION_CLOSED'
 
 export const connectToServer = (credentials: CredentialsT): Thunk => {
-  const { realName, nickname, server, port } = credentials
-
   return (dispatch, getState) => {
+    const { nickname } = credentials
     const id = credentialsToId(credentials)
     const stream = createIrcStream(credentials, dispatch, getState)
 
@@ -20,10 +19,7 @@ export const connectToServer = (credentials: CredentialsT): Thunk => {
         id,
         isConnected: false,
         isWelcome: false,
-        nickname,
-        realName,
-        server,
-        port,
+        credentials: credentials,
         stream,
         error: null,
         conversations: null

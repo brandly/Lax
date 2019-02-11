@@ -57,10 +57,7 @@ export type ConnectionT = {
   id: string,
   isConnected: boolean,
   isWelcome: boolean,
-  nickname: string,
-  realName: string,
-  server: string,
-  port: number,
+  credentials: CredentialsT,
   stream: IrcConnectionStream,
   error: ?string,
   conversations: ?SelectList<ConversationT>

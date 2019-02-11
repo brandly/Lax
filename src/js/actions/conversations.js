@@ -34,7 +34,7 @@ function sendMessage(connection: ConnectionT, to: string, message: string) {
     type: 'SEND_MESSAGE',
     connectionId: connection.id,
     to,
-    from: connection.nickname,
+    from: connection.credentials.nickname,
     message: message
   }
 }
@@ -79,7 +79,7 @@ function createCommand(
       return {
         type: 'RECEIVE_DIRECT_MESSAGE',
         connectionId: connection.id,
-        from: connection.nickname,
+        from: connection.credentials.nickname,
         message: `unexpected command ${words[0]}`
       }
   }

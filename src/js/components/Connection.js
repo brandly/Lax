@@ -62,7 +62,7 @@ class Connection extends React.Component<Props> {
         </div>
         {conversation ? (
           <Conversation
-            nickname={connection.nickname}
+            nickname={connection.credentials.nickname}
             conversation={conversation}
             onMessage={message => {
               dispatch(

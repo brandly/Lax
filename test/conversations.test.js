@@ -131,10 +131,13 @@ function stubConnection(id) {
     id,
     isConnected: true,
     isWelcome: true,
-    nickname: 'string',
-    realName: 'string',
-    server: 'string',
-    port: 6667,
+    credentials: {
+      nickname: 'string',
+      realName: 'string',
+      server: 'string',
+      port: 6667,
+      password: 'hunter42'
+    },
     stream: {
       join: s => {},
       nick: s => {},
