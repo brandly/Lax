@@ -5,7 +5,7 @@ import { getConnectionById } from '../reducers/selectors'
 import { credentialsToId } from '../reducers/credentials'
 import { commandJoin } from './conversations'
 import equalNames from '../modules/equalNames'
-import type { Thunk, CredentialsT, ConnectionT, Dispatch } from '../flow'
+import type { Thunk, CredentialsT, Dispatch } from '../flow'
 
 export const connectToServer = (credentials: CredentialsT): Thunk => {
   return (dispatch, getState) => {
@@ -72,6 +72,8 @@ export const reconnect = (credentials: CredentialsT): Thunk => {
 
     const conn = getConnectionById(getState(), id)
     if (conn) {
+      console.log('TODO: use this new stream? destroy old stream?', stream)
+      // maybe old stream gets cleaned up on CONNECTION_CLOSED
       dispatch({
         type: 'REQUEST_RECONNECTION',
         connection: conn

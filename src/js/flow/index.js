@@ -53,6 +53,14 @@ export type ConversationT = {
   unreadCount: number
 }
 
+export type CredentialsT = {
+  realName: string,
+  nickname: string,
+  server: string,
+  port: number,
+  password: string
+}
+
 export type ConnectionT = {
   id: string,
   isConnected: boolean,
@@ -61,14 +69,6 @@ export type ConnectionT = {
   stream: IrcConnectionStream,
   error: ?string,
   conversations: ?SelectList<ConversationT>
-}
-
-export type CredentialsT = {
-  realName: string,
-  nickname: string,
-  server: string,
-  port: number,
-  password: string
 }
 
 export type CreatorState = {
