@@ -31,6 +31,7 @@ type MessageType =
   | 'away'
   | 'part'
   | 'quit'
+  | 'error'
 
 export type MessageT = {
   id: string,
@@ -65,11 +66,28 @@ export type ConnectionT = {
   conversations: ?SelectList<ConversationT>
 }
 
+export type CredentialsT = {
+  realName: string,
+  nickname: string,
+  server: string,
+  port: number,
+  password: string
+}
+
+export type CreatorState = {
+  isConnecting: boolean,
+  rememberPassword: boolean,
+  credentials: CredentialsT,
+  connection: ?ConnectionT,
+  error: ?string
+}
+
 export type RouteT =
   | { view: 'CONNECTION_CREATOR' }
   | { view: 'CONNECTION', connectionId: string }
 
 export type IrcState = {
+  creator: CreatorState,
   connections: {
     list: Array<ConnectionT>
   },
@@ -82,9 +100,11 @@ export type IrcState = {
 
 export type Action =
   | { type: 'REQUEST_CONNECTION_PENDING', connection: ConnectionT }
-  | { type: 'REQUEST_CONNECTION_SUCCESS', connectionId: string }
+  | { type: 'REQUEST_CONNECTION_SUCCESS', connection: ConnectionT }
   | { type: 'REQUEST_CONNECTION_ERROR', connectionId: string, error: string }
   | { type: 'CONNECTION_CLOSED', connectionId: string }
+  | { type: 'IRC_ERROR', connectionId: string, message: string }
+  | { type: 'WORKING_CREDENTIALS', credentials: CredentialsT }
   | {
       type: 'SEND_MESSAGE',
       connectionId: string,
@@ -189,6 +209,7 @@ export type Action =
   | { type: 'VISIBILITY_CHANGE', visible: boolean }
   | { type: 'TOGGLE_THEME' }
   | { type: 'NOTIFICATION_CLICK', via: Action }
+  | { type: 'CREDENTIALS_UPDATE', update: $Shape<CredentialsT> }
 
 export type Store = ReduxStore<IrcState, Action>
 export type GetState = () => IrcState

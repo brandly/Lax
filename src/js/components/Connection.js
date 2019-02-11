@@ -33,8 +33,8 @@ class Connection extends React.Component<Props> {
     if (!connection) return <h1>Unexpected: No connection found</h1>
 
     return (
-      <div className="message-center">
-        <div className="left-panel">
+      <div className="container">
+        <div className="left-panel conversation-list">
           <ConnectionHeader
             connection={connection}
             onClick={() => {

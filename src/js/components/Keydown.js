@@ -7,7 +7,7 @@ type Props = {
 }
 
 class Keydown extends React.PureComponent<Props> {
-  _handle: Event => void;
+  _handle: KeyboardEvent => void
   constructor(props: Props) {
     super(props)
     this._handle = this.handle.bind(this)
@@ -21,7 +21,7 @@ class Keydown extends React.PureComponent<Props> {
     document.removeEventListener('keydown', this._handle)
   }
 
-  handle(event: Event) {
+  handle(event: KeyboardEvent) {
     if (event.key === this.props.on) {
       this.props.fn()
     }

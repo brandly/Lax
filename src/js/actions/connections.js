@@ -1,25 +1,18 @@
 // @flow
 import net from 'net'
 import irc from 'slate-irc'
+import { credentialsToId } from '../reducers/credentials'
 import equalNames from '../modules/equalNames'
-import type { Thunk } from '../flow'
+import type { Thunk, CredentialsT } from '../flow'
 
 export const CONNECTION_CLOSED = 'CONNECTION_CLOSED'
 
-type Creds = {
-  realName: string,
-  nickname: string,
-  server: string,
-  port: number,
-  password: string
-}
-
-export const connectToServer = (credentials: Creds): Thunk => {
+export const connectToServer = (credentials: CredentialsT): Thunk => {
   const { realName, nickname, server, port } = credentials
 
-  return dispatch => {
+  return (dispatch, getState) => {
     const id = credentialsToId(credentials)
-    const stream = createIrcStream(credentials, dispatch)
+    const stream = createIrcStream(credentials, dispatch, getState)
 
     dispatch({
       type: 'REQUEST_CONNECTION_PENDING',
@@ -38,7 +31,7 @@ export const connectToServer = (credentials: Creds): Thunk => {
     })
 
     stream.on('errors', e => {
-      console.log('errors', e)
+      dispatch({ type: 'IRC_ERROR', connectionId: id, message: e.message })
     })
 
     stream.on('mode', e => {
@@ -164,7 +157,9 @@ export const connectToServer = (credentials: Creds): Thunk => {
           connectionId: id,
           channel: equalNames(e.to, nickname) ? e.from : e.to,
           from: e.from,
-          message: `${e.from} ${e.message.replace(/^\u0001ACTION /, '').replace(/\u0001$/, '')}`
+          message: `${e.from} ${e.message
+            .replace(/^\u0001ACTION /, '')
+            .replace(/\u0001$/, '')}`
         })
       } else if (equalNames(e.to, nickname)) {
         dispatch({
@@ -186,53 +181,66 @@ export const connectToServer = (credentials: Creds): Thunk => {
   }
 }
 
-function credentialsToId({ realName, server, port }) {
-  return `${realName}@${server}:${port}`
-}
-
-function createIrcStream(credentials, dispatch) {
+function createIrcStream(credentials, dispatch, getState) {
   const { realName, nickname, password, server, port } = credentials
   const id = credentialsToId(credentials)
 
-  let stream = net.connect({
+  let socket = net.connect({
     port,
     host: server
   })
 
-  stream.on('connect', e => {
-    dispatch({
-      type: 'REQUEST_CONNECTION_SUCCESS',
-      connectionId: id
+  socket
+    .setTimeout(1000)
+    .on('timeout', () => {
+      dispatch({
+        type: 'REQUEST_CONNECTION_ERROR',
+        connectionId: id,
+        error: 'net.Socket timeout'
+      })
     })
-  })
-
-  stream.on('close', e => {
-    // TODO: figure out how to recover
-    // probably want to look at like window focus or "internet is back" events of some sort
-    // then check for `ECONNRESET` errors and rebuild the stream(s)
-    console.log('stream close', e)
-    dispatch({
-      type: CONNECTION_CLOSED,
-      connectionId: id
+    .on('end', e => {
+      console.log('socket end', e)
     })
-  })
-
-  stream.on('error', e => {
-    console.log('stream error', e)
-    dispatch({
-      type: 'REQUEST_CONNECTION_ERROR',
-      connectionId: id,
-      error: e
+    .on('connect', e => {
+      const { connection } = getState().creator
+      dispatch({
+        type: 'REQUEST_CONNECTION_SUCCESS',
+        connection: Object.assign({}, connection, {
+          isConnected: true
+        })
+      })
+      dispatch({
+        type: 'WORKING_CREDENTIALS',
+        credentials
+      })
     })
-  })
+    .on('close', e => {
+      // TODO: figure out how to recover
+      // probably want to look at like window focus or "internet is back" events of some sort
+      // then check for `ECONNRESET` errors and rebuild the stream(s)
+      console.log('socket close', e)
+      dispatch({
+        type: CONNECTION_CLOSED,
+        connectionId: id
+      })
+    })
+    .on('error', e => {
+      console.log('socket error', e)
+      dispatch({
+        type: 'REQUEST_CONNECTION_ERROR',
+        connectionId: id,
+        error: e.message
+      })
+    })
 
-  let connection = irc(stream)
+  let stream = irc(socket)
 
-  if (password) connection.pass(password)
-  connection.nick(nickname)
-  connection.user(nickname, realName)
+  if (password) stream.pass(password)
+  stream.nick(nickname)
+  stream.user(nickname, realName)
 
-  return connection
+  return stream
 }
 
 const leadingChannelName = /^\[(#\S+)\]/

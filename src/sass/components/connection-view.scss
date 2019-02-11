@@ -1,15 +1,21 @@
 .connection-view {
-  height: 100vh;
   margin-left: 60px;
 }
 
-.connection-creator {
+.login-form {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  height: 100vh;
   width: 220px;
   margin: 0 auto;
+}
+
+.connection-error {
+  text-align: center;
+  padding: 12px 0;
+  margin: 18px 0;
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
 }
 
 .disconnected-error {
@@ -20,4 +26,31 @@
   border-radius: 6px;
   background: #fde5d1;
   font-weight: bold;
+}
+
+.conversation-list {
+  background: #373d48;
+  color: #fff;
+}
+
+.connection-creator .right-panel,
+.connection-creator .full-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+}
+.connection-creator .left-panel {
+  border-right: 1px solid #ccc;
+}
+
+.saved-credentials button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 12px 18px;
+  outline: none;
+}
+.saved-credentials button:hover .nickname {
+  text-decoration: underline;
 }
