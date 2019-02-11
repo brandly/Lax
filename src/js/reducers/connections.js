@@ -9,8 +9,17 @@ function list(
   action: Action
 ): Array<ConnectionT> {
   switch (action.type) {
-    case 'REQUEST_CONNECTION_SUCCESS':
-      return state.concat([action.connection])
+    case 'REQUEST_CONNECTION_SUCCESS': {
+      if (state.map(c => c.id).includes(action.connection.id)) {
+        return state.map(conn =>
+          Object.assign({}, conn, {
+            isConnected: true
+          })
+        )
+      } else {
+        return state.concat([action.connection])
+      }
+    }
     case 'CONNECTION_CLOSED':
       return updateIdInList(state, action.connectionId, {
         isConnected: false

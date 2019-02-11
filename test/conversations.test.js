@@ -1,6 +1,6 @@
 // @flow
 import conversationsReducer from '../src/js/reducers/conversations'
-import type { Action } from '../src/js/flow'
+import type { Action, ConnectionT } from '../src/js/flow'
 declare var test: any
 declare var expect: any
 
@@ -126,7 +126,7 @@ test('RECEIVE_DIRECT_MESSAGE doesnt care about case', () => {
   expect(list.length).toBe(2)
 })
 
-function stubConnection(id) {
+function stubConnection(id: string): ConnectionT {
   return {
     id,
     isConnected: true,
