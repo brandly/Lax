@@ -29,7 +29,7 @@ export function createMessage({
 }
 
 function sendMessage(connection: ConnectionT, to: string, message: string) {
-  connection.stream.send(to, message)
+  connection.client.send(to, message)
   return {
     type: 'SEND_MESSAGE',
     connectionId: connection.id,
@@ -91,7 +91,7 @@ export function commandJoin(connectionId: string, name: string): Dispatchable {
     name = name.startsWith('#') ? name : '#' + name
 
     if (connection) {
-      connection.stream.join(name)
+      connection.client.join(name)
 
       dispatch({
         type: 'COMMAND_JOIN',
@@ -111,7 +111,7 @@ function commandMe(
     const connection = getConnectionById(getState(), connectionId)
 
     if (connection) {
-      connection.stream.action(target, message)
+      connection.client.action(target, message)
 
       dispatch({
         type: 'COMMAND_ME',
@@ -131,7 +131,7 @@ export function commandNick(
     const connection = getConnectionById(getState(), connectionId)
 
     if (connection) {
-      connection.stream.nick(newNickname)
+      connection.client.nick(newNickname)
 
       dispatch({
         type: 'COMMAND_NICK',
@@ -147,7 +147,7 @@ function commandPart(connectionId: string, channel: string): Dispatchable {
     const connection = getConnectionById(getState(), connectionId)
 
     if (connection) {
-      connection.stream.part([channel])
+      connection.client.part([channel])
 
       dispatch({
         type: 'COMMAND_PART',
@@ -168,7 +168,7 @@ function commandPartAll(connectionId: string): Dispatchable {
 
     if (connection) {
       const channels = conversations.map(convo => convo.name)
-      connection.stream.part(channels)
+      connection.client.part(channels)
 
       dispatch({
         type: 'COMMAND_PART_ALL',
@@ -188,7 +188,7 @@ export function commandNotice(
     const connection = getConnectionById(getState(), connectionId)
 
     if (connection) {
-      connection.stream.notice(to, message)
+      connection.client.notice(to, message)
 
       dispatch({
         type: 'COMMAND_NOTICE',

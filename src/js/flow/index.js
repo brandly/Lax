@@ -5,7 +5,7 @@ import type {
 } from 'redux'
 import SelectList from '../modules/SelectList'
 
-type IrcConnectionStream = {
+type IrcClient = {
   join: string => void,
   nick: string => void,
   send: (to: string, msg: string) => void,
@@ -66,7 +66,7 @@ export type ConnectionT = {
   isConnected: boolean,
   isWelcome: boolean,
   credentials: CredentialsT,
-  stream: IrcConnectionStream,
+  client: IrcClient,
   error: ?string,
   conversations: ?SelectList<ConversationT>
 }

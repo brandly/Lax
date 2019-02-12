@@ -10,7 +10,7 @@ import type { Thunk, CredentialsT, Dispatch } from '../flow'
 export const connectToServer = (credentials: CredentialsT): Thunk => {
   return (dispatch, getState) => {
     const id = credentialsToId(credentials)
-    const stream = createIrcStream(credentials, dispatch, () => {
+    const client = createIrcClient(credentials, dispatch, () => {
       const { connection } = getState().creator
 
       dispatch({
@@ -32,7 +32,7 @@ export const connectToServer = (credentials: CredentialsT): Thunk => {
         isConnected: false,
         isWelcome: false,
         credentials: credentials,
-        stream,
+        client,
         error: null,
         conversations: null
       }
@@ -43,7 +43,7 @@ export const connectToServer = (credentials: CredentialsT): Thunk => {
 export const reconnect = (credentials: CredentialsT): Thunk => {
   return (dispatch, getState) => {
     const id = credentialsToId(credentials)
-    const stream = createIrcStream(credentials, dispatch, () => {
+    const client = createIrcClient(credentials, dispatch, () => {
       let conn = getConnectionById(getState(), id)
       if (conn) {
         if (conn.conversations) {
@@ -72,7 +72,7 @@ export const reconnect = (credentials: CredentialsT): Thunk => {
 
     const conn = getConnectionById(getState(), id)
     if (conn) {
-      console.log('TODO: use this new stream? destroy old stream?', stream)
+      console.log('TODO: use this new stream? destroy old stream?', client)
       // maybe old stream gets cleaned up on CONNECTION_CLOSED
       dispatch({
         type: 'REQUEST_RECONNECTION',
@@ -82,7 +82,7 @@ export const reconnect = (credentials: CredentialsT): Thunk => {
   }
 }
 
-function createIrcStream(
+function createIrcClient(
   credentials: CredentialsT,
   dispatch: Dispatch,
   onConnect: void => void
@@ -129,24 +129,24 @@ function createIrcStream(
       })
     })
 
-  let stream = irc(socket)
+  let client = irc(socket)
 
-  if (password) stream.pass(password)
-  stream.nick(nickname)
-  stream.user(nickname, realName)
-  stream.on('errors', e => {
+  if (password) client.pass(password)
+  client.nick(nickname)
+  client.user(nickname, realName)
+  client.on('errors', e => {
     dispatch({ type: 'IRC_ERROR', connectionId: id, message: e.message })
   })
 
-  stream.on('mode', e => {
+  client.on('mode', e => {
     console.log('mode', e)
   })
 
-  stream.on('invite', e => {
+  client.on('invite', e => {
     console.log('invite', e)
   })
 
-  stream.on('notice', e => {
+  client.on('notice', e => {
     const channelInMessage = getChannelFromNotice(e.message)
 
     var to, message
@@ -170,7 +170,7 @@ function createIrcStream(
     })
   })
 
-  stream.on('away', e => {
+  client.on('away', e => {
     dispatch({
       type: 'RECEIVE_AWAY',
       connectionId: id,
@@ -179,7 +179,7 @@ function createIrcStream(
     })
   })
 
-  stream.on('part', e => {
+  client.on('part', e => {
     dispatch({
       type: 'RECEIVE_PART',
       connectionId: id,
@@ -189,7 +189,7 @@ function createIrcStream(
     })
   })
 
-  stream.on('quit', e => {
+  client.on('quit', e => {
     dispatch({
       type: 'RECEIVE_QUIT',
       connectionId: id,
@@ -198,11 +198,11 @@ function createIrcStream(
     })
   })
 
-  stream.on('kick', e => {
+  client.on('kick', e => {
     console.log('kick', e)
   })
 
-  stream.on('motd', e => {
+  client.on('motd', e => {
     dispatch({
       type: 'RECEIVE_MOTD',
       connectionId: id,
@@ -210,7 +210,7 @@ function createIrcStream(
     })
   })
 
-  stream.on('welcome', nick => {
+  client.on('welcome', nick => {
     dispatch({
       type: 'RECEIVE_WELCOME',
       connectionId: id,
@@ -218,7 +218,7 @@ function createIrcStream(
     })
   })
 
-  stream.on('nick', e => {
+  client.on('nick', e => {
     dispatch({
       type: 'RECEIVE_NICK',
       connectionId: id,
@@ -227,7 +227,7 @@ function createIrcStream(
     })
   })
 
-  stream.on('topic', e => {
+  client.on('topic', e => {
     dispatch({
       type: 'RECEIVE_TOPIC',
       connectionId: id,
@@ -236,7 +236,7 @@ function createIrcStream(
     })
   })
 
-  stream.on('join', e => {
+  client.on('join', e => {
     dispatch({
       type: 'RECEIVE_JOIN',
       connectionId: id,
@@ -245,7 +245,7 @@ function createIrcStream(
     })
   })
 
-  stream.on('names', e => {
+  client.on('names', e => {
     dispatch({
       type: 'RECEIVE_NAMES',
       connectionId: id,
@@ -254,7 +254,7 @@ function createIrcStream(
     })
   })
 
-  stream.on('message', e => {
+  client.on('message', e => {
     if (e.message.trim().startsWith('\u0001ACTION')) {
       dispatch({
         type: 'RECEIVE_ACTION',
@@ -282,7 +282,7 @@ function createIrcStream(
       })
     }
   })
-  return stream
+  return client
 }
 
 const leadingChannelName = /^\[(#\S+)\]/

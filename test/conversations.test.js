@@ -138,13 +138,14 @@ function stubConnection(id: string): ConnectionT {
       port: 6667,
       password: 'hunter42'
     },
-    stream: {
+    client: {
       join: s => {},
       nick: s => {},
       send: (to: string, msg: string) => {},
       notice: (a: string, b: string) => {},
       action: (target: string, msg: string) => {},
-      part: (channel: Array<string>) => {}
+      part: (channel: Array<string>) => {},
+      removeAllListeners: () => {}
     },
     error: null,
     conversations: null
