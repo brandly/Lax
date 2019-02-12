@@ -6,6 +6,7 @@ import ConnectionHeader from './ConnectionHeader'
 import ConversationList from './ConversationList'
 import JoinConversation from './JoinConversation'
 import Conversation from './Conversation'
+import { reconnect } from '../actions/connections'
 import { getConnectionById } from '../reducers/selectors'
 import { commandJoin, createMessage } from '../actions'
 import type { Dispatch, IrcState, ConnectionT, ConversationT } from '../flow'
@@ -62,7 +63,7 @@ class Connection extends React.Component<Props> {
         </div>
         {conversation ? (
           <Conversation
-            nickname={connection.nickname}
+            nickname={connection.credentials.nickname}
             conversation={conversation}
             onMessage={message => {
               dispatch(
@@ -79,6 +80,9 @@ class Connection extends React.Component<Props> {
                 connectionId: connection.id,
                 conversationId: name
               })
+            }}
+            onRequestReconnection={() => {
+              dispatch(reconnect(connection.credentials))
             }}
             disconnected={!connection.isConnected}
           />

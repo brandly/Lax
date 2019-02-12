@@ -1,6 +1,6 @@
 // @flow
 import conversationsReducer from '../src/js/reducers/conversations'
-import type { Action } from '../src/js/flow'
+import type { Action, ConnectionT } from '../src/js/flow'
 declare var test: any
 declare var expect: any
 
@@ -126,22 +126,26 @@ test('RECEIVE_DIRECT_MESSAGE doesnt care about case', () => {
   expect(list.length).toBe(2)
 })
 
-function stubConnection(id) {
+function stubConnection(id: string): ConnectionT {
   return {
     id,
     isConnected: true,
     isWelcome: true,
-    nickname: 'string',
-    realName: 'string',
-    server: 'string',
-    port: 6667,
-    stream: {
+    credentials: {
+      nickname: 'string',
+      realName: 'string',
+      server: 'string',
+      port: 6667,
+      password: 'hunter42'
+    },
+    client: {
       join: s => {},
       nick: s => {},
       send: (to: string, msg: string) => {},
       notice: (a: string, b: string) => {},
       action: (target: string, msg: string) => {},
-      part: (channel: Array<string>) => {}
+      part: (channel: Array<string>) => {},
+      removeAllListeners: () => {}
     },
     error: null,
     conversations: null

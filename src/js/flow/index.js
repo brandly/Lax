@@ -5,7 +5,7 @@ import type {
 } from 'redux'
 import SelectList from '../modules/SelectList'
 
-type IrcConnectionStream = {
+type IrcClient = {
   join: string => void,
   nick: string => void,
   send: (to: string, msg: string) => void,
@@ -53,25 +53,22 @@ export type ConversationT = {
   unreadCount: number
 }
 
-export type ConnectionT = {
-  id: string,
-  isConnected: boolean,
-  isWelcome: boolean,
-  nickname: string,
-  realName: string,
-  server: string,
-  port: number,
-  stream: IrcConnectionStream,
-  error: ?string,
-  conversations: ?SelectList<ConversationT>
-}
-
 export type CredentialsT = {
   realName: string,
   nickname: string,
   server: string,
   port: number,
   password: string
+}
+
+export type ConnectionT = {
+  id: string,
+  isConnected: boolean,
+  isWelcome: boolean,
+  credentials: CredentialsT,
+  client: IrcClient,
+  error: ?string,
+  conversations: ?SelectList<ConversationT>
 }
 
 export type CreatorState = {
@@ -105,6 +102,7 @@ export type Action =
   | { type: 'CONNECTION_CLOSED', connectionId: string }
   | { type: 'IRC_ERROR', connectionId: string, message: string }
   | { type: 'WORKING_CREDENTIALS', credentials: CredentialsT }
+  | { type: 'REQUEST_RECONNECTION', connection: ConnectionT }
   | {
       type: 'SEND_MESSAGE',
       connectionId: string,

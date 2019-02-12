@@ -12,7 +12,8 @@ type Props = {
   onMessage: string => void,
   nickname: string,
   disconnected: boolean,
-  onPersonClick: string => void
+  onPersonClick: string => void,
+  onRequestReconnection: void => void
 }
 
 type State = {
@@ -36,7 +37,12 @@ class Conversation extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { conversation, nickname, disconnected } = this.props
+    const {
+      conversation,
+      nickname,
+      disconnected,
+      onRequestReconnection
+    } = this.props
     const { messages } = conversation
     const { filterStatusUpdates } = this.state
     const showPeopleList =
@@ -69,9 +75,12 @@ class Conversation extends React.PureComponent<Props, State> {
           />
           <div className="below-header">
             {disconnected && (
-              <p className="disconnected-error">
-                Your computer has disconnected from the server.
-              </p>
+              <div>
+                <p className="disconnected-error">
+                  Your computer has disconnected from the server.
+                </p>
+                <button onClick={onRequestReconnection}>reconnect</button>
+              </div>
               // but it's trying to reconnect.
             )}
             <MessageList

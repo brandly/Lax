@@ -3,14 +3,12 @@ import {
   getSelectedConversation,
   getConnectionById
 } from '../reducers/selectors'
-import type {
-  Store,
-  Action,
-  Dispatch
-} from '../flow'
-declare var Notification : any;
+import type { Store, Action, Dispatch } from '../flow'
+declare var Notification: any
 
-const notifMiddleware = (store: Store) => (next: Dispatch) => (action: Action) => {
+const notifMiddleware = (store: Store) => (next: Dispatch) => (
+  action: Action
+) => {
   function fireNotif(from, body) {
     const notif = new Notification(from, {
       body
@@ -33,16 +31,26 @@ const notifMiddleware = (store: Store) => (next: Dispatch) => (action: Action) =
   if (action.type === 'RECEIVE_CHANNEL_MESSAGE') {
     const state = store.getState()
     const connection = getConnectionById(state, action.connectionId)
-    if (connection && action.message.toLowerCase().includes(connection.nickname.toLowerCase())) {
+    if (
+      connection &&
+      action.message
+        .toLowerCase()
+        .includes(connection.credentials.nickname.toLowerCase())
+    ) {
       fireNotif(`${action.from} in ${action.channel}`, action.message)
     }
   } else if (action.type === 'RECEIVE_DIRECT_MESSAGE') {
     const state = store.getState()
-    const currentConvo = getSelectedConversation(state, state.route.connectionId)
+    const currentConvo = getSelectedConversation(
+      state,
+      state.route.connectionId
+    )
 
-    if (!state.route.view === 'CONNECTION' ||
-       (currentConvo && action.from !== currentConvo.name) ||
-       !state.ui.visible) {
+    if (
+      !state.route.view === 'CONNECTION' ||
+      (currentConvo && action.from !== currentConvo.name) ||
+      !state.ui.visible
+    ) {
       fireNotif(action.from, action.message)
     }
   }
