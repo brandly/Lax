@@ -47,7 +47,7 @@ function createCommand(
   const words = message.split(' ')
   switch (words[0]) {
     case '/join':
-      return commandJoin(connection.id, words[1])
+      return commandJoin(connection.id, words[1].split(','))
     case '/me':
       return commandMe(
         connection.id,
@@ -85,18 +85,23 @@ function createCommand(
   }
 }
 
-export function commandJoin(connectionId: string, name: string): Dispatchable {
+export function commandJoin(
+  connectionId: string,
+  names: string[]
+): Dispatchable {
   return (dispatch, getState) => {
     const connection = getConnectionById(getState(), connectionId)
-    name = name.startsWith('#') ? name : '#' + name
 
     if (connection) {
-      connection.stream.join(name)
+      names.forEach(name => {
+        name = name.startsWith('#') ? name : '#' + name
+        connection.stream.join(name)
 
-      dispatch({
-        type: 'COMMAND_JOIN',
-        connectionId,
-        name
+        dispatch({
+          type: 'COMMAND_JOIN',
+          connectionId,
+          name
+        })
       })
     }
   }

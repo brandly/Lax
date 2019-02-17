@@ -1,4 +1,3 @@
-
 // for each connection, we want a list of channels
 // this heavily mirrors our conversations reducer, just filter out DMs
 // store the channel names on a per-connection-id basis
@@ -6,18 +5,10 @@
 //   fire a series of JOINs
 
 // @flow
-import {
-  getConversationsForConnection
-} from '../reducers/selectors'
-import {
-  commandJoin
-} from '../actions'
-import type {
-  Store,
-  Action,
-  Dispatch
-} from '../flow'
-declare var Notification : any;
+import { getConversationsForConnection } from '../reducers/selectors'
+import { commandJoin } from '../actions'
+import type { Store, Action, Dispatch } from '../flow'
+declare var Notification: any
 
 const key = id => `channels-${id}`
 
@@ -30,12 +21,15 @@ function read(id: string): Array<string> {
   return raw ? JSON.parse(raw) : []
 }
 
-const storeChannelsMiddleware = (store: Store) => (next: Dispatch) => (action: Action) => {
+const storeChannelsMiddleware = (store: Store) => (next: Dispatch) => (
+  action: Action
+) => {
   if (typeof action.connectionId === 'string') {
     const connectionId = action.connectionId || ''
     const get = () =>
-      getConversationsForConnection(store.getState(), connectionId)
-        .filter(convo => convo.type === 'CHANNEL')
+      getConversationsForConnection(store.getState(), connectionId).filter(
+        convo => convo.type === 'CHANNEL'
+      )
 
     const before = get()
     next(action)
@@ -50,7 +44,7 @@ const storeChannelsMiddleware = (store: Store) => (next: Dispatch) => (action: A
       const dispatch: Dispatch = store.dispatch
       read(connectionId).forEach(name => {
         setTimeout(() => {
-          dispatch(commandJoin(connectionId, name))
+          dispatch(commandJoin(connectionId, [name]))
         })
       })
     }

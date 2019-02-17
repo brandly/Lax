@@ -53,7 +53,7 @@ class Connection extends React.Component<Props> {
               />
               <JoinConversation
                 onJoin={name => {
-                  dispatch(commandJoin(connection.id, name))
+                  dispatch(commandJoin(connection.id, [name]))
                   this.viewConversation(name)
                 }}
               />
