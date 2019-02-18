@@ -50,21 +50,39 @@ type Props = CreatorState & {
 
 class ConnectionCreator extends React.Component<Props> {
   render() {
-    const { isConnecting, credentials, error, savedCreds } = this.props
+    const {
+      isConnecting,
+      credentials,
+      error,
+      savedCreds,
+      dispatch
+    } = this.props
     const listItems = savedCreds.map(cred => (
-      <li className="saved-credentials" key={credentialsToId(cred)}>
+      <li
+        className="saved-credentials"
+        key={credentialsToId(cred)}
+        onClick={() => {
+          dispatch({
+            type: 'CREDENTIALS_UPDATE',
+            update: cred
+          })
+        }}
+      >
+        <p className="nickname">{cred.nickname}</p>
+        <small>
+          {cred.server}:{cred.port}
+        </small>
         <button
-          onClick={() => {
-            this.props.dispatch({
-              type: 'CREDENTIALS_UPDATE',
-              update: cred
+          className="forget"
+          onClick={e => {
+            e.stopPropagation()
+            dispatch({
+              type: 'FORGET_CREDENTIALS',
+              id: credentialsToId(cred)
             })
           }}
         >
-          <p className="nickname">{cred.nickname}</p>
-          <small>
-            {cred.server}:{cred.port}
-          </small>
+          x
         </button>
       </li>
     ))
@@ -80,10 +98,10 @@ class ConnectionCreator extends React.Component<Props> {
             credentials={credentials}
             disabled={isConnecting}
             onSubmit={creds => {
-              this.props.dispatch(connectToServer(creds))
+              dispatch(connectToServer(creds))
             }}
             onChange={(name, value) => {
-              this.props.dispatch({
+              dispatch({
                 type: 'CREDENTIALS_UPDATE',
                 update: {
                   [name]: value

@@ -57,7 +57,6 @@ body,
   padding: 0.5rem 1rem;
   font-size: 0.9rem;
   color: #333;
-  cursor: default;
 }
 
 .input-group input[type='submit']:disabled {
@@ -68,4 +67,9 @@ body,
 .input-group select:focus,
 .input-group input[type='submit']:hover {
   border-color: #5294e2;
+}
+
+button,
+.input-group input[type='submit'] {
+  cursor: default;
 }

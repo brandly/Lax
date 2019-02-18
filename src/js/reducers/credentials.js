@@ -38,11 +38,15 @@ function list(state: State = init(), action: Action): State {
   switch (action.type) {
     case 'WORKING_CREDENTIALS': {
       const id = credentialsToId(action.credentials)
-      if (state.map(credentialsToId).includes(id)) {
-        return state
-      } else {
-        return save(state.concat(action.credentials))
-      }
+
+      const update = [action.credentials].concat(
+        state.filter(cred => credentialsToId(cred) !== id)
+      )
+      return save(update)
+    }
+    case 'FORGET_CREDENTIALS': {
+      const { id } = action
+      return save(state.filter(cred => credentialsToId(cred) !== id))
     }
     default:
       return state

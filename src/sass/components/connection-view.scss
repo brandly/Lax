@@ -44,13 +44,23 @@
   border-right: 1px solid #ccc;
 }
 
-.saved-credentials button {
+.saved-credentials {
   display: block;
+  position: relative;
   width: 100%;
   text-align: left;
   padding: 12px 18px;
   outline: none;
+  cursor: default;
 }
-.saved-credentials button:hover .nickname {
+.saved-credentials:hover .nickname {
   text-decoration: underline;
+}
+
+.saved-credentials .forget {
+  position: absolute;
+  right: 18px;
+  top: 9px;
+  font-size: 18px;
+  font-family: monospace;
 }
