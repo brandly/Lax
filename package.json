@@ -42,6 +42,7 @@
     "babel-register": "6.26.0",
     "electron-devtools-installer": "2.2.1",
     "electron-packager": "11.0.1",
+    "electron-reloader": "0.2.0",
     "eslint": "4.11.0",
     "eslint-config-standard": "10.2.1",
     "eslint-config-standard-react": "5.0.0",
