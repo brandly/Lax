@@ -11,7 +11,11 @@ type IrcClient = {
   send: (to: string, msg: string) => void,
   notice: (string, string) => void,
   action: (target: string, msg: string) => void,
-  part: (channel: Array<string>) => void
+  part: (channel: Array<string>) => void,
+  removeAllListeners: void => void,
+  stream: {
+    destroy: void => void
+  }
 }
 
 export type PersonT = {

@@ -145,7 +145,10 @@ function stubConnection(id: string): ConnectionT {
       notice: (a: string, b: string) => {},
       action: (target: string, msg: string) => {},
       part: (channel: Array<string>) => {},
-      removeAllListeners: () => {}
+      removeAllListeners: () => {},
+      stream: {
+        destroy: () => {}
+      }
     },
     error: null,
     conversations: null
