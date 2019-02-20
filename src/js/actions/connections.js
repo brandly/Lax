@@ -64,7 +64,7 @@ export const reconnect = (credentials: CredentialsT): Thunk => {
             .toArray()
             .filter(convo => convo.type === 'CHANNEL')
             .forEach(convo => {
-              commandJoin(id, convo.name)
+              dispatch(commandJoin(id, convo.name))
             })
         }
       }
