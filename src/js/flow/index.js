@@ -85,6 +85,7 @@ export type CreatorState = {
 export type RouteT =
   | { view: 'CONNECTION_CREATOR' }
   | { view: 'CONNECTION', connectionId: string }
+  | { view: 'SETTINGS' }
 
 export type IrcState = {
   creator: CreatorState,

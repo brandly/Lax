@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import Connection from './Connection'
 import ConnectionSelector from './ConnectionSelector'
 import ConnectionCreator from './ConnectionCreator'
+import Settings from './Settings'
 import BodyColor from './BodyColor'
 import { listenToDocumentEvent } from '../actions/document'
 import type { IrcState, RouteT, Dispatch } from '../flow'
@@ -38,6 +39,8 @@ class Router extends React.Component<Props> {
         return <ConnectionCreator />
       case 'CONNECTION':
         return <Connection />
+      case 'SETTINGS':
+        return <Settings />
     }
   }
 

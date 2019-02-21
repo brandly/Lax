@@ -59,7 +59,7 @@ class ConnectionSelector extends React.PureComponent<Props> {
                 className="icon-btn"
                 onClick={e => {
                   e.stopPropagation()
-                  dispatch({ type: 'TOGGLE_THEME' })
+                  dispatch({ type: 'REDIRECT', route: { view: 'SETTINGS' } })
                 }}
               >
                 <Bulb color="#373D48" />
