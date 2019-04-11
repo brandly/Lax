@@ -19,7 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "classnames": "2.2.5",
-    "electron": "4.0.5",
+    "electron": "4.1.4",
     "electron-util": "0.11.0",
     "keymaster": "^1.6.2",
     "keymirror": "^0.1.1",
@@ -42,7 +42,7 @@
     "babel-preset-react": "6.24.1",
     "babel-register": "6.26.0",
     "electron-devtools-installer": "2.2.4",
-    "electron-packager": "11.0.1",
+    "electron-packager": "13.1.1",
     "electron-reloader": "0.2.0",
     "eslint": "4.11.0",
     "eslint-config-standard": "10.2.1",
