@@ -20,11 +20,16 @@ const ChannelName = (props: Props) => {
   const { unreadCount = 0, name } = props
   const [hash, nameWithoutHash] = splitOnHash(name)
 
-  return <span className={classNames('channel-name', {
-    'has-unread': unreadCount > 0
-  })}>
-    {hash ? <span className="channel-prefix">{hash}</span> : null}{nameWithoutHash}
-  </span>
+  return (
+    <span
+      className={classNames('channel-name', {
+        'has-unread': unreadCount > 0
+      })}
+    >
+      {hash ? <span className="channel-prefix">{hash}</span> : null}
+      {nameWithoutHash}
+    </span>
+  )
 }
 
 export default ChannelName

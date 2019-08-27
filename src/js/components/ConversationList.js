@@ -5,9 +5,7 @@ import { connect } from 'react-redux'
 import classNames from 'classnames'
 import ChannelName from './ChannelName'
 import sortBy from '../modules/sortBy'
-import {
-  getConversationsForConnection
-} from '../reducers/selectors'
+import { getConversationsForConnection } from '../reducers/selectors'
 import type { IrcState, ConversationT } from '../flow'
 
 type Props = {
@@ -60,10 +58,7 @@ class ConversationList extends React.Component<Props> {
   }
 
   render() {
-    const {
-      conversations,
-      selectedConversationId
-    } = this.props
+    const { conversations, selectedConversationId } = this.props
 
     return (
       <ul className="channel-list">
@@ -82,7 +77,9 @@ class ConversationList extends React.Component<Props> {
               onClick={this.selectConversation.bind(this, name)}
             >
               <ChannelName name={name} unreadCount={unreadCount} />
-              { unreadCount ? <span className="unread-count">{unreadCount}</span> : null }
+              {unreadCount ? (
+                <span className="unread-count">{unreadCount}</span>
+              ) : null}
             </li>
           )
         })}
@@ -91,12 +88,14 @@ class ConversationList extends React.Component<Props> {
   }
 }
 
-export default connect((state: IrcState, ownProps): $Shape<Props> => {
-  const { connectionId, selectedConversationId } = ownProps
-  const conversations = getConversationsForConnection(state, connectionId)
+export default connect(
+  (state: IrcState, ownProps): $Shape<Props> => {
+    const { connectionId, selectedConversationId } = ownProps
+    const conversations = getConversationsForConnection(state, connectionId)
 
-  return {
-    conversations,
-    selectedConversationId
+    return {
+      conversations,
+      selectedConversationId
+    }
   }
-})(ConversationList)
+)(ConversationList)

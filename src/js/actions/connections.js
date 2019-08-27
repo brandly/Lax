@@ -47,7 +47,7 @@ export const connectToServer = (credentials: CredentialsT): Thunk => {
 
       var to, message
       if (channelInMessage) {
-        let splitMessage = e.message.split(' ')
+        const splitMessage = e.message.split(' ')
         splitMessage.shift() // remove leading channel name
 
         to = channelInMessage
@@ -158,7 +158,9 @@ export const connectToServer = (credentials: CredentialsT): Thunk => {
           channel: equalNames(e.to, nickname) ? e.from : e.to,
           from: e.from,
           message: `${e.from} ${e.message
+            /* eslint-disable no-control-regex */
             .replace(/^\u0001ACTION /, '')
+            /* eslint-disable no-control-regex */
             .replace(/\u0001$/, '')}`
         })
       } else if (equalNames(e.to, nickname)) {
@@ -185,7 +187,7 @@ function createIrcStream(credentials, dispatch, getState) {
   const { realName, nickname, password, server, port } = credentials
   const id = credentialsToId(credentials)
 
-  let socket = net.connect({
+  const socket = net.connect({
     port,
     host: server
   })
@@ -234,7 +236,7 @@ function createIrcStream(credentials, dispatch, getState) {
       })
     })
 
-  let stream = irc(socket)
+  const stream = irc(socket)
 
   if (password) stream.pass(password)
   stream.nick(nickname)

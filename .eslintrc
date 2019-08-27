@@ -52,6 +52,8 @@
       "always"
     ],
     "flowtype/use-flow-type": 1,
-    "flowtype/valid-syntax": 1
+    "flowtype/valid-syntax": 1,
+    "react/jsx-fragments": 0,
+    "react/jsx-handler-names": 0
   }
 }

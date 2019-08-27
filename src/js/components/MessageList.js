@@ -16,7 +16,7 @@ type State = {
 }
 
 class MessageList extends React.PureComponent<Props, State> {
-  scrollListener: EventHandler;
+  scrollListener: EventHandler
   constructor(props: Props) {
     super(props)
     this.state = {
@@ -29,7 +29,8 @@ class MessageList extends React.PureComponent<Props, State> {
 
     this.scrollListener = () => {
       if (el instanceof HTMLDivElement) {
-        const isScrolledToBottom = el.scrollTop === (el.scrollHeight - el.offsetHeight)
+        const isScrolledToBottom =
+          el.scrollTop === el.scrollHeight - el.offsetHeight
         this.setState({ isBrowsingPriorMessages: !isScrolledToBottom })
       }
     }
@@ -67,7 +68,7 @@ class MessageList extends React.PureComponent<Props, State> {
       <div className="scrolling-panel" ref="scroller">
         <ul className="message-list">
           {messages.map((msg, i) => {
-            const showFrom = (i === 0 || messages[i - 1].from !== msg.from)
+            const showFrom = i === 0 || messages[i - 1].from !== msg.from
 
             return <Message key={msg.id} msg={msg} showFrom={showFrom} />
           })}
@@ -102,7 +103,9 @@ class Message extends React.PureComponent<MessageProps> {
       }
       return (
         <Wrap key={index}>
-          <Linkify properties={{onClick: this.handleLink.bind(this)}}>{text}</Linkify>
+          <Linkify properties={{ onClick: this.handleLink.bind(this) }}>
+            {text}
+          </Linkify>
         </Wrap>
       )
     })
@@ -110,7 +113,8 @@ class Message extends React.PureComponent<MessageProps> {
 
   render() {
     const { msg, showFrom } = this.props
-    const action = (msg.type !== 'priv') ? <span className="command">{msg.type}</span> : null
+    const action =
+      msg.type !== 'priv' ? <span className="command">{msg.type}</span> : null
 
     const classes = classNames({
       message: true,
@@ -120,7 +124,10 @@ class Message extends React.PureComponent<MessageProps> {
     return (
       <li className={classes}>
         <h3 className="nickname from">{showFrom ? msg.from : ''}</h3>
-        <div className="body">{action}{this.renderText(msg.text)}</div>
+        <div className="body">
+          {action}
+          {this.renderText(msg.text)}
+        </div>
         <p className="when">{formatDate(msg.when)}</p>
       </li>
     )
@@ -141,7 +148,7 @@ function formatDate(d: Date): string {
 
 function twoDigits(str: string | number): string {
   str = '' + str
-  return (str.length < 2) ? ('0' + str) : str
+  return str.length < 2 ? '0' + str : str
 }
 
 export default MessageList

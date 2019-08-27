@@ -39,14 +39,19 @@ class ComposeMessage extends React.Component<Props, State> {
     const { nickname } = this.props
 
     return (
-      <form className="message compose-message" onSubmit={this.handleFormSubmission.bind(this)}>
+      <form
+        className="message compose-message"
+        onSubmit={this.handleFormSubmission.bind(this)}
+      >
         <h3 className="nickname from">{nickname}</h3>
-        <input type="text"
+        <input
+          type="text"
           placeholder="write message"
           className="body"
           required
           value={this.state.message}
-          onChange={this.handleChange.bind(this)} />
+          onChange={this.handleChange.bind(this)}
+        />
       </form>
     )
   }
