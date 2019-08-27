@@ -130,16 +130,7 @@ function guaranteedList(
         const { name } = action
         return state.selectWhere(convo => equalNames(convo.name, name))
       } else {
-        return state.concat([
-          {
-            type: typeForId(action.name),
-            name: action.name.toLowerCase(),
-            messages: [],
-            people: [],
-            receivedJoin: false,
-            unreadCount: 0
-          }
-        ])
+        return state
       }
     }
     case 'RECEIVE_NAMES': {
@@ -152,27 +143,21 @@ function guaranteedList(
     }
     case 'RECEIVE_JOIN': {
       const { channel, from } = action
-      return (
-        updateIdInList(state, channel, convo =>
-          Object.assign({}, convo, {
-            receivedJoin: true,
-            people: convo.people.concat({
-              name: from,
-              mode: ''
-            }),
-            messages: convo.messages.concat(
-              makeMessage({
-                type: 'join',
-                from: from,
-                to: channel
-              })
-            )
-          })
-        ).filter(
-          convo =>
-            convo.receivedJoin ||
-            withoutLeadingHash(channel) !== withoutLeadingHash(convo.name)
-        ) || SelectList.fromElement(state.getSelected())
+      return updateIdInList(state, channel, convo =>
+        Object.assign({}, convo, {
+          receivedJoin: true,
+          people: convo.people.concat({
+            name: from,
+            mode: ''
+          }),
+          messages: convo.messages.concat(
+            makeMessage({
+              type: 'join',
+              from: from,
+              to: channel
+            })
+          )
+        })
       )
     }
     case 'RECEIVE_QUIT': {
