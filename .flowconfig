@@ -1,5 +1,8 @@
 [ignore]
 .*/node_modules/electron-packager/test/fixtures/infer-malformed-json/package.json
+.*/node_modules/electron-packager/test/fixtures/prune-is-module/node_modules/@user/namespaced/package.json
+.*/node_modules/electron-packager/test/fixtures/prune-is-module/node_modules/module/not-module/package.json
+.*/node_modules/electron-packager/test/fixtures/prune-is-module/node_modules/module/package.json
 
 [include]
 
