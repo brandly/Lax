@@ -193,7 +193,6 @@ function createIrcStream(credentials, dispatch, getState) {
   })
 
   socket
-    .setTimeout(1000)
     .on('timeout', () => {
       dispatch({
         type: 'REQUEST_CONNECTION_ERROR',
