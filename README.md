@@ -2,12 +2,19 @@
 
 [![Build Status](https://travis-ci.org/brandly/irc.svg?branch=master)](https://travis-ci.org/brandly/irc)
 
+- 🆓 **Free and Open-Source**
+- ✉️ **Multiple Connections**
+- 🤔 **Remember Past Credentials**
+- 👋 **Automatically Join Channels After Connecting**
+- 🔔 **Desktop Notifications**
+- 👔 **Clean Interface**
+- 😈 **Dark Mode**
+
 ## download
 
 [download the macOS `.app` here](https://github.com/brandly/irc/releases)!
 
 for other platforms, you'll have to build your own.
-
 
 ## dev
 
