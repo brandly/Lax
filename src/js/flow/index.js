@@ -11,7 +11,8 @@ type IrcConnectionStream = {
   send: (to: string, msg: string) => void,
   notice: (string, string) => void,
   action: (target: string, msg: string) => void,
-  part: (channel: Array<string>) => void
+  part: (channel: Array<string>) => void,
+  quit: (msg: string) => void
 }
 
 export type PersonT = {
@@ -95,7 +96,8 @@ export type IrcState = {
   route: RouteT,
   ui: {
     visible: boolean,
-    isDark: boolean
+    isDark: boolean,
+    quitMsg: string
   }
 }
 
@@ -210,6 +212,7 @@ export type Action =
   | { type: 'REDIRECT', route: RouteT }
   | { type: 'VISIBILITY_CHANGE', visible: boolean }
   | { type: 'TOGGLE_THEME' }
+  | { type: 'SET_QUIT_MSG', message: string }
   | { type: 'NOTIFICATION_CLICK', via: Action }
   | { type: 'CREDENTIALS_UPDATE', update: $Shape<CredentialsT> }
 

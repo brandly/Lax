@@ -141,7 +141,8 @@ function stubConnection(id) {
       send: (to: string, msg: string) => {},
       notice: (a: string, b: string) => {},
       action: (target: string, msg: string) => {},
-      part: (channel: Array<string>) => {}
+      part: (channel: Array<string>) => {},
+      quit: (msg: string) => {}
     },
     error: null,
     conversations: null
