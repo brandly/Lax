@@ -212,6 +212,7 @@ export type Action =
   | { type: 'REDIRECT', route: RouteT }
   | { type: 'VISIBILITY_CHANGE', visible: boolean }
   | { type: 'TOGGLE_THEME' }
+  | { type: 'SET_QUIT_MSG', message: string }
   | { type: 'NOTIFICATION_CLICK', via: Action }
   | { type: 'CREDENTIALS_UPDATE', update: $Shape<CredentialsT> }
 
