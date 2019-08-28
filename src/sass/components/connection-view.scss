@@ -20,12 +20,20 @@
 
 .disconnected-error {
   position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
   margin: 1rem;
   padding: 0.2rem 0.6rem;
-  border: 1px solid #fb933a;
-  border-radius: 6px;
-  background: #fde5d1;
+  color: #383c4a;
+  background: #f2f2f5;
   font-weight: bold;
+  font-size: 18px;
+  border-radius: 3px;
+}
+.disconnected-error svg {
+  margin-right: 6px;
 }
 
 .conversation-list {
