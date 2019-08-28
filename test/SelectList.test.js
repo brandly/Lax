@@ -1,7 +1,7 @@
 // @flow
 import SelectList from '../src/js/modules/SelectList'
-declare var test : any;
-declare var expect : any;
+declare var test: any
+declare var expect: any
 
 test('has length', () => {
   const val = 'sup'
@@ -27,4 +27,13 @@ test('can change selection', () => {
 
   list = list.selectWhere(v => v === 'b')
   expect(list.getSelected()).toBe('b')
+})
+
+test('can filter', () => {
+  let list = SelectList.fromElement('a').concat(['b', 'c'])
+  expect(list.getSelected()).toBe('a')
+
+  list = list.filter(v => v >= 'b')
+  expect(list && list.length()).toEqual(2)
+  expect(list && list.getSelected()).toBe('b')
 })
