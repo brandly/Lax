@@ -4,9 +4,9 @@ class SelectList<A> {
     return new SelectList([], element, [])
   }
 
-  before: Array<A>;
-  selected: A;
-  after: Array<A>;
+  before: Array<A>
+  selected: A
+  after: Array<A>
   constructor(before: Array<A>, selected: A, after: Array<A>) {
     this.before = before
     this.selected = selected
@@ -17,17 +17,19 @@ class SelectList<A> {
     return this.selected
   }
 
-  applyToSelected(fn: (A) => A): SelectList<A> {
+  applyToSelected(fn: A => A): SelectList<A> {
     this.selected = fn(this.selected)
     return this
   }
 
-  selectWhere(fn: (A) => boolean): SelectList<A> {
+  selectWhere(fn: A => boolean): SelectList<A> {
     const beforeIndex = this.before.findIndex(fn)
     if (beforeIndex >= 0) {
       const before = this.before.slice(0, beforeIndex)
       const selected = this.before[beforeIndex]
-      const after = this.before.slice(beforeIndex + 1).concat(this.selected, this.after)
+      const after = this.before
+        .slice(beforeIndex + 1)
+        .concat(this.selected, this.after)
       return new SelectList(before, selected, after)
     }
 
@@ -37,7 +39,10 @@ class SelectList<A> {
 
     const afterIndex = this.after.findIndex(fn)
     if (afterIndex >= 0) {
-      const before = this.before.concat(this.selected, this.after.slice(0, afterIndex))
+      const before = this.before.concat(
+        this.selected,
+        this.after.slice(0, afterIndex)
+      )
       const selected = this.after[afterIndex]
       const after = this.after.slice(afterIndex + 1)
       return new SelectList(before, selected, after)
@@ -46,33 +51,40 @@ class SelectList<A> {
     return this
   }
 
-  map(fn: (A) => A): SelectList<A> {
-    return new SelectList(this.before.map(fn), fn(this.selected), this.after.map(fn))
+  map<B>(fn: (A, boolean) => B): SelectList<B> {
+    return new SelectList(
+      this.before.map(a => fn(a, false)),
+      fn(this.selected, true),
+      this.after.map(a => fn(a, false))
+    )
   }
 
   concat(vals: Array<A>): SelectList<A> {
     return new SelectList(this.before, this.selected, this.after.concat(vals))
   }
 
-  filter(fn: (A) => boolean): ?SelectList<A> {
+  filter(fn: A => boolean): ?SelectList<A> {
     const before = this.before.filter(fn)
     const after = this.after.filter(fn)
 
-    const list = fn(this.selected) ? [].concat(before, this.selected, after) : [].concat(before, after)
-
-    if (list.length) {
-      if (fn(this.selected)) {
-        return new SelectList(before, this.selected, after)
-      } else if (after.length) {
-        return new SelectList(before, after[0], after.slice(1))
-      } else {
-        return new SelectList(before.slice(1), before[0], after)
-      }
+    if (fn(this.selected)) {
+      return new SelectList(before, this.selected, after)
     }
+
+    const list = [].concat(before, after)
+    if (list.length) {
+      return new SelectList([], list[0], list.slice(1))
+    }
+
+    return null
   }
 
-  find(fn: (A) => boolean): ?A {
-    return this.before.find(fn) || (fn(this.selected) ? this.selected : undefined) || this.after.find(fn)
+  find(fn: A => boolean): ?A {
+    return (
+      this.before.find(fn) ||
+      (fn(this.selected) ? this.selected : undefined) ||
+      this.after.find(fn)
+    )
   }
 
   toArray(): Array<A> {
@@ -81,6 +93,54 @@ class SelectList<A> {
 
   length(): number {
     return this.before.length + 1 + this.after.length
+  }
+
+  nextWrap(): SelectList<A> {
+    // step forward one index
+    if (this.after.length) {
+      return new SelectList(
+        this.before.concat(this.selected),
+        this.after[0],
+        this.after.slice(1)
+      )
+      // wrap to index 0
+    } else if (this.before.length) {
+      return new SelectList(
+        [],
+        this.before[0],
+        // everything but the first
+        this.before
+          .slice(1)
+          // ...joined with everything else
+          .concat(this.selected, this.after)
+      )
+      // nowhere to go
+    } else {
+      return this
+    }
+  }
+  prevWrap(): SelectList<A> {
+    // step backward one index
+    if (this.before.length) {
+      return new SelectList(
+        this.before.slice(0, this.before.length - 1),
+        this.before[this.before.length - 1],
+        [this.selected].concat(this.after)
+      )
+      // wrap to last index
+    } else if (this.after.length) {
+      return new SelectList(
+        this.before.concat(
+          this.selected,
+          this.after.slice(0, this.after.length - 1)
+        ),
+        this.after[this.after.length - 1],
+        []
+      )
+      // nowhere to go
+    } else {
+      return this
+    }
   }
 }
 
