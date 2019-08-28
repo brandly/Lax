@@ -1,8 +1,5 @@
 // @flow
-import type {
-  Store as ReduxStore
-  // Dispatch as ReduxDispatch
-} from 'redux'
+import type { Store as ReduxStore, Dispatch as ReduxDispatch } from 'redux'
 import SelectList from '../modules/SelectList'
 
 type IrcConnectionStream = {
@@ -218,8 +215,7 @@ export type Action =
 
 export type Store = ReduxStore<IrcState, Action>
 export type GetState = () => IrcState
-// export type Dispatch = ReduxDispatch<Action>;
+export type Dispatch = ReduxDispatch<Action>
 /* eslint-disable no-use-before-define */
 export type Dispatchable = Action | Thunk | Array<Action>
-export type Dispatch = (action: Dispatchable) => any
 export type Thunk = (dispatch: Dispatch, getState: GetState) => void
