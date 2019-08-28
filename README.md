@@ -29,6 +29,22 @@ to start this thing with react/redux devtools
 $ npm run dev
 ```
 
+to lint, check type, and run tests
+
+```shell
+$ npm test
+```
+
+while writing code, you might want to watch things
+
+```shell
+# run tests when code changes
+$ npm run jest -- --watch
+
+# check types when code changes
+$ npm run flow -- --watch
+```
+
 ## dist
 
 to build an executable for your OS
