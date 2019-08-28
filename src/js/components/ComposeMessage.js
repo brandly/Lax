@@ -75,12 +75,14 @@ class ComposeMessage extends React.Component<Props, State> {
           event.preventDefault()
           break
         }
-        case 'ArrowRight': {
+        case 'ArrowRight':
+        case 'Tab': {
           const message = this.state.suggestions.selected + ' '
           this.setState({
             message,
             suggestions: suggestionsFor(message)
           })
+          event.preventDefault()
           break
         }
       }
