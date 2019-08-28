@@ -342,13 +342,6 @@ function applyToListWhere<T>(
   return list.map(item => (predicate(item) ? update(item) : item))
 }
 
-function withoutLeadingHash(str: string): string {
-  while (str[0] === '#') {
-    str = str.slice(1)
-  }
-  return str
-}
-
 function makeMessage(data: $Shape<MessageT>): MessageT {
   return Object.assign(
     {
