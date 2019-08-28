@@ -21,7 +21,20 @@ function isDark(state: boolean = darkMode.isEnabled, action: Action): boolean {
   }
 }
 
+function quitMsg(
+  state: string = 'https://github.com/brandly/irc',
+  action: Action
+): string {
+  switch (action.type) {
+    case 'SET_QUIT_MSG':
+      return action.message
+    default:
+      return state
+  }
+}
+
 export default combineReducers({
   visible,
-  isDark
+  isDark,
+  quitMsg
 })
