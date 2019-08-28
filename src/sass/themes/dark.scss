@@ -5,50 +5,51 @@
 @import 'dark/components/header';
 @import 'dark/components/message';
 @import 'dark/components/people-list';
+@import 'dark/components/compose-message';
 
 body.theme-dark {
   // Custom in-style scrollbars
- *{
-   ::-webkit-scrollbar {
-     width: 13px;
-     height: 13px;
-   }
+  * {
+    ::-webkit-scrollbar {
+      width: 13px;
+      height: 13px;
+    }
 
-   ::-webkit-scrollbar-button {
-     width: 72px;
-     height: 72px;
-   }
+    ::-webkit-scrollbar-button {
+      width: 72px;
+      height: 72px;
+    }
 
-   ::-webkit-scrollbar-thumb {
-     background: #1c2224;
-     border: 2px solid #2f3136;
-     border-radius: 100px;
-   }
+    ::-webkit-scrollbar-thumb {
+      background: #1c2224;
+      border: 2px solid #2f3136;
+      border-radius: 100px;
+    }
 
-   ::-webkit-scrollbar-thumb:hover {
-     background: #1e2224;
-   }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #1e2224;
+    }
 
-   ::-webkit-scrollbar-thumb:active {
-     background: #202225;
-   }
+    ::-webkit-scrollbar-thumb:active {
+      background: #202225;
+    }
 
-   ::-webkit-scrollbar-track {
-     background: #2f3136;
-     border: 2px solid #33363c;
-     border-radius: 100px;
-   }
+    ::-webkit-scrollbar-track {
+      background: #2f3136;
+      border: 2px solid #33363c;
+      border-radius: 100px;
+    }
 
-   ::-webkit-scrollbar-track:hover {
-     background: #2f3136;
-   }
+    ::-webkit-scrollbar-track:hover {
+      background: #2f3136;
+    }
 
-   ::-webkit-scrollbar-track:active {
-     background: #333333;
-   }
+    ::-webkit-scrollbar-track:active {
+      background: #333333;
+    }
 
-   ::-webkit-scrollbar-corner {
-     background: transparent;
-   }
- }
+    ::-webkit-scrollbar-corner {
+      background: transparent;
+    }
+  }
 }

@@ -1,0 +1,9 @@
+body.theme-dark {
+  .compose-message .suggestions-list {
+    color: #aaabae;
+    background: #2f3136;
+  }
+  .compose-message .suggestions-list li.selected {
+    color: #fff;
+  }
+}
