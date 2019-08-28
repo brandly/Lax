@@ -24,9 +24,12 @@
 .compose-message .suggestions-list {
   position: absolute;
   bottom: 100%;
-  background: white;
-  border: 1px solid #ccc;
+  background: #f2f2f5;
   padding: 4px 12px;
+  border-radius: 3px;
+}
+.compose-message .suggestions-list li {
+  cursor: default;
 }
 .compose-message .suggestions-list li.selected {
   font-weight: bold;

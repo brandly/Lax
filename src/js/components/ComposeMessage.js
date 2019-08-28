@@ -100,7 +100,16 @@ class ComposeMessage extends React.Component<Props, State> {
       >
         <h3 className="nickname from">{nickname}</h3>
         <div style={{ height: '100%' }}>
-          {isFocused && suggestions ? <Suggestions list={suggestions} /> : null}
+          {isFocused && suggestions ? (
+            <Suggestions
+              list={suggestions}
+              onRequestSelect={requested => {
+                this.setState({
+                  suggestions: suggestions.selectWhere(s => s === requested)
+                })
+              }}
+            />
+          ) : null}
           <input
             type="text"
             placeholder="write message"
@@ -130,7 +139,13 @@ const Suggestions = props => (
   <ul className="suggestions-list">
     {props.list
       .map((s, isSelected) => (
-        <li key={s} className={isSelected ? 'selected' : null}>
+        <li
+          key={s}
+          className={isSelected ? 'selected' : null}
+          onMouseEnter={() => {
+            props.onRequestSelect(s)
+          }}
+        >
           {s}
         </li>
       ))
