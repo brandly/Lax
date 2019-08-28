@@ -119,6 +119,7 @@ class SelectList<A> {
       return this
     }
   }
+
   prevWrap(): SelectList<A> {
     // step backward one index
     if (this.before.length) {
