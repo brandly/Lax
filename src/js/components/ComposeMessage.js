@@ -127,7 +127,6 @@ class ComposeMessage extends React.Component<Props, State> {
 }
 
 const Suggestions = props => (
-  // TODO: support dark mode in css
   <ul className="suggestions-list">
     {props.list
       .map((s, isSelected) => (
