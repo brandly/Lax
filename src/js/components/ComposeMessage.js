@@ -15,10 +15,13 @@ type State = {
   isFocused: boolean
 }
 
+// maybe reference common list in actions/conversations.js
 const possibleSuggestions = new SelectList([], '/msg', [
   '/me',
   '/join',
   '/part',
+  '/partall',
+  '/notice',
   '/nick'
 ])
 const suggestionsFor = (msg: string): SuggestionsType => {
