@@ -40,9 +40,9 @@ const suggestionsFor = (
 
     const prefix = '/msg '
     if (people.length && msg.startsWith(prefix)) {
-      const start = msg.slice(prefix.length)
+      const start = msg.slice(prefix.length).toLowerCase()
       const potentials = new SelectList([], people[0], people.slice(1)).filter(
-        person => person.name.startsWith(start)
+        person => person.name.toLowerCase().startsWith(start)
       )
 
       if (potentials) {
