@@ -3,7 +3,7 @@
     "react",
     ["env", {
       "targets": {
-        node: "7.9.0"
+        node: "10.13.0"
       }
     }]
   ],
