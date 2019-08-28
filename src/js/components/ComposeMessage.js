@@ -127,14 +127,11 @@ class ComposeMessage extends React.Component<Props, State> {
 }
 
 const Suggestions = props => (
-  <ul style={{ position: 'absolute', bottom: '100%' }}>
+  // TODO: support dark mode in css
+  <ul className="suggestions-list">
     {props.list
       .map((s, isSelected) => (
-        <li
-          key={s}
-          className="selected"
-          style={{ fontWeight: isSelected ? 'bold' : 'inherit' }}
-        >
+        <li key={s} className={isSelected ? 'selected' : null}>
           {s}
         </li>
       ))
