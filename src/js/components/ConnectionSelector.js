@@ -58,10 +58,10 @@ class ConnectionSelector extends React.PureComponent<Props> {
                 className="icon-btn"
                 onClick={e => {
                   e.stopPropagation()
-                  dispatch({ type: 'TOGGLE_THEME' })
+                  dispatch({ type: 'REDIRECT', route: { view: 'SETTINGS' } })
                 }}
               >
-                <Bulb color="#373D48" />
+                <SettingsIcon color="#AAABAE" />
               </button>
             </li>
           </ul>
@@ -84,23 +84,11 @@ const Tab = props => (
   </li>
 )
 
-// Created by Jens Tärning from the Noun Project
-// https://thenounproject.com/term/light-bulb/9628/
-const Bulb = props => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    version="1.1"
-    x="0px"
-    y="0px"
-    viewBox="0 0 100 100"
-    enableBackground="new 0 0 100 100"
-    stroke={props.color}
-    fill={props.color}
-  >
-    <path d="M39.899,94c1.951,3.574,5.742,6,10.101,6s8.149-2.426,10.101-6H39.899z" />
-    <path d="M61,75c2,0,4-2,4-4c0-17,15-19.309,15-41C80,13.431,66.568,0,50,0C33.431,0,20,13.431,20,30c0,21.691,15,24,15,41  c0,2,2,4,4,4H61z" />
-    <path d="M63,80.5c0,1.375-1.125,2.5-2.5,2.5h-21c-1.375,0-2.5-1.125-2.5-2.5l0,0c0-1.375,1.125-2.5,2.5-2.5h21  C61.875,78,63,79.125,63,80.5L63,80.5z" />
-    <path d="M63,88.5c0,1.375-1.125,2.5-2.5,2.5h-21c-1.375,0-2.5-1.125-2.5-2.5l0,0c0-1.375,1.125-2.5,2.5-2.5h21  C61.875,86,63,87.125,63,88.5L63,88.5z" />
+// Settings by Focus from the Noun Project
+// https://thenounproject.com/term/settings/943929
+const SettingsIcon = props => (
+  <svg viewBox="0 0 100 100" stroke={props.color} fill={props.color}>
+    <path d="M85.1 46.3h-7.6c-1.6-5.6-6.7-9.7-12.7-9.7S53.7 40.8 52 46.3H14.9c-2 0-3.7 1.6-3.7 3.7 0 2 1.6 3.7 3.7 3.7H52c1.6 5.6 6.7 9.7 12.7 9.7s11.1-4.1 12.7-9.7H85c2 0 3.7-1.6 3.7-3.7.1-2-1.5-3.7-3.6-3.7zM64.8 56c-3.2 0-6-2.6-6-6s2.6-6 6-6 6 2.6 6 6-2.8 6-6 6zM14.9 24.4h7.9c1.6 5.6 6.7 9.7 12.7 9.7s11.1-4.1 12.7-9.7h36.9c2 0 3.7-1.6 3.7-3.7S87.2 17 85.1 17H48.2c-1.6-5.6-6.7-9.7-12.7-9.7S24.4 11.4 22.8 17h-7.9c-2 0-3.7 1.6-3.7 3.7s1.6 3.7 3.7 3.7zm20.6-9.7c3.2 0 6 2.6 6 6s-2.6 6-6 6-6-2.8-6-6 2.8-6 6-6zM85.1 75.6H48.2c-1.6-5.6-6.7-9.7-12.7-9.7S24.4 70 22.8 75.6h-7.9c-2 0-3.7 1.6-3.7 3.7s1.6 3.7 3.7 3.7h7.9c1.6 5.6 6.7 9.7 12.7 9.7s11.1-4.1 12.7-9.7h36.9c2 0 3.7-1.6 3.7-3.7s-1.6-3.7-3.7-3.7zm-49.6 9.7c-3.2 0-6-2.6-6-6s2.6-6 6-6 6 2.6 6 6-2.8 6-6 6z" />
   </svg>
 )
 
