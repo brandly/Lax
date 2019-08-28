@@ -2,10 +2,12 @@
 /* global SyntheticEvent, KeyboardEvent, HTMLInputElement */
 import React from 'react'
 import SelectList from '../modules/SelectList'
+import type { PersonT } from '../flow'
 
 type Props = {
   nickname: string,
-  onMessage: string => void
+  onMessage: string => void,
+  people: Array<PersonT>
 }
 
 type SuggestionsType = ?SelectList<string>
@@ -24,9 +26,29 @@ const possibleSuggestions = new SelectList([], '/msg', [
   '/notice',
   '/nick'
 ])
-const suggestionsFor = (msg: string): SuggestionsType => {
+const suggestionsFor = (
+  msg: string,
+  people: Array<PersonT>
+): SuggestionsType => {
   if (msg.length) {
-    return possibleSuggestions.filter(suggestion => suggestion.startsWith(msg))
+    const cmd = possibleSuggestions.filter(suggestion =>
+      suggestion.startsWith(msg)
+    )
+    if (cmd) {
+      return cmd
+    }
+
+    const prefix = '/msg '
+    if (people.length && msg.startsWith(prefix)) {
+      const start = msg.slice(prefix.length)
+      const potentials = new SelectList([], people[0], people.slice(1)).filter(
+        person => person.name.startsWith(start)
+      )
+
+      if (potentials) {
+        return potentials.map(person => prefix + person.name)
+      }
+    }
   }
   return null
 }
@@ -36,7 +58,7 @@ class ComposeMessage extends React.Component<Props, State> {
     super(props)
     this.state = {
       message: '',
-      suggestions: suggestionsFor(''),
+      suggestions: suggestionsFor('', props.people),
       isFocused: false
     }
   }
@@ -48,7 +70,7 @@ class ComposeMessage extends React.Component<Props, State> {
   }
 
   setMessage(message: string) {
-    const suggestions = suggestionsFor(message)
+    const suggestions = suggestionsFor(message, this.props.people)
     this.setState({ message, suggestions })
   }
 
@@ -80,7 +102,7 @@ class ComposeMessage extends React.Component<Props, State> {
           const message = this.state.suggestions.selected + ' '
           this.setState({
             message,
-            suggestions: suggestionsFor(message)
+            suggestions: suggestionsFor(message, this.props.people)
           })
           event.preventDefault()
           break
@@ -135,6 +157,7 @@ class ComposeMessage extends React.Component<Props, State> {
   }
 }
 
+const maxSuggestions = 8
 const Suggestions = props => (
   <ul className="suggestions-list">
     {props.list
@@ -149,7 +172,8 @@ const Suggestions = props => (
           {s}
         </li>
       ))
-      .toArray()}
+      .toArray()
+      .slice(0, maxSuggestions)}
   </ul>
 )
 

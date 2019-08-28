@@ -93,6 +93,7 @@ class Conversation extends React.PureComponent<Props, State> {
           <ComposeMessage
             nickname={nickname}
             onMessage={this.props.onMessage}
+            people={conversation.people}
           />
         </div>
         {peopleListEl}
