@@ -39,7 +39,7 @@ class Persistor<A> {
 
   wrap(reducer: (state: A, action: Action) => A) {
     return (state: A, action: Action) => {
-      const after = reducer(state, action)
+      const after = reducer(state || this.init(), action)
       if (typeof after !== 'undefined' && state !== after) {
         localStorage.setItem(this.key, JSON.stringify(after))
       }
@@ -50,7 +50,7 @@ class Persistor<A> {
 
 const persist: Persistor<State> = new Persistor('past-credentials', ([]: State))
 
-function list(state: State = persist.init(), action: Action): State {
+function list(state: State, action: Action): State {
   switch (action.type) {
     case 'WORKING_CREDENTIALS': {
       if (action.remember) {
