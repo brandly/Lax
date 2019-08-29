@@ -4,4 +4,4 @@ node_modules
 
 dist/
 build/
-src/static/app.css
+src/static/*.css
