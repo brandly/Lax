@@ -1,0 +1,18 @@
+.container.settings {
+  padding: 48px; }
+
+.container.settings h1 {
+  font-size: 48px; }
+
+.container.settings label {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 24px;
+  margin: 12px 0; }
+
+.container.settings input[type='text'] {
+  display: block; }
+
+.container.settings input[type='checkbox'] {
+  margin: 0 8px; }
