@@ -87,7 +87,6 @@ class Conversation extends React.PureComponent<Props, State> {
                 </li>
               </ul>
             }
-            filterActive={filterStatusUpdates}
             conversation={conversation}
           />
           <div className="below-header">
