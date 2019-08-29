@@ -6,7 +6,7 @@ import type { Action } from '../flow'
 
 const init = {
   isDark: darkMode.isEnabled,
-  quitMsg: 'https://github.com/brandly/irc'
+  quitMessage: 'https://github.com/brandly/irc'
 }
 
 function isDark(state: boolean = init.isDark, action: Action): boolean {
@@ -18,7 +18,7 @@ function isDark(state: boolean = init.isDark, action: Action): boolean {
   }
 }
 
-function quitMsg(state: string = init.quitMsg, action: Action): string {
+function quitMessage(state: string = init.quitMessage, action: Action): string {
   switch (action.type) {
     case 'SET_QUIT_MSG':
       return action.message
@@ -31,6 +31,6 @@ const persist = new Persistor('irc-settings', init)
 export default persist.wrap(
   combineReducers({
     isDark,
-    quitMsg
+    quitMessage
   })
 )

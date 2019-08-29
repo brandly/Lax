@@ -95,7 +95,7 @@ export type IrcState = {
   },
   settings: {
     isDark: boolean,
-    quitMsg: string
+    quitMessage: string
   }
 }
 

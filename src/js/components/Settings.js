@@ -7,12 +7,12 @@ import type { Dispatch, IrcState } from '../flow'
 type Props = {
   dispatch: Dispatch,
   isDark: boolean,
-  quitMsg: string
+  quitMessage: string
 }
 
 class Settings extends React.Component<Props> {
   render() {
-    const { dispatch, isDark, quitMsg } = this.props
+    const { dispatch, isDark, quitMessage } = this.props
 
     return (
       <div className="container settings">
@@ -22,7 +22,7 @@ class Settings extends React.Component<Props> {
           <input
             type="text"
             style={{ background: 'inherit' }}
-            value={quitMsg}
+            value={quitMessage}
             onChange={e => {
               dispatch({ type: 'SET_QUIT_MSG', message: e.target.value })
             }}
