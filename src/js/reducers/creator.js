@@ -1,6 +1,5 @@
 // @flow
 import type { Action, CreatorState } from '../flow'
-const { localStorage } = window
 
 const defaultCreds = {
   realName: '',
@@ -14,7 +13,6 @@ const defaultCreds = {
 export function init(): CreatorState {
   const state = {
     isConnecting: false,
-    rememberPassword: localStorage.rememberPassword === 'true' || false,
     credentials: defaultCreds,
     connection: null,
     error: null

@@ -74,7 +74,6 @@ export type CredentialsT = {
 
 export type CreatorState = {
   isConnecting: boolean,
-  rememberPassword: boolean,
   credentials: CredentialsT,
   connection: ?ConnectionT,
   error: ?string
@@ -92,7 +91,9 @@ export type IrcState = {
   },
   route: RouteT,
   ui: {
-    visible: boolean,
+    visible: boolean
+  },
+  settings: {
     isDark: boolean,
     quitMsg: string
   }
@@ -104,7 +105,11 @@ export type Action =
   | { type: 'REQUEST_CONNECTION_ERROR', connectionId: string, error: string }
   | { type: 'CONNECTION_CLOSED', connectionId: string }
   | { type: 'IRC_ERROR', connectionId: string, message: string }
-  | { type: 'WORKING_CREDENTIALS', credentials: CredentialsT }
+  | {
+      type: 'WORKING_CREDENTIALS',
+      credentials: CredentialsT,
+      remember: boolean
+    }
   | { type: 'FORGET_CREDENTIALS', id: string }
   | {
       type: 'SEND_MESSAGE',

@@ -7,12 +7,43 @@ import type { Thunk, CredentialsT } from '../flow'
 
 export const CONNECTION_CLOSED = 'CONNECTION_CLOSED'
 
-export const connectToServer = (credentials: CredentialsT): Thunk => {
+function any<A>(list: Array<A>, predicate: (val: A) => boolean): boolean {
+  for (let i = 0; i < list.length; i++) {
+    if (predicate(list[i])) {
+      return true
+    }
+  }
+  return false
+}
+
+export const connectToServer = (
+  credentials: CredentialsT,
+  remember: boolean
+): Thunk => {
   const { realName, nickname, server, port } = credentials
 
   return (dispatch, getState) => {
     const id = credentialsToId(credentials)
-    const stream = createIrcStream(credentials, dispatch, getState)
+
+    if (
+      any(
+        getState().connections.list.map(conn => conn.id),
+        connId => connId === id
+      )
+    ) {
+      return dispatch({
+        type: 'REQUEST_CONNECTION_ERROR',
+        connectionId: id,
+        error: 'Connection already exists'
+      })
+    }
+
+    const stream = createIrcStream({
+      credentials,
+      dispatch,
+      getState,
+      remember
+    })
 
     dispatch({
       type: 'REQUEST_CONNECTION_PENDING',
@@ -183,7 +214,7 @@ export const connectToServer = (credentials: CredentialsT): Thunk => {
   }
 }
 
-function createIrcStream(credentials, dispatch, getState) {
+function createIrcStream({ credentials, dispatch, getState, remember }) {
   const { realName, nickname, password, server, port } = credentials
   const id = credentialsToId(credentials)
 
@@ -213,7 +244,8 @@ function createIrcStream(credentials, dispatch, getState) {
       })
       dispatch({
         type: 'WORKING_CREDENTIALS',
-        credentials
+        credentials,
+        remember
       })
     })
     .on('close', e => {

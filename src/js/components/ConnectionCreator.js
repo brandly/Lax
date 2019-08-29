@@ -97,8 +97,8 @@ class ConnectionCreator extends React.Component<Props> {
           <Login
             credentials={credentials}
             disabled={isConnecting}
-            onSubmit={creds => {
-              dispatch(connectToServer(creds))
+            onSubmit={(creds, remember) => {
+              dispatch(connectToServer(creds, remember))
             }}
             onChange={(name, value) => {
               dispatch({
@@ -136,21 +136,16 @@ type LoginProps = {
   disabled: boolean,
   credentials: CredentialsT,
   onChange: (name: string, value: string) => void,
-  onSubmit: CredentialsT => void
+  onSubmit: (CredentialsT, boolean) => void
 }
+type LoginState = { rememberCredentials: boolean }
 
-class Login extends React.Component<LoginProps> {
-  handleRemember(event) {
-    // const { name, checked } = event.target
-    // localStorage[name] = checked
-    // this.setState({
-    //   [name]: checked
-    // })
-    // if (checked) {
-    //   localStorage.password = this.state.password
-    // } else {
-    //   localStorage.removeItem('password')
-    // }
+class Login extends React.Component<LoginProps, LoginState> {
+  constructor(props) {
+    super(props)
+    this.state = {
+      rememberCredentials: false
+    }
   }
 
   handleChange(event) {
@@ -161,13 +156,14 @@ class Login extends React.Component<LoginProps> {
   render() {
     const { disabled, credentials, onSubmit } = this.props
     const { realName, nickname, password, server, port } = credentials
+    const { rememberCredentials } = this.state
     const inputGroupClass = 'input-group'
     return (
       <form
         className="login-form"
         onSubmit={event => {
           event.preventDefault()
-          onSubmit(credentials)
+          onSubmit(credentials, rememberCredentials)
         }}
       >
         <div className={inputGroupClass}>
@@ -202,16 +198,6 @@ class Login extends React.Component<LoginProps> {
             disabled={disabled}
             onChange={this.handleChange.bind(this)}
           />
-          {/*<label>
-              remember password?{' '}
-              <input
-                type="checkbox"
-                name="rememberPassword"
-                onChange={this.handleRemember.bind(this)}
-                onClick={this.handleRemember.bind(this)}
-                checked={rememberPassword}
-              />
-            </label>*/}
         </div>
         <div className={inputGroupClass}>
           <label>Server</label>
@@ -234,6 +220,19 @@ class Login extends React.Component<LoginProps> {
             onChange={this.handleChange.bind(this)}
           />
         </div>
+        <label className="checkbox-label">
+          remember credentials?{' '}
+          <input
+            type="checkbox"
+            name="rememberCredentials"
+            checked={rememberCredentials}
+            onClick={e => {
+              this.setState({
+                rememberCredentials: e.target.checked
+              })
+            }}
+          />
+        </label>
         <div className={inputGroupClass}>
           <input type="submit" disabled={disabled} value="Log In" />
         </div>
