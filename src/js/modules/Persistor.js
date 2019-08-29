@@ -1,3 +1,5 @@
+// @flow
+import type { Action } from '../flow'
 const { localStorage } = window
 
 export default class Persistor<A> {

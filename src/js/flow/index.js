@@ -91,7 +91,9 @@ export type IrcState = {
   },
   route: RouteT,
   ui: {
-    visible: boolean,
+    visible: boolean
+  },
+  settings: {
     isDark: boolean,
     quitMsg: string
   }

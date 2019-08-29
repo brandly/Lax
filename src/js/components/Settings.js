@@ -48,9 +48,6 @@ class Settings extends React.Component<Props> {
 export default connect(
   (state: IrcState, ownProps): $Shape<Props> => {
     if (state.route.view !== 'SETTINGS') throw new Error()
-    return {
-      isDark: state.ui.isDark,
-      quitMsg: state.ui.quitMsg
-    }
+    return state.settings
   }
 )(Settings)
