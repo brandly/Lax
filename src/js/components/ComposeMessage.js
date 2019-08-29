@@ -159,7 +159,7 @@ class ComposeMessage extends React.Component<Props, State> {
 
 const maxSuggestions = 8
 const Suggestions = props => (
-  <ul className="suggestions-list">
+  <ul className="pane suggestions-list">
     {props.list
       .map((s, isSelected) => (
         <li

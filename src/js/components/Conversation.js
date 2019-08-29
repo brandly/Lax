@@ -59,11 +59,34 @@ class Conversation extends React.PureComponent<Props, State> {
         <div className="above-bottom-panel">
           <ConversationHeader
             onPeopleClick={this.togglePeopleList.bind(this)}
-            onFilterClick={() => {
-              this.setState({
-                filterStatusUpdates: !filterStatusUpdates
-              })
-            }}
+            dropdown={
+              <ul className="pane conversation-dropdown">
+                <li>
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={!filterStatusUpdates}
+                      onChange={() => {
+                        this.setState({
+                          filterStatusUpdates: !filterStatusUpdates
+                        })
+                      }}
+                    />
+                    Status Updates
+                  </label>
+                </li>
+                <li>
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={!showPeopleList}
+                      onChange={this.togglePeopleList.bind(this)}
+                    />
+                    People List
+                  </label>
+                </li>
+              </ul>
+            }
             filterActive={filterStatusUpdates}
             conversation={conversation}
           />

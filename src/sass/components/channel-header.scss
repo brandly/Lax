@@ -1,8 +1,9 @@
 .channel-header {
   display: flex;
+  position: relative;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #EEE;
+  border-bottom: 1px solid #eee;
 }
 
 .channel-header .channel-name {
@@ -26,4 +27,22 @@
   padding: 0;
   width: 24px;
   height: 24px;
+}
+
+.channel-header .conversation-dropdown {
+  position: absolute;
+  top: calc(100% - 12px);
+  right: 12px;
+  z-index: 1;
+}
+.channel-header .conversation-dropdown li {
+  cursor: default;
+}
+.channel-header .conversation-dropdown input[type='checkbox'] {
+  margin-right: 8px;
+}
+.channel-header .conversation-dropdown label {
+  display: flex;
+  align-items: center;
+  line-height: 2;
 }
