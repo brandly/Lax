@@ -221,7 +221,6 @@ class Login extends React.Component<LoginProps, LoginState> {
           />
         </div>
         <label className="checkbox-label">
-          remember credentials?{' '}
           <input
             type="checkbox"
             name="rememberCredentials"
@@ -231,7 +230,8 @@ class Login extends React.Component<LoginProps, LoginState> {
                 rememberCredentials: e.target.checked
               })
             }}
-          />
+          />{' '}
+          remember credentials?
         </label>
         <div className={inputGroupClass}>
           <input type="submit" disabled={disabled} value="Log In" />
