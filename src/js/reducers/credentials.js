@@ -11,8 +11,6 @@ export function credentialsToId({
   return `${realName}@${server}:${port}`
 }
 
-const persist: Persistor<State> = new Persistor('past-credentials', ([]: State))
-
 function list(state: State, action: Action): State {
   switch (action.type) {
     case 'WORKING_CREDENTIALS': {
@@ -36,4 +34,5 @@ function list(state: State, action: Action): State {
   }
 }
 
+const persist = new Persistor('past-credentials', [])
 export default persist.wrap(list)
