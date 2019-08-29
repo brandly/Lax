@@ -1,4 +1,4 @@
-![irc](https://user-images.githubusercontent.com/820696/40986180-9a7c6726-68b3-11e8-967a-dfafcc8f2eb1.png)
+![irc](https://user-images.githubusercontent.com/820696/63960091-a9232c00-ca5b-11e9-851b-9a3a12c15760.png)
 
 [![Build Status](https://travis-ci.org/brandly/irc.svg?branch=master)](https://travis-ci.org/brandly/irc)
 
