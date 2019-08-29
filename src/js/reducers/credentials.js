@@ -11,46 +11,66 @@ export function credentialsToId({
   return `${realName}@${server}:${port}`
 }
 
-const key = 'past-credentials'
-function init(): State {
-  if (key in localStorage) {
-    try {
-      return JSON.parse(localStorage[key])
-    } catch (e) {
-      if (e instanceof SyntaxError) {
-        localStorage.removeItem(key)
-        return []
-      } else {
-        throw e
+class Persistor<A> {
+  key: string
+  default: A
+
+  constructor(key: string, def: A) {
+    this.key = key
+    this.default = def
+  }
+
+  init(): A {
+    if (this.key in localStorage) {
+      try {
+        return JSON.parse(localStorage[this.key])
+      } catch (e) {
+        if (e instanceof SyntaxError) {
+          localStorage.removeItem(this.key)
+          return this.default
+        } else {
+          throw e
+        }
       }
+    } else {
+      return this.default
     }
-  } else {
-    return []
+  }
+
+  wrap(reducer: (state: A, action: Action) => A) {
+    return (state: A, action: Action) => {
+      const after = reducer(state, action)
+      if (typeof after !== 'undefined' && state !== after) {
+        localStorage.setItem(this.key, JSON.stringify(after))
+      }
+      return after
+    }
   }
 }
 
-function save(state: State): State {
-  localStorage.setItem(key, JSON.stringify(state))
-  return state
-}
+const persist: Persistor<State> = new Persistor('past-credentials', ([]: State))
 
-function list(state: State = init(), action: Action): State {
+function list(state: State = persist.init(), action: Action): State {
   switch (action.type) {
     case 'WORKING_CREDENTIALS': {
-      const id = credentialsToId(action.credentials)
+      if (action.remember) {
+        const id = credentialsToId(action.credentials)
 
-      const update = [action.credentials].concat(
-        state.filter(cred => credentialsToId(cred) !== id)
-      )
-      return save(update)
+        const update = [action.credentials].concat(
+          state.filter(cred => credentialsToId(cred) !== id)
+        )
+        return update
+      } else {
+        return state
+      }
     }
     case 'FORGET_CREDENTIALS': {
       const { id } = action
-      return save(state.filter(cred => credentialsToId(cred) !== id))
+      return state.filter(cred => credentialsToId(cred) !== id)
     }
     default:
       return state
   }
 }
 
-export default list
+export default persist.wrap(list)
