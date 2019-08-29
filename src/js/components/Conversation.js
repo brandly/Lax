@@ -79,7 +79,7 @@ class Conversation extends React.PureComponent<Props, State> {
                   <label>
                     <input
                       type="checkbox"
-                      checked={!showPeopleList}
+                      checked={showPeopleList}
                       onChange={this.togglePeopleList.bind(this)}
                     />
                     People List
