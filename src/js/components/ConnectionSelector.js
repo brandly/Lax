@@ -47,12 +47,8 @@ class ConnectionSelector extends React.PureComponent<Props> {
               +
             </Tab>
             <li
-              className="tab"
-              style={{
-                background: 'transparent',
-                position: 'absolute',
-                bottom: 8
-              }}
+              className="tab tab-settings-link"
+              style={{ background: 'transparent' }}
             >
               <button
                 className="icon-btn"

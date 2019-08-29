@@ -6,7 +6,7 @@
 
   .tab {
     margin: 10px 10px 0;
-    background: #373D48;
+    background: #373d48;
     border-radius: 6px;
     color: #7c818c;
   }
@@ -16,7 +16,17 @@
     margin-right: 0;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-    color: #FFF;
+    color: #fff;
+  }
+
+  .tab.tab-settings-link {
+    position: absolute;
+    bottom: 8px;
+    opacity: 0.5;
+    transition: opacity 180ms ease-out;
+  }
+  .tab.tab-settings-link:hover {
+    opacity: 1;
   }
 
   .tab button {
