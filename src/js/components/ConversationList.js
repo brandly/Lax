@@ -17,14 +17,6 @@ type Props = {
 const byName = sortBy(c => c.name)
 
 class ConversationList extends React.Component<Props> {
-  componentWillMount() {
-    // TODO: keyboard shortcuts
-    // this.setKeymaster({
-    //   '⌘+shift+]': this.selectNextChannel,
-    //   '⌘+shift+[': this.selectPrevChannel
-    // })
-  }
-
   selectConversation(channelName) {
     this.props.onSelectConversation(channelName)
   }
@@ -32,26 +24,6 @@ class ConversationList extends React.Component<Props> {
   selectConversationAtIndex(i) {
     this.selectConversation(this.props.conversations[i].name)
   }
-
-  // selectNextChannel () {
-  //   const { channels, selectedChannel } = this.state
-  //   if (!channels) return
-
-  //   const currentIndex = channels.indexOf(selectedChannel)
-  //   const nextIndex = (currentIndex + 1) % channels.size
-
-  //   this.selectConversationAtIndex(nextIndex)
-  // }
-
-  // selectPrevChannel () {
-  //   const { channels, selectedChannel } = this.state
-  //   if (!channels) return
-
-  //   const currentIndex = channels.indexOf(selectedChannel)
-  //   const prevIndex = (currentIndex === 0) ? (channels.size - 1) : (currentIndex - 1)
-
-  //   this.selectConversationAtIndex(prevIndex)
-  // }
 
   conversationOrder(convo) {
     return convo.name
