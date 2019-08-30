@@ -37,3 +37,39 @@ test('can filter', () => {
   expect(list && list.length()).toEqual(2)
   expect(list && list.getSelected()).toBe('b')
 })
+
+test('can find', () => {
+  const list = SelectList.fromElement('a').concat(['b', 'c'])
+  expect(list.getSelected()).toBe('a')
+
+  const val = list.find(v => v === 'b')
+  expect(val).toBe('b')
+})
+
+test('can nextWrap', () => {
+  let list = SelectList.fromElement('a').concat(['b', 'c'])
+  expect(list.getSelected()).toBe('a')
+
+  list = list.nextWrap()
+  expect(list.getSelected()).toBe('b')
+
+  list = list.nextWrap()
+  expect(list.getSelected()).toBe('c')
+
+  list = list.nextWrap()
+  expect(list.getSelected()).toBe('a')
+})
+
+test('can prevWrap', () => {
+  let list = SelectList.fromElement('a').concat(['b', 'c'])
+  expect(list.getSelected()).toBe('a')
+
+  list = list.prevWrap()
+  expect(list.getSelected()).toBe('c')
+
+  list = list.prevWrap()
+  expect(list.getSelected()).toBe('b')
+
+  list = list.prevWrap()
+  expect(list.getSelected()).toBe('a')
+})
