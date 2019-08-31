@@ -41,9 +41,9 @@ const suggestionsFor = (
     const prefix = '/msg '
     if (people.length && msg.startsWith(prefix)) {
       const start = msg.slice(prefix.length).toLowerCase()
-      const potentials = new SelectList([], people[0], people.slice(1)).filter(
-        person => person.name.toLowerCase().startsWith(start)
-      )
+      const potentials = SelectList.fromElement(people[0])
+        .concat(people.slice(1))
+        .filter(person => person.name.toLowerCase().startsWith(start))
 
       if (potentials) {
         return potentials.map(person => prefix + person.name)
