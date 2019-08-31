@@ -14,8 +14,7 @@ const apply = (
   actions: Array<Action>,
   initial = null
 ): ?SelectList<ConversationT> => {
-  const result = actions.reduce(conversationsReducer, initial)
-  return result //? result.toArray() : []
+  return actions.reduce(conversationsReducer, initial)
 }
 
 test('connection success creates conversation', () => {
