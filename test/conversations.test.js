@@ -1,11 +1,6 @@
 // @flow
 import conversationsReducer from '../src/js/reducers/conversations'
-import type {
-  ConversationT,
-  ConversationType,
-  MessageT,
-  Action
-} from '../src/js/flow'
+import type { ConversationT, Action } from '../src/js/flow'
 import SelectList from '../src/js/modules/SelectList'
 declare var test: any
 declare var expect: any
