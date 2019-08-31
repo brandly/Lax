@@ -1,12 +1,21 @@
 // @flow
 import conversationsReducer from '../src/js/reducers/conversations'
-import type { Action } from '../src/js/flow'
+import type {
+  ConversationT,
+  ConversationType,
+  MessageT,
+  Action
+} from '../src/js/flow'
+import SelectList from '../src/js/modules/SelectList'
 declare var test: any
 declare var expect: any
 
-const apply = (actions: Array<Action>, initial = null) => {
+const apply = (
+  actions: Array<Action>,
+  initial = null
+): ?SelectList<ConversationT> => {
   const result = actions.reduce(conversationsReducer, initial)
-  return result ? result.toArray() : []
+  return result //? result.toArray() : []
 }
 
 test('connection success creates conversation', () => {
@@ -18,9 +27,12 @@ test('connection success creates conversation', () => {
     }
   ])
 
-  expect(list.length).toBe(1)
-  expect(list[0].type).toBe('CONNECTION')
-  expect(list[0].name).toBe(id)
+  expect(list).toBeDefined()
+  if (list) {
+    expect(list.length).toBe(1)
+    expect(list.getSelected().type).toBe('CONNECTION')
+    expect(list.getSelected().name).toBe(id)
+  }
 })
 
 const connectionId = 'abc123'
@@ -45,17 +57,19 @@ test('RECEIVE_JOIN adds someone to conversation.people and messages the channel'
       }
     ])
   )
-
-  expect(list[0].messages.length).toBe(1)
-  expect(list[0].messages[0].type).toBe('join')
-  expect(list[0].people.length).toBe(1)
+  expect(list).toBeDefined()
+  if (list) {
+    expect(list.getSelected().messages.length).toBe(1)
+    expect(list.getSelected().messages[0].type).toBe('join')
+    expect(list.getSelected().people.length).toBe(1)
+  }
 })
 
 test('RECEIVE_QUIT removes someone from relevant convos and messages the channels', () => {
   const channel = '#jest'
   const nick = 'matt'
 
-  const list = apply(
+  let list = apply(
     withConnection([
       {
         type: 'COMMAND_JOIN',
@@ -77,11 +91,17 @@ test('RECEIVE_QUIT removes someone from relevant convos and messages the channel
     ])
   )
 
-  expect(list.length).toBe(2)
-  const convo = list[1]
-  expect(convo.messages.length).toBe(2)
-  expect(convo.messages[1].type).toBe('quit')
-  expect(convo.people.length).toBe(0)
+  expect(list).toBeDefined()
+  if (list) {
+    expect(list.length).toBe(2)
+
+    list = list.selectWhere(c => c.name === channel)
+    const convo = list.getSelected()
+
+    expect(convo.messages.length).toBe(2)
+    expect(convo.messages[1].type).toBe('quit')
+    expect(convo.people.length).toBe(0)
+  }
 })
 
 test('RECEIVE_JOIN for ##programming removes #programming convo', () => {
@@ -101,8 +121,11 @@ test('RECEIVE_JOIN for ##programming removes #programming convo', () => {
     ])
   )
 
-  expect(list.length).toBe(2)
-  expect(list[1].type).toBe('CHANNEL')
+  expect(list).toBeDefined()
+  if (list) {
+    expect(list.length).toBe(2)
+    expect(list.toArray()[1].type).toBe('CHANNEL')
+  }
 })
 
 test('RECEIVE_DIRECT_MESSAGE doesnt care about case', () => {
@@ -123,7 +146,43 @@ test('RECEIVE_DIRECT_MESSAGE doesnt care about case', () => {
     ])
   )
 
-  expect(list.length).toBe(2)
+  expect(list).toBeDefined()
+  if (list) {
+    expect(list.length).toBe(2)
+  }
+})
+
+test('NOTIFICATION_CLICK selects the convo', () => {
+  const notifFrom = 'enemy'
+  const list = apply(
+    withConnection([
+      {
+        type: 'RECEIVE_DIRECT_MESSAGE',
+        connectionId,
+        from: 'friend',
+        message: 'hi'
+      },
+      {
+        type: 'RECEIVE_DIRECT_MESSAGE',
+        connectionId,
+        from: notifFrom,
+        message: 'hi'
+      },
+      {
+        type: 'NOTIFICATION_CLICK',
+        via: {
+          type: 'RECEIVE_DIRECT_MESSAGE',
+          connectionId,
+          from: notifFrom,
+          message: 'hi'
+        }
+      }
+    ])
+  )
+  expect(list).toBeDefined()
+  if (list) {
+    expect(list.getSelected().name).toEqual(notifFrom)
+  }
 })
 
 function stubConnection(id) {
