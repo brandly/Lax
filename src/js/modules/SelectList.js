@@ -91,7 +91,7 @@ class SelectList<A> {
     return [].concat(this.before, this.selected, this.after)
   }
 
-  length(): number {
+  get length(): number {
     return this.before.length + 1 + this.after.length
   }
 
