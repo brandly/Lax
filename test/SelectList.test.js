@@ -29,6 +29,13 @@ test('can change selection', () => {
   expect(list.getSelected()).toBe('b')
 })
 
+test('can map', () => {
+  let list = SelectList.fromElement('a').concat(['b', 'c'])
+  list = list.map(v => v + 'z')
+  expect(list.length()).toEqual(3)
+  expect(list.getSelected()).toEqual('az')
+})
+
 test('can filter', () => {
   let list = SelectList.fromElement('a').concat(['b', 'c'])
   expect(list.getSelected()).toBe('a')
