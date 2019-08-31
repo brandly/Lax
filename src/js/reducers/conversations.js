@@ -134,80 +134,73 @@ function guaranteedList(
       }
     }
     case 'RECEIVE_NAMES': {
-      const { names, channel } = action
-      return updateIdInList(state, channel, convo =>
+      return updateIdInList(state, action.channel, convo =>
         Object.assign({}, convo, {
-          people: names
+          people: action.names
         })
-      ).selectWhere(convo => equalNames(convo.name, channel))
+      ).selectWhere(convo => equalNames(convo.name, action.channel))
     }
     case 'RECEIVE_JOIN': {
-      const { channel, from } = action
-      return updateIdInList(state, channel, convo =>
+      return updateIdInList(state, action.channel, convo =>
         Object.assign({}, convo, {
           receivedJoin: true,
           people: convo.people.concat({
-            name: from,
+            name: action.from,
             mode: ''
           }),
           messages: convo.messages.concat(
             makeMessage({
               type: 'join',
-              from: from,
-              to: channel
+              from: action.from,
+              to: action.channel
             })
           )
         })
       )
     }
     case 'RECEIVE_QUIT': {
-      // TODO: flow isn't happy unless i pull these off early, hmmmm
-      const { nick, message } = action
       return applyToListWhere(
         state,
-        convo => convo.people.map(p => p.name).includes(nick),
+        convo => convo.people.map(p => p.name).includes(action.nick),
         convo =>
           Object.assign({}, convo, {
-            people: convo.people.filter(person => person.name !== nick),
+            people: convo.people.filter(person => person.name !== action.nick),
             messages: convo.messages.concat([
               makeMessage({
                 type: 'quit',
-                text: message,
-                from: nick
+                text: action.message,
+                from: action.nick
               })
             ])
           })
       )
     }
     case 'RECEIVE_PART': {
-      const { nick, message, channels } = action
       return applyToListWhere(
         state,
-        convo => channels.includes(convo.name),
+        convo => action.channels.includes(convo.name),
         convo =>
           Object.assign({}, convo, {
-            people: convo.people.filter(person => person.name !== nick),
+            people: convo.people.filter(person => person.name !== action.nick),
             messages: convo.messages.concat(
               makeMessage({
                 type: 'part',
-                text: message,
-                from: nick
+                text: action.message,
+                from: action.nick
               })
             )
           })
       )
     }
     case 'COMMAND_PART': {
-      const { channel } = action
       return (
-        state.filter(convo => convo.name !== channel) ||
+        state.filter(convo => convo.name !== action.channel) ||
         SelectList.fromElement(state.getSelected())
       )
     }
     case 'COMMAND_PART_ALL': {
-      const { channels } = action
       return (
-        state.filter(convo => !channels.includes(convo.name)) ||
+        state.filter(convo => !action.channels.includes(convo.name)) ||
         SelectList.fromElement(state.getSelected())
       )
     }
@@ -224,17 +217,16 @@ function guaranteedList(
       )
     // case RECEIVE_NICK:
     case 'RECEIVE_AWAY': {
-      const { message, nick } = action
       return applyToListWhere(
         state,
-        convo => convo.people.map(p => p.name).includes(nick),
+        convo => convo.people.map(p => p.name).includes(action.nick),
         convo =>
           Object.assign({}, convo, {
             messages: convo.messages.concat(
               makeMessage({
                 type: 'away',
-                text: message,
-                from: nick
+                text: action.message,
+                from: action.nick
               })
             )
           })
