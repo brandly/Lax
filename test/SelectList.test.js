@@ -6,12 +6,12 @@ declare var expect: any
 test('has length', () => {
   const val = 'sup'
   const list = SelectList.fromElement(val)
-  expect(list.length()).toBe(1)
+  expect(list.length).toBe(1)
 })
 
 test('can concat', () => {
   const list = SelectList.fromElement('a').concat(['b', 'c'])
-  expect(list.length()).toBe(3)
+  expect(list.length).toBe(3)
 })
 
 test('returns self if no change in selection', () => {
@@ -29,12 +29,19 @@ test('can change selection', () => {
   expect(list.getSelected()).toBe('b')
 })
 
+test('can map', () => {
+  let list = SelectList.fromElement('a').concat(['b', 'c'])
+  list = list.map(v => v + 'z')
+  expect(list.length).toEqual(3)
+  expect(list.getSelected()).toEqual('az')
+})
+
 test('can filter', () => {
   let list = SelectList.fromElement('a').concat(['b', 'c'])
   expect(list.getSelected()).toBe('a')
 
   list = list.filter(v => v >= 'b')
-  expect(list && list.length()).toEqual(2)
+  expect(list && list.length).toEqual(2)
   expect(list && list.getSelected()).toBe('b')
 })
 
