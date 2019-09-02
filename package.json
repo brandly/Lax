@@ -9,7 +9,7 @@
     "sass": "node-sass src/sass/app.scss --output src/static/",
     "test": "npm run lint && npm run flow && npm run jest",
     "lint": "eslint src/ test/",
-    "jest": "jest",
+    "jest": "jest --verbose",
     "flow": "glow",
     "build": "bin/build"
   },
