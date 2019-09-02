@@ -40,7 +40,7 @@
     "babel-register": "6.26.0",
     "electron": "6.0.7",
     "electron-devtools-installer": "2.2.4",
-    "electron-packager": "13.1.1",
+    "electron-packager": "14.0.5",
     "electron-reloader": "0.3.0",
     "eslint": "6.2.2",
     "eslint-config-standard": "14.0.1",
