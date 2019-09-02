@@ -54,7 +54,7 @@
     "flow-bin": "0.106.3",
     "glow": "1.2.2",
     "jest": "21.2.1",
-    "node-sass": "4.11.0",
+    "node-sass": "4.12.0",
     "redux-logger": "3.0.6"
   }
 }
