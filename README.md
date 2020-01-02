@@ -1,6 +1,6 @@
-![irc](https://user-images.githubusercontent.com/820696/63960091-a9232c00-ca5b-11e9-851b-9a3a12c15760.png)
+![Lax](https://user-images.githubusercontent.com/820696/63960091-a9232c00-ca5b-11e9-851b-9a3a12c15760.png)
 
-[![Build Status](https://travis-ci.org/brandly/irc.svg?branch=master)](https://travis-ci.org/brandly/irc)
+[![Build Status](https://travis-ci.org/brandly/Lax.svg?branch=master)](https://travis-ci.org/brandly/Lax)
 
 - 🆓 **Free and Open-Source**
 - ✉️ **Multiple Connections**
@@ -12,7 +12,7 @@
 
 ## download
 
-[download the macOS `.app` here](https://github.com/brandly/irc/releases)!
+[download the macOS `.app` here](https://github.com/brandly/Lax/releases)!
 
 for other platforms, you'll have to build your own.
 

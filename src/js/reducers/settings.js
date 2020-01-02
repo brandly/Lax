@@ -6,7 +6,7 @@ import type { Action } from '../flow'
 
 const init = {
   isDark: darkMode.isEnabled,
-  quitMessage: 'https://github.com/brandly/irc'
+  quitMessage: 'https://github.com/brandly/Lax'
 }
 
 function isDark(state: boolean = init.isDark, action: Action): boolean {

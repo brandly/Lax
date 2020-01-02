@@ -5,7 +5,7 @@ set -u
 PATH="$PATH:node_modules/.bin"
 build="build/"
 dist="dist/"
-app_name="IRC"
+app_name="Lax"
 
 function main {
   rm -rf "$build" "$dist"
