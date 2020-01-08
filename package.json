@@ -38,7 +38,7 @@
     "babel-preset-flow": "6.23.0",
     "babel-preset-react": "6.24.1",
     "babel-register": "6.26.0",
-    "electron": "6.0.7",
+    "electron": "^7.1.7",
     "electron-devtools-installer": "2.2.4",
     "electron-packager": "14.0.5",
     "electron-reloader": "0.3.0",
