@@ -1,0 +1,28 @@
+on:
+  create:
+    tags:
+      - '*'
+
+steps:
+- uses: actions/checkout@v1
+- uses: actions/setup-node@v1
+  with:
+    node-version: '12.x'
+- run: npm install
+- run: npm run build
+- uses: actions/create-release@v1
+  id: create_release
+  env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  with:
+    tag_name: ${{ github.ref }}
+    release_name: Release ${{ github.ref }}
+    draft: true
+    prerelease: true
+- uses: actions/upload-release-asset@v1.0.1
+  env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  with:
+    upload_url: ${{ steps.create_release.outputs.upload_url }}
+    asset_path: ./dist/Lax-darwin-x64/Lax.app
+    asset_name: Lax.app
