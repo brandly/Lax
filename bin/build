@@ -32,6 +32,9 @@ function main {
   grep -v 'babel-register' src/index.html > "$build/src/index.html"
 
   create_app
+
+  # create .zip
+  ditto -c -k --sequesterRsrc --keepParent dist/Lax-darwin-x64/Lax.app dist/Lax.zip
 }
 
 function create_app {
