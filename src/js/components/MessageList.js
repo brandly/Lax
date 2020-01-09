@@ -116,9 +116,10 @@ class Message extends React.PureComponent<MessageProps> {
     const action =
       msg.type !== 'priv' ? <span className="command">{msg.type}</span> : null
 
+    const name: string = msg.type
     const classes = classNames({
       message: true,
-      [msg.type]: true
+      [name]: true
     })
 
     return (
