@@ -1,7 +1,7 @@
 {
   "name": "Lax",
-  "version": "0.5.0",
-  "description": "",
+  "version": "0.6.0",
+  "description": "IRC client built with Electron & React",
   "private": true,
   "scripts": {
     "start": "npm run sass && NODE_ENV=production electron ./",
