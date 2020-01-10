@@ -1,5 +1,7 @@
 ![Lax](https://user-images.githubusercontent.com/820696/63960091-a9232c00-ca5b-11e9-851b-9a3a12c15760.png)
 
+![CI Status](https://github.com/brandly/Lax/workflows/.github/workflows/continuous-integration.yml/badge.svg)
+
 - 🆓 **Free and Open-Source**
 - ✉️ **Multiple Connections**
 - 🤔 **Remember Past Credentials**
@@ -7,8 +9,6 @@
 - 🔔 **Desktop Notifications**
 - 👔 **Clean Interface**
 - 😈 **Dark Mode**
-
-![CI Status](https://github.com/brandly/Lax/workflows/.github/workflows/continuous-integration.yml/badge.svg)
 
 ## download
 
