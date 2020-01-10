@@ -8,6 +8,8 @@
 - 👔 **Clean Interface**
 - 😈 **Dark Mode**
 
+![CI Status](https://github.com/brandly/Lax/workflows/.github/workflows/continuous-integration.yml/badge.svg)
+
 ## download
 
 [download the macOS `.app` here](https://github.com/brandly/Lax/releases)!
