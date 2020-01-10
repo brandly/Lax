@@ -29,7 +29,7 @@ function main {
   echo "copying static files into $build"
   cp src/static/* "$build/src/static"
   cp index.js "$build/index.js"
-  grep -v 'babel-register' src/index.html > "$build/src/index.html"
+  grep -v 'babel/register' src/index.html > "$build/src/index.html"
 
   create_app
 
