@@ -6,18 +6,18 @@
   padding: 0 1rem;
 }
 
-.message-list .nickname {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: 0.8rem;
-}
-
 .message {
   display: table-row;
   word-wrap: break-word;
   word-break: break-word;
   font-size: 0.9rem;
+}
+
+.message .nickname {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.8rem;
 }
 
 .message .from {
@@ -67,4 +67,31 @@
 .message.away .text,
 .message.quit .text {
   color: #bbb;
+}
+
+.compose-message {
+  width: 100%;
+}
+
+.compose-message input[type='text'] {
+  background: none;
+  border: none;
+  outline: none;
+  width: 100%;
+  padding: 0;
+}
+
+.compose-message input[type='submit'] {
+  display: none;
+}
+
+.compose-message .suggestions-list {
+  position: absolute;
+  bottom: 100%;
+}
+.compose-message .suggestions-list li {
+  cursor: default;
+}
+.compose-message .suggestions-list li.selected {
+  font-weight: bold;
 }

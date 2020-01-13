@@ -116,12 +116,12 @@ class ComposeMessage extends React.Component<Props, State> {
     const { suggestions, isFocused } = this.state
 
     return (
-      <form
-        className="message compose-message"
-        onSubmit={this.handleFormSubmission.bind(this)}
-      >
-        <h3 className="nickname from">{nickname}</h3>
-        <div style={{ height: '100%' }}>
+      <div className="message-list">
+        <form
+          className="message compose-message"
+          onSubmit={this.handleFormSubmission.bind(this)}
+        >
+          <h3 className="nickname from">{nickname}</h3>
           {isFocused && suggestions ? (
             <Suggestions
               list={suggestions}
@@ -151,8 +151,8 @@ class ComposeMessage extends React.Component<Props, State> {
               })
             }}
           />
-        </div>
-      </form>
+        </form>
+      </div>
     )
   }
 }
