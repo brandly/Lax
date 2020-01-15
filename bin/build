@@ -6,6 +6,7 @@ PATH="$PATH:node_modules/.bin"
 build="build/"
 dist="dist/"
 app_name="Lax"
+electron_icon="icon.icns"
 
 function main {
   rm -rf "$build" "$dist"
@@ -40,9 +41,9 @@ function main {
 function create_app {
   mkdir -p "$dist"
   electron-packager "$build" "$app_name" \
+    --icon "$electron_icon" \
     --no-prune \
     --out "$dist"
-    # --icon "$electron_icon" \
 }
 
 main
