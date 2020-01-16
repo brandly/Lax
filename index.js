@@ -1,6 +1,5 @@
 const path = require('path')
-const electron = require('electron')
-const { app, BrowserWindow, Menu } = electron
+const { app, BrowserWindow, Menu } = require('electron')
 const pkg = require('./package')
 
 try {
@@ -12,6 +11,8 @@ try {
 let win
 
 function createWindow() {
+  app.dock.setIcon(`${__dirname}/src/static/dock-icon.png`)
+
   // Create the browser window.
   win = new BrowserWindow({
     webPreferences: {
