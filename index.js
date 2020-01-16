@@ -13,7 +13,6 @@ let win
 function createWindow() {
   app.dock.setIcon(`${__dirname}/src/static/dock-icon.png`)
 
-  // Create the browser window.
   win = new BrowserWindow({
     webPreferences: {
       nodeIntegration: true
@@ -27,7 +26,6 @@ function createWindow() {
   // and load the index.html of the app.
   win.loadURL(path.join(`file://${__dirname}`, `${pkg['main-html']}`))
 
-  // Emitted when the window is closed.
   win.on('closed', () => {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
@@ -46,7 +44,6 @@ function createWindow() {
       .then(name => console.log(`Added Extension:  ${name}`))
       .catch(err => console.log('An error occurred: ', err))
 
-    // Open the DevTools.
     win.webContents.openDevTools()
   }
 

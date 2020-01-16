@@ -29,7 +29,7 @@ to start this thing with react/redux devtools
 $ npm run dev
 ```
 
-to lint, check type, and run tests
+to lint, check types, and run tests
 
 ```shell
 $ npm test
