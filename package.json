@@ -52,7 +52,7 @@
     "eslint-plugin-promise": "4.2.1",
     "eslint-plugin-react": "7.14.3",
     "eslint-plugin-standard": "4.0.1",
-    "flow-bin": "0.116.0",
+    "flow-bin": "0.118.0",
     "glow": "1.2.2",
     "jest": "24.9.0",
     "node-sass": "4.12.0",
