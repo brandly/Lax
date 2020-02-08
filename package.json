@@ -39,10 +39,10 @@
     "babel-eslint": "10.0.3",
     "babel-jest": "25.1.0",
     "babel-plugin-transform-node-env-inline": "0.4.3",
-    "electron": "7.1.9",
+    "electron": "8.0.0",
     "electron-devtools-installer": "2.2.4",
-    "electron-packager": "14.2.0",
-    "electron-reloader": "0.3.0",
+    "electron-packager": "14.2.1",
+    "electron-reloader": "1.0.0",
     "eslint": "6.2.2",
     "eslint-config-standard": "14.0.1",
     "eslint-config-standard-react": "9.0.0",
@@ -55,7 +55,7 @@
     "flow-bin": "0.118.0",
     "glow": "1.2.2",
     "jest": "25.1.0",
-    "node-sass": "4.12.0",
+    "node-sass": "4.13.1",
     "redux-logger": "3.0.6"
   }
 }
