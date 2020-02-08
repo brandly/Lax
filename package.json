@@ -1,6 +1,6 @@
 {
   "name": "Lax",
-  "version": "0.6.0",
+  "version": "0.6.3",
   "description": "IRC client built with Electron & React",
   "private": true,
   "scripts": {
