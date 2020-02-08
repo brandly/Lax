@@ -12,7 +12,8 @@ type Props = {
   onMessage: string => void,
   nickname: string,
   disconnected: boolean,
-  onPersonClick: string => void
+  onPersonClick: string => void,
+  onRequestLeave: () => void
 }
 
 type State = {
@@ -85,6 +86,21 @@ class Conversation extends React.PureComponent<Props, State> {
                     People List
                   </label>
                 </li>
+                {conversation.type !== 'CONNECTION' && (
+                  <>
+                    <hr />
+                    <li>
+                      <button
+                        style={{ width: '100%' }}
+                        onClick={() => {
+                          this.props.onRequestLeave()
+                        }}
+                      >
+                        Leave Channel
+                      </button>
+                    </li>
+                  </>
+                )}
               </ul>
             }
             conversation={conversation}

@@ -80,6 +80,13 @@ class Connection extends React.Component<Props> {
                 conversationId: name
               })
             }}
+            onRequestLeave={() => {
+              dispatch({
+                type: 'COMMAND_PART',
+                connectionId: connection.id,
+                channel: conversation.name
+              })
+            }}
             disconnected={!connection.isConnected}
           />
         ) : null}
