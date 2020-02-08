@@ -2,7 +2,9 @@
 /* global $Shape */
 import React from 'react'
 import { connect } from 'react-redux'
+import { shell } from 'electron'
 import type { Dispatch, IrcState } from '../flow'
+import pkg from '../../../package.json'
 
 type Props = {
   dispatch: Dispatch,
@@ -40,6 +42,18 @@ class Settings extends React.Component<Props> {
             />
           </label>
         </div>
+        <p>
+          {pkg.name} v{pkg.version} ∙{' '}
+          <a
+            href="https://github.com/brandly/Lax/issues/new"
+            onClick={e => {
+              e.preventDefault()
+              shell.openExternal(e.target.href)
+            }}
+          >
+            Report an issue
+          </a>
+        </p>
       </div>
     )
   }
