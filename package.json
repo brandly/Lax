@@ -39,7 +39,7 @@
     "babel-eslint": "10.0.3",
     "babel-jest": "25.1.0",
     "babel-plugin-transform-node-env-inline": "0.4.3",
-    "electron": "8.0.0",
+    "electron": "8.2.4",
     "electron-devtools-installer": "2.2.4",
     "electron-packager": "14.2.1",
     "electron-reloader": "1.0.0",
