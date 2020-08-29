@@ -27,7 +27,7 @@
     "redux": "4.0.5",
     "redux-thunk": "2.3.0",
     "slate-irc": "0.9.0",
-    "uuid": "3.2.1"
+    "uuid": "8.3.0"
   },
   "devDependencies": {
     "@babel/cli": "7.8.4",
