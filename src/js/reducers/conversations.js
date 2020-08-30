@@ -1,6 +1,6 @@
 // @flow
 /* global $Shape */
-import uuid from 'uuid/v4'
+import { v4 as uuid } from 'uuid'
 import SelectList from '../modules/SelectList'
 import equalNames from '../modules/equalNames'
 import type { ConversationT, ConversationType, MessageT, Action } from '../flow'
@@ -22,7 +22,7 @@ function list(
   } else if (!state) {
     return null
   } else {
-    return guaranteedList(state, action).applyToSelected(convo =>
+    return guaranteedList(state, action).applyToSelected((convo) =>
       Object.assign({}, convo, {
         unreadCount: 0
       })
@@ -125,23 +125,23 @@ function guaranteedList(
         )
       )
     case 'COMMAND_JOIN': {
-      const currentChannels = state.toArray().map(c => c.name)
+      const currentChannels = state.toArray().map((c) => c.name)
       if (currentChannels.includes(action.name)) {
         const { name } = action
-        return state.selectWhere(convo => equalNames(convo.name, name))
+        return state.selectWhere((convo) => equalNames(convo.name, name))
       } else {
         return state
       }
     }
     case 'RECEIVE_NAMES': {
-      return updateIdInList(state, action.channel, convo =>
+      return updateIdInList(state, action.channel, (convo) =>
         Object.assign({}, convo, {
           people: action.names
         })
-      ).selectWhere(convo => equalNames(convo.name, action.channel))
+      ).selectWhere((convo) => equalNames(convo.name, action.channel))
     }
     case 'RECEIVE_JOIN': {
-      return updateIdInList(state, action.channel, convo =>
+      return updateIdInList(state, action.channel, (convo) =>
         Object.assign({}, convo, {
           receivedJoin: true,
           people: convo.people.concat({
@@ -161,10 +161,12 @@ function guaranteedList(
     case 'RECEIVE_QUIT': {
       return applyToListWhere(
         state,
-        convo => convo.people.map(p => p.name).includes(action.nick),
-        convo =>
+        (convo) => convo.people.map((p) => p.name).includes(action.nick),
+        (convo) =>
           Object.assign({}, convo, {
-            people: convo.people.filter(person => person.name !== action.nick),
+            people: convo.people.filter(
+              (person) => person.name !== action.nick
+            ),
             messages: convo.messages.concat([
               makeMessage({
                 type: 'quit',
@@ -178,10 +180,12 @@ function guaranteedList(
     case 'RECEIVE_PART': {
       return applyToListWhere(
         state,
-        convo => action.channels.includes(convo.name),
-        convo =>
+        (convo) => action.channels.includes(convo.name),
+        (convo) =>
           Object.assign({}, convo, {
-            people: convo.people.filter(person => person.name !== action.nick),
+            people: convo.people.filter(
+              (person) => person.name !== action.nick
+            ),
             messages: convo.messages.concat(
               makeMessage({
                 type: 'part',
@@ -194,13 +198,13 @@ function guaranteedList(
     }
     case 'COMMAND_PART': {
       return (
-        state.filter(convo => convo.name !== action.channel) ||
+        state.filter((convo) => convo.name !== action.channel) ||
         SelectList.fromElement(state.getSelected())
       )
     }
     case 'COMMAND_PART_ALL': {
       return (
-        state.filter(convo => !action.channels.includes(convo.name)) ||
+        state.filter((convo) => !action.channels.includes(convo.name)) ||
         SelectList.fromElement(state.getSelected())
       )
     }
@@ -219,8 +223,8 @@ function guaranteedList(
     case 'RECEIVE_AWAY': {
       return applyToListWhere(
         state,
-        convo => convo.people.map(p => p.name).includes(action.nick),
-        convo =>
+        (convo) => convo.people.map((p) => p.name).includes(action.nick),
+        (convo) =>
           Object.assign({}, convo, {
             messages: convo.messages.concat(
               makeMessage({
@@ -234,7 +238,7 @@ function guaranteedList(
     }
     case 'SELECT_CONVERSATION': {
       const { conversationId } = action
-      const currentChannels = state.toArray().map(c => c.name)
+      const currentChannels = state.toArray().map((c) => c.name)
       if (!currentChannels.includes(conversationId)) {
         state = state.concat([
           {
@@ -247,7 +251,9 @@ function guaranteedList(
           }
         ])
       }
-      return state.selectWhere(convo => equalNames(convo.name, conversationId))
+      return state.selectWhere((convo) =>
+        equalNames(convo.name, conversationId)
+      )
     }
     case 'NOTIFICATION_CLICK': {
       const { via } = action
@@ -255,7 +261,7 @@ function guaranteedList(
         via.type === 'RECEIVE_DIRECT_MESSAGE' ||
         via.type === 'RECEIVE_CHANNEL_MESSAGE'
       ) {
-        return state.selectWhere(convo => equalNames(via.from, convo.name))
+        return state.selectWhere((convo) => equalNames(via.from, convo.name))
       } else {
         return state
       }
@@ -269,7 +275,7 @@ function incrementUnreadCount(
   conversation: string,
   convos: SelectList<ConversationT>
 ): SelectList<ConversationT> {
-  return convos.map(convo =>
+  return convos.map((convo) =>
     equalNames(convo.name, conversation)
       ? Object.assign({}, convo, {
           unreadCount: convo.unreadCount + 1
@@ -283,7 +289,7 @@ function addMessageToIdInList(
   id: string,
   message: MessageT
 ): SelectList<ConversationT> {
-  return updateIdInList(state, id, convo =>
+  return updateIdInList(state, id, (convo) =>
     Object.assign({}, convo, {
       messages: convo.messages.concat([message])
     })
@@ -293,11 +299,11 @@ function addMessageToIdInList(
 function updateIdInList(
   state: SelectList<ConversationT>,
   id: string,
-  update: ConversationT => ConversationT
+  update: (ConversationT) => ConversationT
 ): SelectList<ConversationT> {
   let foundOne = false
 
-  const result = state.map(conversation => {
+  const result = state.map((conversation) => {
     if (equalNames(conversation.name, id)) {
       foundOne = true
       return update(conversation)
@@ -328,10 +334,10 @@ function typeForId(id: string): ConversationType {
 
 function applyToListWhere<T>(
   list: SelectList<T>,
-  predicate: T => boolean,
-  update: T => T
+  predicate: (T) => boolean,
+  update: (T) => T
 ): SelectList<T> {
-  return list.map(item => (predicate(item) ? update(item) : item))
+  return list.map((item) => (predicate(item) ? update(item) : item))
 }
 
 function makeMessage(data: $Shape<MessageT>): MessageT {
