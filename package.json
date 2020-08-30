@@ -19,7 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "classnames": "2.2.6",
-    "electron-util": "0.13.1",
+    "electron-util": "0.14.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-linkify": "0.2.2",
@@ -39,7 +39,7 @@
     "babel-eslint": "10.0.3",
     "babel-jest": "25.1.0",
     "babel-plugin-transform-node-env-inline": "0.4.3",
-    "electron": "8.0.0",
+    "electron": "9.2.1",
     "electron-devtools-installer": "2.2.4",
     "electron-packager": "14.2.1",
     "electron-reloader": "1.0.0",
