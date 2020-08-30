@@ -30,14 +30,14 @@
     "uuid": "8.3.0"
   },
   "devDependencies": {
-    "@babel/cli": "7.8.4",
-    "@babel/core": "7.8.4",
-    "@babel/preset-env": "7.8.4",
-    "@babel/preset-flow": "7.8.3",
-    "@babel/preset-react": "7.8.3",
-    "@babel/register": "7.8.3",
-    "babel-eslint": "10.0.3",
-    "babel-jest": "25.1.0",
+    "@babel/cli": "7.10.5",
+    "@babel/core": "7.11.4",
+    "@babel/preset-env": "7.11.0",
+    "@babel/preset-flow": "7.10.4",
+    "@babel/preset-react": "7.10.4",
+    "@babel/register": "7.10.5",
+    "babel-eslint": "10.1.0",
+    "babel-jest": "26.3.0",
     "babel-plugin-transform-node-env-inline": "0.4.3",
     "electron": "9.2.1",
     "electron-devtools-installer": "3.1.1",
@@ -54,7 +54,7 @@
     "eslint-plugin-standard": "4.0.1",
     "flow-bin": "0.131.0",
     "glow": "1.2.2",
-    "jest": "25.1.0",
+    "jest": "26.4.2",
     "node-sass": "4.13.1",
     "redux-logger": "3.0.6"
   }
