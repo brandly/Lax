@@ -4,15 +4,13 @@ const pkg = require('./package')
 
 try {
   require('electron-reloader')(module)
-} catch (err) {}
+} catch (err) { }
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
 
 function createWindow() {
-  app.dock.setIcon(`${__dirname}/src/static/dock-icon.png`)
-
   win = new BrowserWindow({
     webPreferences: {
       nodeIntegration: true
@@ -22,6 +20,15 @@ function createWindow() {
     minHeight: 340,
     minWidth: 680
   })
+
+  const iconPath = `${__dirname}/src/static/dock-icon.png`
+  if (process.platform === 'darwin') {
+    // macOS
+    app.dock.setIcon(iconPath)
+  } else {
+    // Windows, Linux, etc.
+    win.setIcon(iconPath)
+  }
 
   // and load the index.html of the app.
   win.loadURL(path.join(`file://${__dirname}`, `${pkg['main-html']}`))
@@ -59,7 +66,7 @@ function createWindow() {
         {
           label: 'Quit',
           accelerator: 'Command+Q',
-          click: function() {
+          click: function () {
             app.quit()
           }
         }
