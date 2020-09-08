@@ -11,7 +11,9 @@ try {
 let win
 
 function createWindow() {
-  app.dock.setIcon(`${__dirname}/src/static/dock-icon.png`)
+  if (process.platform === 'darwin') {
+    app.dock.setIcon(`${__dirname}/src/static/dock-icon.png`)
+  }
 
   win = new BrowserWindow({
     webPreferences: {
