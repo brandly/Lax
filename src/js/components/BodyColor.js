@@ -28,10 +28,8 @@ class BodyColor extends React.PureComponent<Props> {
   }
 }
 
-export default connect(
-  (state: IrcState, ownProps): $Shape<Props> => {
-    return {
-      isDark: state.settings.isDark
-    }
+export default connect((state: IrcState, ownProps): $Shape<Props> => {
+  return {
+    isDark: state.settings.isDark
   }
-)(BodyColor)
+})(BodyColor)

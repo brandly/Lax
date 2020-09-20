@@ -28,7 +28,7 @@ function withConversations(
   state: Array<ConnectionT> = [],
   action: Action
 ): Array<ConnectionT> {
-  return state.map(connection => {
+  return state.map((connection) => {
     if (
       action.type === 'NOTIFICATION_CLICK' ||
       (typeof action.connectionId === 'string' &&
@@ -51,7 +51,7 @@ function updateIdInList(
   id: string,
   update: $Shape<ConnectionT>
 ): Array<ConnectionT> {
-  return state.map(connection => {
+  return state.map((connection) => {
     if (connection.id === id) {
       return Object.assign({}, connection, update)
     } else {
@@ -63,8 +63,5 @@ function updateIdInList(
 const compose = (a, b) => (state, action) => b(a(state, action), action)
 
 export default combineReducers({
-  list: compose(
-    list,
-    withConversations
-  )
+  list: compose(list, withConversations)
 })

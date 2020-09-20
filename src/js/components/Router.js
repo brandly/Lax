@@ -16,10 +16,10 @@ type Props = {
 }
 
 class Router extends React.Component<Props> {
-  unlisten: void => void
+  unlisten: (void) => void
   componentDidMount() {
     this.unlisten = this.props.dispatch(
-      listenToDocumentEvent('visibilitychange', event => {
+      listenToDocumentEvent('visibilitychange', (event) => {
         return {
           type: 'VISIBILITY_CHANGE',
           visible: event.returnValue
@@ -53,10 +53,8 @@ class Router extends React.Component<Props> {
   }
 }
 
-export default connect(
-  (state: IrcState, ownProps): $Shape<Props> => {
-    return {
-      route: state.route
-    }
+export default connect((state: IrcState, ownProps): $Shape<Props> => {
+  return {
+    route: state.route
   }
-)(Router)
+})(Router)

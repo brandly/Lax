@@ -8,14 +8,14 @@ import type { PersonT } from '../flow'
 type Props = {
   people: Array<PersonT>,
   onCloseRequest: () => void,
-  onPersonClick: string => void
+  onPersonClick: (string) => void
 }
 
 type State = {
   filter: string
 }
 
-const byName = sortBy(p => p.name.toLowerCase())
+const byName = sortBy((p) => p.name.toLowerCase())
 
 class PeopleList extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -38,7 +38,7 @@ class PeopleList extends React.Component<Props, State> {
     if (!people) return null
 
     const peopleElements = people
-      .filter(p => p.name.toLowerCase().includes(this.state.filter))
+      .filter((p) => p.name.toLowerCase().includes(this.state.filter))
       .sort(byName)
       .map((person, i) => (
         <button

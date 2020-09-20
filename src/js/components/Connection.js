@@ -46,13 +46,13 @@ class Connection extends React.Component<Props> {
               <h3 className="channel-list-heading">Conversations</h3>
               <ConversationList
                 connectionId={connection.id}
-                onSelectConversation={name => {
+                onSelectConversation={(name) => {
                   this.viewConversation(name)
                 }}
                 selectedConversationId={conversation && conversation.name}
               />
               <JoinConversation
-                onJoin={name => {
+                onJoin={(name) => {
                   dispatch(commandJoin(connection.id, [name]))
                   this.viewConversation(name)
                 }}
@@ -64,7 +64,7 @@ class Connection extends React.Component<Props> {
           <Conversation
             nickname={connection.nickname}
             conversation={conversation}
-            onMessage={message => {
+            onMessage={(message) => {
               dispatch(
                 createMessage({
                   connectionId: connection.id,
@@ -73,7 +73,7 @@ class Connection extends React.Component<Props> {
                 })
               )
             }}
-            onPersonClick={name => {
+            onPersonClick={(name) => {
               dispatch({
                 type: 'SELECT_CONVERSATION',
                 connectionId: connection.id,
@@ -95,20 +95,18 @@ class Connection extends React.Component<Props> {
   }
 }
 
-export default connect(
-  (state: IrcState, ownProps): $Shape<Props> => {
-    if (state.route.view !== 'CONNECTION') throw new Error()
-    const { connectionId } = state.route
+export default connect((state: IrcState, ownProps): $Shape<Props> => {
+  if (state.route.view !== 'CONNECTION') throw new Error()
+  const { connectionId } = state.route
 
-    const connection = getConnectionById(state, connectionId)
-    const conversation =
-      connection && connection.conversations
-        ? connection.conversations.getSelected()
-        : null
+  const connection = getConnectionById(state, connectionId)
+  const conversation =
+    connection && connection.conversations
+      ? connection.conversations.getSelected()
+      : null
 
-    return {
-      connection,
-      conversation
-    }
+  return {
+    connection,
+    conversation
   }
-)(Connection)
+})(Connection)

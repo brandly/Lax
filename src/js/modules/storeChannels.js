@@ -10,7 +10,7 @@ import { commandJoin } from '../actions'
 import type { Store, Action, Dispatch } from '../flow'
 declare var Notification: any
 
-const key = id => `channels-${id}`
+const key = (id) => `channels-${id}`
 
 function write(id: string, list: Array<string>): void {
   window.localStorage[key(id)] = JSON.stringify(list)
@@ -28,7 +28,7 @@ const storeChannelsMiddleware = (store: Store) => (next: Dispatch) => (
     const connectionId = action.connectionId || ''
     const get = () =>
       getConversationsForConnection(store.getState(), connectionId).filter(
-        convo => convo.type === 'CHANNEL'
+        (convo) => convo.type === 'CHANNEL'
       )
 
     const before = get()
@@ -36,13 +36,13 @@ const storeChannelsMiddleware = (store: Store) => (next: Dispatch) => (
     const after = get()
 
     if (after.length !== before.length) {
-      const names = after.map(convo => convo.name)
+      const names = after.map((convo) => convo.name)
       write(connectionId, names)
     }
 
     if (action.type === 'RECEIVE_WELCOME') {
       const dispatch: Dispatch = store.dispatch
-      read(connectionId).forEach(name => {
+      read(connectionId).forEach((name) => {
         setTimeout(() => {
           dispatch(commandJoin(connectionId, [name]))
         })

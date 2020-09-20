@@ -14,7 +14,9 @@ export function getConversationsForConnection(
 ): Array<ConversationT> {
   const connection = getConnectionById(state, id)
   if (!connection || !connection.conversations) return []
-  return connection.conversations.toArray().filter(c => c.type !== 'CONNECTION')
+  return connection.conversations
+    .toArray()
+    .filter((c) => c.type !== 'CONNECTION')
 }
 
 export function getSelectedConversation(

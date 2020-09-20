@@ -89,7 +89,7 @@ test('RECEIVE_QUIT removes someone from relevant convos and messages the channel
   if (list) {
     expect(list.length).toBe(2)
 
-    list = list.selectWhere(c => c.name === channel)
+    list = list.selectWhere((c) => c.name === channel)
     const convo = list.getSelected()
 
     expect(convo.messages.length).toBe(2)
@@ -189,8 +189,8 @@ function stubConnection(id) {
     server: 'string',
     port: 6667,
     stream: {
-      join: s => {},
-      nick: s => {},
+      join: (s) => {},
+      nick: (s) => {},
       send: (to: string, msg: string) => {},
       notice: (a: string, b: string) => {},
       action: (target: string, msg: string) => {},

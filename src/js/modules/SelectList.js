@@ -17,12 +17,12 @@ class SelectList<A> {
     return this.selected
   }
 
-  applyToSelected(fn: A => A): SelectList<A> {
+  applyToSelected(fn: (A) => A): SelectList<A> {
     this.selected = fn(this.selected)
     return this
   }
 
-  selectWhere(fn: A => boolean): SelectList<A> {
+  selectWhere(fn: (A) => boolean): SelectList<A> {
     const beforeIndex = this.before.findIndex(fn)
     if (beforeIndex >= 0) {
       const before = this.before.slice(0, beforeIndex)
@@ -53,9 +53,9 @@ class SelectList<A> {
 
   map<B>(fn: (A, boolean) => B): SelectList<B> {
     return new SelectList(
-      this.before.map(a => fn(a, false)),
+      this.before.map((a) => fn(a, false)),
       fn(this.selected, true),
-      this.after.map(a => fn(a, false))
+      this.after.map((a) => fn(a, false))
     )
   }
 
@@ -63,7 +63,7 @@ class SelectList<A> {
     return new SelectList(this.before, this.selected, this.after.concat(vals))
   }
 
-  filter(fn: A => boolean): ?SelectList<A> {
+  filter(fn: (A) => boolean): ?SelectList<A> {
     const before = this.before.filter(fn)
     const after = this.after.filter(fn)
 
@@ -79,7 +79,7 @@ class SelectList<A> {
     return null
   }
 
-  find(fn: A => boolean): ?A {
+  find(fn: (A) => boolean): ?A {
     return (
       this.before.find(fn) ||
       (fn(this.selected) ? this.selected : undefined) ||

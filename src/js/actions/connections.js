@@ -27,8 +27,8 @@ export const connectToServer = (
 
     if (
       any(
-        getState().connections.list.map(conn => conn.id),
-        connId => connId === id
+        getState().connections.list.map((conn) => conn.id),
+        (connId) => connId === id
       )
     ) {
       return dispatch({
@@ -61,19 +61,19 @@ export const connectToServer = (
       }
     })
 
-    stream.on('errors', e => {
+    stream.on('errors', (e) => {
       dispatch({ type: 'IRC_ERROR', connectionId: id, message: e.message })
     })
 
-    stream.on('mode', e => {
+    stream.on('mode', (e) => {
       console.log('mode', e)
     })
 
-    stream.on('invite', e => {
+    stream.on('invite', (e) => {
       console.log('invite', e)
     })
 
-    stream.on('notice', e => {
+    stream.on('notice', (e) => {
       const channelInMessage = getChannelFromNotice(e.message)
 
       var to, message
@@ -97,7 +97,7 @@ export const connectToServer = (
       })
     })
 
-    stream.on('away', e => {
+    stream.on('away', (e) => {
       dispatch({
         type: 'RECEIVE_AWAY',
         connectionId: id,
@@ -106,7 +106,7 @@ export const connectToServer = (
       })
     })
 
-    stream.on('part', e => {
+    stream.on('part', (e) => {
       dispatch({
         type: 'RECEIVE_PART',
         connectionId: id,
@@ -116,7 +116,7 @@ export const connectToServer = (
       })
     })
 
-    stream.on('quit', e => {
+    stream.on('quit', (e) => {
       dispatch({
         type: 'RECEIVE_QUIT',
         connectionId: id,
@@ -125,11 +125,11 @@ export const connectToServer = (
       })
     })
 
-    stream.on('kick', e => {
+    stream.on('kick', (e) => {
       console.log('kick', e)
     })
 
-    stream.on('motd', e => {
+    stream.on('motd', (e) => {
       dispatch({
         type: 'RECEIVE_MOTD',
         connectionId: id,
@@ -137,7 +137,7 @@ export const connectToServer = (
       })
     })
 
-    stream.on('welcome', nick => {
+    stream.on('welcome', (nick) => {
       dispatch({
         type: 'RECEIVE_WELCOME',
         connectionId: id,
@@ -145,7 +145,7 @@ export const connectToServer = (
       })
     })
 
-    stream.on('nick', e => {
+    stream.on('nick', (e) => {
       dispatch({
         type: 'RECEIVE_NICK',
         connectionId: id,
@@ -154,7 +154,7 @@ export const connectToServer = (
       })
     })
 
-    stream.on('topic', e => {
+    stream.on('topic', (e) => {
       dispatch({
         type: 'RECEIVE_TOPIC',
         connectionId: id,
@@ -163,7 +163,7 @@ export const connectToServer = (
       })
     })
 
-    stream.on('join', e => {
+    stream.on('join', (e) => {
       dispatch({
         type: 'RECEIVE_JOIN',
         connectionId: id,
@@ -172,7 +172,7 @@ export const connectToServer = (
       })
     })
 
-    stream.on('names', e => {
+    stream.on('names', (e) => {
       dispatch({
         type: 'RECEIVE_NAMES',
         connectionId: id,
@@ -181,7 +181,7 @@ export const connectToServer = (
       })
     })
 
-    stream.on('message', e => {
+    stream.on('message', (e) => {
       if (e.message.trim().startsWith('\u0001ACTION')) {
         dispatch({
           type: 'RECEIVE_ACTION',
@@ -231,10 +231,10 @@ function createIrcStream({ credentials, dispatch, getState, remember }) {
         error: 'net.Socket timeout'
       })
     })
-    .on('end', e => {
+    .on('end', (e) => {
       console.log('socket end', e)
     })
-    .on('connect', e => {
+    .on('connect', (e) => {
       const { connection } = getState().creator
       dispatch({
         type: 'REQUEST_CONNECTION_SUCCESS',
@@ -248,7 +248,7 @@ function createIrcStream({ credentials, dispatch, getState, remember }) {
         remember
       })
     })
-    .on('close', e => {
+    .on('close', (e) => {
       // TODO: figure out how to recover
       // probably want to look at like window focus or "internet is back" events of some sort
       // then check for `ECONNRESET` errors and rebuild the stream(s)
@@ -258,7 +258,7 @@ function createIrcStream({ credentials, dispatch, getState, remember }) {
         connectionId: id
       })
     })
-    .on('error', e => {
+    .on('error', (e) => {
       console.log('socket error', e)
       dispatch({
         type: 'REQUEST_CONNECTION_ERROR',

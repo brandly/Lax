@@ -3,11 +3,11 @@ import React from 'react'
 
 type Props = {
   on: string,
-  fn: void => void
+  fn: (void) => void
 }
 
 class Keydown extends React.PureComponent<Props> {
-  _handle: KeyboardEvent => void
+  _handle: (KeyboardEvent) => void
   constructor(props: Props) {
     super(props)
     this._handle = this.handle.bind(this)

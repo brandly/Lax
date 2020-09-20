@@ -4,7 +4,7 @@ import type { ConnectionT } from '../flow'
 
 type Props = {
   connection: ConnectionT,
-  onClick: void => void
+  onClick: (void) => void
 }
 
 class ConnectionHeader extends React.Component<Props> {

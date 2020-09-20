@@ -57,7 +57,7 @@ class ConnectionCreator extends React.Component<Props> {
       savedCreds,
       dispatch
     } = this.props
-    const listItems = savedCreds.map(cred => (
+    const listItems = savedCreds.map((cred) => (
       <li
         className="saved-credentials"
         key={credentialsToId(cred)}
@@ -74,7 +74,7 @@ class ConnectionCreator extends React.Component<Props> {
         </small>
         <button
           className="forget"
-          onClick={e => {
+          onClick={(e) => {
             e.stopPropagation()
             dispatch({
               type: 'FORGET_CREDENTIALS',
@@ -115,11 +115,11 @@ class ConnectionCreator extends React.Component<Props> {
   }
 }
 
-export default connect(state =>
+export default connect((state) =>
   Object.assign({}, state.creator, { savedCreds: state.credentials })
 )(ConnectionCreator)
 
-const Panels = props => {
+const Panels = (props) => {
   if (props.secondary) {
     return (
       <React.Fragment>
@@ -161,7 +161,7 @@ class Login extends React.Component<LoginProps, LoginState> {
     return (
       <form
         className="login-form"
-        onSubmit={event => {
+        onSubmit={(event) => {
           event.preventDefault()
           onSubmit(credentials, rememberCredentials)
         }}
@@ -225,7 +225,7 @@ class Login extends React.Component<LoginProps, LoginState> {
             type="checkbox"
             name="rememberCredentials"
             checked={rememberCredentials}
-            onClick={e => {
+            onClick={(e) => {
               this.setState({
                 rememberCredentials: e.target.checked
               })

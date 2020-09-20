@@ -45,7 +45,7 @@ class ConversationHeader extends React.Component<Props, { dropped: boolean }> {
         {dropped ? dropdown : null}
         <button
           className="icon-btn"
-          onClick={e => {
+          onClick={(e) => {
             e.stopPropagation()
             this.setState({
               dropped: !dropped
@@ -61,7 +61,7 @@ class ConversationHeader extends React.Component<Props, { dropped: boolean }> {
 
 // dots vertical menu by Gonzalo Bravo from the Noun Project
 // https://thenounproject.com/term/vertical-menu/1609264/
-const VerticalMenuIcon = props => (
+const VerticalMenuIcon = (props) => (
   <svg viewBox="0 0 100 100" {...props}>
     <g color="#000" fontWeight={400} fontFamily="sans-serif">
       <path

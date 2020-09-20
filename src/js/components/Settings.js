@@ -25,7 +25,7 @@ class Settings extends React.Component<Props> {
             type="text"
             style={{ background: 'inherit' }}
             value={quitMessage}
-            onChange={e => {
+            onChange={(e) => {
               dispatch({ type: 'SET_QUIT_MSG', message: e.target.value })
             }}
           />
@@ -46,7 +46,7 @@ class Settings extends React.Component<Props> {
           {pkg.name} v{pkg.version} ∙{' '}
           <a
             href="https://github.com/brandly/Lax/issues/new"
-            onClick={e => {
+            onClick={(e) => {
               e.preventDefault()
               shell.openExternal(e.target.href)
             }}
@@ -59,9 +59,7 @@ class Settings extends React.Component<Props> {
   }
 }
 
-export default connect(
-  (state: IrcState, ownProps): $Shape<Props> => {
-    if (state.route.view !== 'SETTINGS') throw new Error()
-    return state.settings
-  }
-)(Settings)
+export default connect((state: IrcState, ownProps): $Shape<Props> => {
+  if (state.route.view !== 'SETTINGS') throw new Error()
+  return state.settings
+})(Settings)

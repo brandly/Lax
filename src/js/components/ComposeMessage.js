@@ -6,7 +6,7 @@ import type { PersonT } from '../flow'
 
 type Props = {
   nickname: string,
-  onMessage: string => void,
+  onMessage: (string) => void,
   people: Array<PersonT>
 }
 
@@ -31,7 +31,7 @@ const suggestionsFor = (
   people: Array<PersonT>
 ): SuggestionsType => {
   if (msg.length) {
-    const cmd = possibleSuggestions.filter(suggestion =>
+    const cmd = possibleSuggestions.filter((suggestion) =>
       suggestion.startsWith(msg)
     )
     if (cmd) {
@@ -43,10 +43,10 @@ const suggestionsFor = (
       const start = msg.slice(prefix.length).toLowerCase()
       const potentials = SelectList.fromElement(people[0])
         .concat(people.slice(1))
-        .filter(person => person.name.toLowerCase().startsWith(start))
+        .filter((person) => person.name.toLowerCase().startsWith(start))
 
       if (potentials) {
-        return potentials.map(person => prefix + person.name)
+        return potentials.map((person) => prefix + person.name)
       }
     }
   }
@@ -125,9 +125,9 @@ class ComposeMessage extends React.Component<Props, State> {
           {isFocused && suggestions ? (
             <Suggestions
               list={suggestions}
-              onRequestSelect={requested => {
+              onRequestSelect={(requested) => {
                 this.setState({
-                  suggestions: suggestions.selectWhere(s => s === requested)
+                  suggestions: suggestions.selectWhere((s) => s === requested)
                 })
               }}
             />
@@ -158,7 +158,7 @@ class ComposeMessage extends React.Component<Props, State> {
 }
 
 const maxSuggestions = 8
-const Suggestions = props => (
+const Suggestions = (props) => (
   <ul className="pane suggestions-list">
     {props.list
       .map((s, isSelected) => (

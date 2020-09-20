@@ -6,8 +6,8 @@ import type {
 import SelectList from '../modules/SelectList'
 
 type IrcConnectionStream = {
-  join: string => void,
-  nick: string => void,
+  join: (string) => void,
+  nick: (string) => void,
   send: (to: string, msg: string) => void,
   notice: (string, string) => void,
   action: (target: string, msg: string) => void,

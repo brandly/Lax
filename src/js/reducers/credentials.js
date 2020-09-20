@@ -18,7 +18,7 @@ function list(state: State, action: Action): State {
         const id = credentialsToId(action.credentials)
 
         const update = [action.credentials].concat(
-          state.filter(cred => credentialsToId(cred) !== id)
+          state.filter((cred) => credentialsToId(cred) !== id)
         )
         return update
       } else {
@@ -27,7 +27,7 @@ function list(state: State, action: Action): State {
     }
     case 'FORGET_CREDENTIALS': {
       const { id } = action
-      return state.filter(cred => credentialsToId(cred) !== id)
+      return state.filter((cred) => credentialsToId(cred) !== id)
     }
     default:
       return state

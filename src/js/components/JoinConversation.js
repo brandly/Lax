@@ -3,7 +3,7 @@
 import React from 'react'
 
 type Props = {
-  onJoin: string => void
+  onJoin: (string) => void
 }
 
 type State = {
@@ -48,7 +48,9 @@ class JoinConversation extends React.Component<Props, State> {
           value={this.state.channelName}
           onChange={this.handleChange.bind(this)}
         />
-        {this.state.channelName.length ? <input type="submit" value="+" /> : null}
+        {this.state.channelName.length ? (
+          <input type="submit" value="+" />
+        ) : null}
       </form>
     )
   }

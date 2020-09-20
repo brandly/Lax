@@ -27,7 +27,7 @@ const store: ReduxStore = createStore(
 
 window.addEventListener('beforeunload', () => {
   const state: IrcState = store.getState()
-  state.connections.list.map(conn => {
+  state.connections.list.map((conn) => {
     conn.stream.quit(state.settings.quitMessage)
   })
 })

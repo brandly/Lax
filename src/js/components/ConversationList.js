@@ -9,12 +9,12 @@ import { getConversationsForConnection } from '../reducers/selectors'
 import type { IrcState, ConversationT } from '../flow'
 
 type Props = {
-  onSelectConversation: string => void,
+  onSelectConversation: (string) => void,
   conversations: Array<ConversationT>,
   selectedConversationId: ?string
 }
 
-const byName = sortBy(c => c.name)
+const byName = sortBy((c) => c.name)
 
 class ConversationList extends React.Component<Props> {
   selectConversation(channelName) {
@@ -60,14 +60,12 @@ class ConversationList extends React.Component<Props> {
   }
 }
 
-export default connect(
-  (state: IrcState, ownProps): $Shape<Props> => {
-    const { connectionId, selectedConversationId } = ownProps
-    const conversations = getConversationsForConnection(state, connectionId)
+export default connect((state: IrcState, ownProps): $Shape<Props> => {
+  const { connectionId, selectedConversationId } = ownProps
+  const conversations = getConversationsForConnection(state, connectionId)
 
-    return {
-      conversations,
-      selectedConversationId
-    }
+  return {
+    conversations,
+    selectedConversationId
   }
-)(ConversationList)
+})(ConversationList)

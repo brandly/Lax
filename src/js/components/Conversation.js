@@ -9,10 +9,10 @@ import type { ConversationT } from '../flow'
 
 type Props = {
   conversation: ConversationT,
-  onMessage: string => void,
+  onMessage: (string) => void,
   nickname: string,
   disconnected: boolean,
-  onPersonClick: string => void,
+  onPersonClick: (string) => void,
   onRequestLeave: () => void
 }
 
@@ -149,7 +149,7 @@ export default Conversation
 
 // Alert by Wolf Lupus from the Noun Project
 // https://thenounproject.com/term/alert/14055/
-const AlertIcon = props => (
+const AlertIcon = (props) => (
   <svg viewBox="0 0 100 100" {...props}>
     <path d="M-192 0H-7v99h-185zM0-36h100v30H0z" />
     <path stroke="#FFF" strokeMiterlimit={10} d="M8-14.5h10M-179 16.5h17" />

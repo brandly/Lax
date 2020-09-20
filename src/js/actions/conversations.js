@@ -93,7 +93,7 @@ export function commandJoin(
     const connection = getConnectionById(getState(), connectionId)
 
     if (connection) {
-      names.forEach(name => {
+      names.forEach((name) => {
         name = name.startsWith('#') ? name : '#' + name
         connection.stream.join(name)
 
@@ -172,7 +172,7 @@ function commandPartAll(connectionId: string): Dispatchable {
     )
 
     if (connection) {
-      const channels = conversations.map(convo => convo.name)
+      const channels = conversations.map((convo) => convo.name)
       connection.stream.part(channels)
 
       dispatch({
