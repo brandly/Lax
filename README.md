@@ -12,9 +12,9 @@
 
 ## download
 
-[download the macOS `.app` here](https://github.com/brandly/Lax/releases)!
+[download apps for macOS and Windows here](https://github.com/brandly/Lax/releases)!
 
-for other platforms, you'll have to build your own.
+for other platforms, you'll have to [build your own](#dist).
 
 ## dev
 
