@@ -1,7 +1,7 @@
 .channel-list-heading {
   text-transform: uppercase;
   color: #7c818c;
-  margin: 1.0rem 1.0rem 0.8rem;
+  margin: 1rem 1rem 0.8rem;
   font-size: 0.8rem;
   font-weight: bold;
   cursor: default;
@@ -10,21 +10,20 @@
 .channel-list {
   font-size: 0.8rem;
   cursor: default;
-  -webkit-user-select: none;
 }
 
 .channel-list-item {
-  height: 2.0rem;
-  line-height: 2.0rem;
+  height: 2rem;
+  line-height: 2rem;
   letter-spacing: 0.4px;
-  color: #FFF;
-  padding: 0 1.0rem;
+  color: #fff;
+  padding: 0 1rem;
   transition: border-width 100ms ease-in-out;
 }
 
 .channel-list-item.is-selected {
-  background: #5294E2;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.10);
+  background: #5294e2;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
   font-weight: 200;
 }
 
