@@ -5,6 +5,10 @@
   border-spacing: 0 6px;
   padding: 0 1rem;
 }
+.message-list,
+.message-list * {
+  user-select: text;
+}
 
 .message {
   display: table-row;
