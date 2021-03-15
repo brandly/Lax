@@ -179,6 +179,31 @@ test('NOTIFICATION_CLICK selects the convo', () => {
   }
 })
 
+test('RECEIVE_NICK updates name in convos', () => {
+  const id = 'abc123'
+  const list = apply(
+    withConnection([
+      {
+        type: 'RECEIVE_JOIN',
+        connectionId,
+        channel: id,
+        from: 'Makani'
+      },
+      {
+        type: 'RECEIVE_NICK',
+        connectionId,
+        oldNickname: 'Makani',
+        newNickname: 'mitch'
+      }
+    ])
+  )
+  expect(list).toBeDefined()
+  if (list) {
+    expect(list.getSelected().people[0].name).toBe('mitch')
+    expect(list.getSelected().messages[0].from).toBe('mitch')
+  }
+})
+
 function stubConnection(id) {
   return {
     id,
