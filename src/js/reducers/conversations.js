@@ -5,7 +5,7 @@ import SelectList from '../modules/SelectList'
 import equalNames from '../modules/equalNames'
 import type { ConversationT, ConversationType, MessageT, Action } from '../flow'
 
-function list(
+export default function list(
   state: ?SelectList<ConversationT> = null,
   action: Action
 ): ?SelectList<ConversationT> {
@@ -219,7 +219,25 @@ function guaranteedList(
           to: action.channel
         })
       )
-    // case RECEIVE_NICK:
+    case 'RECEIVE_NICK': {
+      return applyToListWhere(
+        state,
+        (convo) => convo.people.map((p) => p.name).includes(action.oldNickname),
+        (convo) =>
+          Object.assign({}, convo, {
+            people: convo.people.map((person) =>
+              person.name === action.oldNickname
+                ? { ...person, name: action.newNickname }
+                : person
+            ),
+            messages: convo.messages.map((message) =>
+              message.from === action.oldNickname
+                ? { ...message, from: action.newNickname }
+                : message
+            )
+          })
+      )
+    }
     case 'RECEIVE_AWAY': {
       return applyToListWhere(
         state,
@@ -353,5 +371,3 @@ function makeMessage(data: $Shape<MessageT>): MessageT {
     data
   )
 }
-
-export default list
