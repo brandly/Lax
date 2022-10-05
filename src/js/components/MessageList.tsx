@@ -1,161 +1,162 @@
 /* global HTMLDivElement HTMLAnchorElement */
-import React from "react";
-import { findDOMNode } from "react-dom";
-import classNames from "classnames";
-import Linkify from "react-linkify";
-import { shell } from "electron";
-import type { MessageT } from "../flow";
+import React from 'react'
+import { findDOMNode } from 'react-dom'
+import classNames from 'classnames'
+import Linkify from 'react-linkify'
+import { shell } from 'electron'
+import type { MessageT } from '../flow'
 type Props = {
-  messages: Array<MessageT>;
-};
+  messages: Array<MessageT>
+}
 type State = {
-  isBrowsingPriorMessages: boolean;
-};
+  isBrowsingPriorMessages: boolean
+}
 
 class MessageList extends React.PureComponent<Props, State> {
-  scrollListener: EventHandler;
+  scrollListener: EventHandler
 
   constructor(props: Props) {
-    super(props);
+    super(props)
     this.state = {
       isBrowsingPriorMessages: false
-    };
+    }
   }
 
   componentDidMount() {
-    const el = findDOMNode(this.refs.scroller);
+    const el = findDOMNode(this.refs.scroller)
 
     this.scrollListener = () => {
       if (el instanceof HTMLDivElement) {
-        const isScrolledToBottom = el.scrollTop === el.scrollHeight - el.offsetHeight;
+        const isScrolledToBottom =
+          el.scrollTop === el.scrollHeight - el.offsetHeight
         this.setState({
           isBrowsingPriorMessages: !isScrolledToBottom
-        });
+        })
       }
-    };
+    }
 
-    el && el.addEventListener('scroll', this.scrollListener);
+    el && el.addEventListener('scroll', this.scrollListener)
   }
 
   componentWillUnmount() {
-    const el = findDOMNode(this.refs.scroller);
-    el && el.removeEventListener('scroll', this.scrollListener);
+    const el = findDOMNode(this.refs.scroller)
+    el && el.removeEventListener('scroll', this.scrollListener)
   }
 
   scrollToBottom() {
-    const el = findDOMNode(this.refs.scroller);
+    const el = findDOMNode(this.refs.scroller)
 
     if (el instanceof HTMLDivElement) {
-      el.scrollTop = el.scrollHeight;
+      el.scrollTop = el.scrollHeight
     }
   }
 
   componentDidUpdate(nextProps: Props) {
-    const isDifferentChannel = nextProps.messages[0] !== this.props.messages[0];
+    const isDifferentChannel = nextProps.messages[0] !== this.props.messages[0]
 
     if (isDifferentChannel || !this.state.isBrowsingPriorMessages) {
-      this.scrollToBottom();
+      this.scrollToBottom()
     }
   }
 
   render() {
-    const {
-      messages
-    } = this.props;
+    const { messages } = this.props
 
     if (!messages) {
-      return null;
+      return null
     }
 
-    return <div className="scrolling-panel" ref="scroller">
+    return (
+      <div className="scrolling-panel" ref="scroller">
         <ul className="message-list">
           {messages.map((msg, i) => {
-          const showFrom = i === 0 || messages[i - 1].from !== msg.from;
-          return <Message key={msg.id} msg={msg} showFrom={showFrom} />;
-        })}
+            const showFrom = i === 0 || messages[i - 1].from !== msg.from
+            return <Message key={msg.id} msg={msg} showFrom={showFrom} />
+          })}
         </ul>
-      </div>;
+      </div>
+    )
   }
-
 }
 
 type MessageProps = {
-  msg: MessageT;
-  showFrom: boolean;
-};
+  msg: MessageT
+  showFrom: boolean
+}
 
 class Message extends React.PureComponent<MessageProps> {
   handleLink(event: Event) {
-    event.preventDefault();
+    event.preventDefault()
 
     if (event.target instanceof HTMLAnchorElement) {
-      const url = event.target.href;
-      shell.openExternal(url);
+      const url = event.target.href
+      shell.openExternal(url)
     }
   }
 
   renderText(text: string) {
     return text.split('\n').map((text, index) => {
       // TODO: should probably handle this with CSS
-      const Wrap = ({
-        children
-      }) => {
+      const Wrap = ({ children }) => {
         if (index === 0) {
-          return <span className="text">{children}</span>;
+          return <span className="text">{children}</span>
         } else {
-          return <p className="text">{children}</p>;
+          return <p className="text">{children}</p>
         }
-      };
+      }
 
-      return <Wrap key={index}>
-          <Linkify properties={{
-          onClick: this.handleLink.bind(this)
-        }}>
+      return (
+        <Wrap key={index}>
+          <Linkify
+            properties={{
+              onClick: this.handleLink.bind(this)
+            }}
+          >
             {text}
           </Linkify>
-        </Wrap>;
-    });
+        </Wrap>
+      )
+    })
   }
 
   render() {
-    const {
-      msg,
-      showFrom
-    } = this.props;
-    const action = msg.type !== 'priv' ? <span className="command">{msg.type}</span> : null;
-    const name: string = msg.type;
+    const { msg, showFrom } = this.props
+    const action =
+      msg.type !== 'priv' ? <span className="command">{msg.type}</span> : null
+    const name: string = msg.type
     const classes = classNames({
       message: true,
       [name]: true
-    });
-    return <li className={classes}>
+    })
+    return (
+      <li className={classes}>
         <h3 className="nickname from">{showFrom ? msg.from : ''}</h3>
         <div className="body">
           {action}
           {this.renderText(msg.text)}
         </div>
         <p className="when">{formatDate(msg.when)}</p>
-      </li>;
+      </li>
+    )
   }
-
 }
 
 function formatDate(d: Date): string {
-  let hours = d.getHours();
-  const meridian = hours < 12 ? 'AM' : 'PM';
+  let hours = d.getHours()
+  const meridian = hours < 12 ? 'AM' : 'PM'
 
   if (hours === 0) {
-    hours = 12;
+    hours = 12
   } else if (hours > 12) {
-    hours = hours - 12;
+    hours = hours - 12
   }
 
-  return `${hours}:${twoDigits(d.getMinutes())} ${meridian}`;
+  return `${hours}:${twoDigits(d.getMinutes())} ${meridian}`
 }
 
 function twoDigits(str: string | number): string {
-  str = '' + str;
-  return str.length < 2 ? '0' + str : str;
+  str = '' + str
+  return str.length < 2 ? '0' + str : str
 }
 
-export default MessageList;
+export default MessageList

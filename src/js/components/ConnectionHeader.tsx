@@ -1,25 +1,26 @@
-import React from "react";
-import type { ConnectionT } from "../flow";
+import React from 'react'
+import type { ConnectionT } from '../flow'
 type Props = {
-  connection: ConnectionT;
-  onClick: (arg0: void) => void;
-};
+  connection: ConnectionT
+  onClick: (arg0: void) => void
+}
 
 class ConnectionHeader extends React.Component<Props> {
   render() {
-    const {
-      connection,
-      onClick
-    } = this.props;
-    return <div className="header connection-header">
-        <h2 className="vertical-center server" onClick={() => {
-        onClick();
-      }}>
+    const { connection, onClick } = this.props
+    return (
+      <div className="header connection-header">
+        <h2
+          className="vertical-center server"
+          onClick={() => {
+            onClick()
+          }}
+        >
           {connection.server}
         </h2>
-      </div>;
+      </div>
+    )
   }
-
 }
 
-export default ConnectionHeader;
+export default ConnectionHeader

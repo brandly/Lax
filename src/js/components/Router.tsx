@@ -1,63 +1,64 @@
-import { $Shape } from "utility-types";
+import { $Shape } from 'utility-types'
 
 /* global $Shape */
-import React from "react";
-import { connect } from "react-redux";
-import Connection from "./Connection";
-import Settings from "./Settings";
-import ConnectionSelector from "./ConnectionSelector";
-import ConnectionCreator from "./ConnectionCreator";
-import BodyColor from "./BodyColor";
-import { listenToDocumentEvent } from "../actions/document";
-import type { IrcState, RouteT, Dispatch } from "../flow";
+import React from 'react'
+import { connect } from 'react-redux'
+import Connection from './Connection'
+import Settings from './Settings'
+import ConnectionSelector from './ConnectionSelector'
+import ConnectionCreator from './ConnectionCreator'
+import BodyColor from './BodyColor'
+import { listenToDocumentEvent } from '../actions/document'
+import type { IrcState, RouteT, Dispatch } from '../flow'
 type Props = {
-  route: RouteT;
-  dispatch: Dispatch;
-};
+  route: RouteT
+  dispatch: Dispatch
+}
 
 class Router extends React.Component<Props> {
-  unlisten: (arg0: void) => void;
+  unlisten: (arg0: void) => void
 
   componentDidMount() {
-    this.unlisten = this.props.dispatch(listenToDocumentEvent('visibilitychange', event => {
-      return {
-        type: 'VISIBILITY_CHANGE',
-        visible: event.returnValue
-      };
-    }));
+    this.unlisten = this.props.dispatch(
+      listenToDocumentEvent('visibilitychange', (event) => {
+        return {
+          type: 'VISIBILITY_CHANGE',
+          visible: event.returnValue
+        }
+      })
+    )
   }
 
   componentWillUnmount() {
-    this.unlisten();
+    this.unlisten()
   }
 
   renderContents() {
-    const {
-      route
-    } = this.props;
+    const { route } = this.props
 
     switch (route.view) {
       case 'CONNECTION_CREATOR':
-        return <ConnectionCreator />;
+        return <ConnectionCreator />
 
       case 'CONNECTION':
-        return <Connection />;
+        return <Connection />
 
       case 'SETTINGS':
-        return <Settings />;
+        return <Settings />
     }
   }
 
   render() {
-    return <BodyColor>
+    return (
+      <BodyColor>
         <ConnectionSelector>{this.renderContents()}</ConnectionSelector>
-      </BodyColor>;
+      </BodyColor>
+    )
   }
-
 }
 
 export default connect((state: IrcState, ownProps): $Shape<Props> => {
   return {
     route: state.route
-  };
-})(Router);
+  }
+})(Router)
