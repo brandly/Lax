@@ -2,8 +2,8 @@ import type { IrcState, ConnectionT, ConversationT } from '../flow'
 export function getConnectionById(
   state: IrcState,
   connectionId: string
-): ConnectionT | null | undefined {
-  return state.connections.list.find(({ id }) => id === connectionId)
+): ConnectionT | null {
+  return state.connections.list.find(({ id }) => id === connectionId) ?? null
 }
 export function getConversationsForConnection(
   state: IrcState,

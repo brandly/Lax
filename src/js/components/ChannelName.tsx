@@ -5,7 +5,7 @@ type Props = {
   unreadCount?: number
 }
 
-function splitOnHash(str) {
+function splitOnHash(str: string) {
   let hash = ''
 
   while (str[0] === '#') {

@@ -6,8 +6,8 @@ import route from './route'
 import settings from './settings'
 import ui from './ui'
 import type { IrcState, Action } from '../flow'
-type Root = (arg0: IrcState, arg1: Action) => IrcState
-export const rootReducer: Root = combineReducers({
+
+export const rootReducer = combineReducers({
   connections,
   creator,
   credentials,

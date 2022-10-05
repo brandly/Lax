@@ -5,10 +5,11 @@
 //   fire a series of JOINs
 import { getConversationsForConnection } from '../reducers/selectors'
 import { commandJoin } from '../actions'
-import type { Store, Action, Dispatch } from '../flow'
+import type { Store, Action } from '../flow'
+import { AppDispatch } from '../store'
 declare var Notification: any
 
-const key = (id) => `channels-${id}`
+const key = (id: string) => `channels-${id}`
 
 function write(id: string, list: Array<string>): void {
   window.localStorage[key(id)] = JSON.stringify(list)
@@ -20,8 +21,8 @@ function read(id: string): Array<string> {
 }
 
 const storeChannelsMiddleware =
-  (store: Store) => (next: Dispatch) => (action: Action) => {
-    if (typeof action.connectionId === 'string') {
+  (store: Store) => (next: AppDispatch) => (action: Action) => {
+    if ('connectionId' in action) {
       const connectionId = action.connectionId || ''
 
       const get = () =>
@@ -39,7 +40,7 @@ const storeChannelsMiddleware =
       }
 
       if (action.type === 'RECEIVE_WELCOME') {
-        const dispatch: Dispatch = store.dispatch
+        const dispatch: AppDispatch = store.dispatch
         read(connectionId).forEach((name) => {
           setTimeout(() => {
             dispatch(commandJoin(connectionId, [name]))

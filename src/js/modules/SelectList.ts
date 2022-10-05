@@ -1,5 +1,5 @@
 class SelectList<A> {
-  static fromElement(element: A): SelectList<A> {
+  static fromElement<A>(element: A): SelectList<A> {
     return new SelectList([], element, [])
   }
 
@@ -73,7 +73,7 @@ class SelectList<A> {
       return new SelectList(before, this.selected, after)
     }
 
-    const list = [].concat(before, after)
+    const list = [...before, ...after]
 
     if (list.length) {
       return new SelectList([], list[0], list.slice(1))
@@ -91,7 +91,7 @@ class SelectList<A> {
   }
 
   toArray(): Array<A> {
-    return [].concat(this.before, this.selected, this.after)
+    return [...this.before, this.selected, ...this.after]
   }
 
   get length(): number {

@@ -1,4 +1,3 @@
-import { $Shape } from 'utility-types'
 import type {
   Store as ReduxStore // Dispatch as ReduxDispatch
 } from 'redux'
@@ -56,7 +55,7 @@ export type ConnectionT = {
   port: number
   stream: IrcConnectionStream
   error: string | null | undefined
-  conversations: SelectList<ConversationT> | null | undefined
+  conversations: SelectList<ConversationT> | null
 }
 export type CredentialsT = {
   realName: string
@@ -68,8 +67,8 @@ export type CredentialsT = {
 export type CreatorState = {
   isConnecting: boolean
   credentials: CredentialsT
-  connection: ConnectionT | null | undefined
-  error: string | null | undefined
+  connection: ConnectionT | null
+  error: string | null
 }
 export type RouteT =
   | {
@@ -273,13 +272,8 @@ export type Action =
     }
   | {
       type: 'CREDENTIALS_UPDATE'
-      update: $Shape<CredentialsT>
+      update: Partial<CredentialsT>
     }
 export type Store = ReduxStore<IrcState, Action>
 export type GetState = () => IrcState
 // export type Dispatch = ReduxDispatch<Action>;
-
-/* eslint-disable no-use-before-define */
-export type Dispatch = (action: Dispatchable) => any
-export type Thunk = (dispatch: Dispatch, getState: GetState) => void
-export type Dispatchable = Action | Thunk | Array<Action>

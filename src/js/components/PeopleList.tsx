@@ -11,7 +11,7 @@ type Props = {
 type State = {
   filter: string
 }
-const byName = sortBy((p) => p.name.toLowerCase())
+const byName = sortBy((p: PersonT) => p.name.toLowerCase())
 
 class PeopleList extends React.Component<Props, State> {
   constructor(props: Props) {

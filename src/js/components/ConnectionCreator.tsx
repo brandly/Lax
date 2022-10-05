@@ -1,8 +1,9 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { connectToServer } from '../actions'
 import { credentialsToId } from '../reducers/credentials'
-import type { Dispatch, CreatorState, CredentialsT } from '../flow'
+import type { CreatorState, CredentialsT, IrcState } from '../flow'
+
 const serverOptions = [
   'chat.freenode.net',
   'irc.abjects.net',
@@ -41,10 +42,13 @@ if (process.env.NODE_ENV !== 'production') {
   serverOptions.unshift('127.0.0.1')
 }
 
-type Props = CreatorState & {
-  dispatch: Dispatch
-  savedCreds: CredentialsT[]
-}
+const connector = connect((state: IrcState) => ({
+  ...state.creator,
+  // TODO: does this even work?
+  savedCreds: [state.creator.credentials]
+}))
+
+type Props = ConnectedProps<typeof connector>
 
 class ConnectionCreator extends React.Component<Props> {
   render() {
@@ -107,14 +111,12 @@ class ConnectionCreator extends React.Component<Props> {
     )
   }
 }
+export default connector(ConnectionCreator)
 
-export default connect((state) =>
-  Object.assign({}, state.creator, {
-    savedCreds: state.credentials
-  })
-)(ConnectionCreator)
-
-const Panels = (props) => {
+const Panels = (props: {
+  secondary: React.ReactNode
+  children: React.ReactNode
+}) => {
   if (props.secondary) {
     return (
       <React.Fragment>
@@ -133,107 +135,98 @@ type LoginProps = {
   onChange: (name: string, value: string) => void
   onSubmit: (arg0: CredentialsT, arg1: boolean) => void
 }
-type LoginState = {
-  rememberCredentials: boolean
-}
 
-class Login extends React.Component<LoginProps, LoginState> {
-  constructor(props) {
-    super(props)
-    this.state = {
-      rememberCredentials: false
-    }
-  }
+const Login = (props: LoginProps) => {
+  const { realName, nickname, password, server, port } = props.credentials
+  const [rememberCredentials, setRememberCredentials] = React.useState(false)
+  const inputGroupClass = 'input-group'
 
-  handleChange(event) {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>): void {
     const { name, value } = event.target
-    this.props.onChange(name, value)
+    props.onChange(name, value)
   }
 
-  render() {
-    const { disabled, credentials, onSubmit } = this.props
-    const { realName, nickname, password, server, port } = credentials
-    const { rememberCredentials } = this.state
-    const inputGroupClass = 'input-group'
-    return (
-      <form
-        className="login-form"
-        onSubmit={(event) => {
-          event.preventDefault()
-          onSubmit(credentials, rememberCredentials)
-        }}
-      >
-        <div className={inputGroupClass}>
-          <label>Real Name</label>
-          <input
-            type="text"
-            autoFocus
-            required
-            name="realName"
-            value={realName}
-            disabled={disabled}
-            onChange={this.handleChange.bind(this)}
-          />
-        </div>
-        <div className={inputGroupClass}>
-          <label>Nickname</label>
-          <input
-            type="text"
-            required
-            name="nickname"
-            value={nickname}
-            disabled={disabled}
-            onChange={this.handleChange.bind(this)}
-          />
-        </div>
-        <div className={inputGroupClass}>
-          <label>Password</label>
-          <input
-            type="password"
-            name="password"
-            value={password}
-            disabled={disabled}
-            onChange={this.handleChange.bind(this)}
-          />
-        </div>
-        <div className={inputGroupClass}>
-          <label>Server</label>
-          <input
-            type="text"
-            name="server"
-            value={server}
-            disabled={disabled}
-            onChange={this.handleChange.bind(this)}
-          />
-        </div>
-        <div className={inputGroupClass}>
-          <label>Port</label>
-          <input
-            type="number"
-            required
-            name="port"
-            value={port}
-            disabled={disabled}
-            onChange={this.handleChange.bind(this)}
-          />
-        </div>
-        <label className="checkbox-label">
-          <input
-            type="checkbox"
-            name="rememberCredentials"
-            checked={rememberCredentials}
-            onClick={(e) => {
-              this.setState({
-                rememberCredentials: e.target.checked
-              })
-            }}
-          />{' '}
-          remember credentials?
-        </label>
-        <div className={inputGroupClass}>
-          <input type="submit" disabled={disabled} value="Log In" />
-        </div>
-      </form>
-    )
-  }
+  return (
+    <form
+      className="login-form"
+      onSubmit={(event) => {
+        event.preventDefault()
+        props.onSubmit(props.credentials, rememberCredentials)
+      }}
+    >
+      <div className={inputGroupClass}>
+        <label>Real Name</label>
+        <input
+          type="text"
+          autoFocus
+          required
+          name="realName"
+          value={realName}
+          disabled={props.disabled}
+          onChange={handleChange}
+        />
+      </div>
+      <div className={inputGroupClass}>
+        <label>Nickname</label>
+        <input
+          type="text"
+          required
+          name="nickname"
+          value={nickname}
+          disabled={props.disabled}
+          onChange={handleChange}
+        />
+      </div>
+      <div className={inputGroupClass}>
+        <label>Password</label>
+        <input
+          type="password"
+          name="password"
+          value={password}
+          disabled={props.disabled}
+          onChange={handleChange}
+        />
+      </div>
+      <div className={inputGroupClass}>
+        <label>Server</label>
+        <input
+          type="text"
+          name="server"
+          value={server}
+          disabled={props.disabled}
+          onChange={handleChange}
+        />
+      </div>
+      <div className={inputGroupClass}>
+        <label>Port</label>
+        <input
+          type="number"
+          required
+          name="port"
+          value={port}
+          disabled={props.disabled}
+          onChange={handleChange}
+        />
+      </div>
+      <label className="checkbox-label">
+        <input
+          type="checkbox"
+          name="rememberCredentials"
+          checked={rememberCredentials}
+          onClick={(e: React.MouseEvent<HTMLInputElement>) => {
+            if (
+              e.target instanceof HTMLInputElement &&
+              e.target.getAttribute('type') === 'checkbox'
+            ) {
+              setRememberCredentials(e.target.checked)
+            }
+          }}
+        />{' '}
+        remember credentials?
+      </label>
+      <div className={inputGroupClass}>
+        <input type="submit" disabled={props.disabled} value="Log In" />
+      </div>
+    </form>
+  )
 }

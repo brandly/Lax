@@ -1,30 +1,39 @@
-import { $Shape } from 'utility-types'
-
-/* global $Shape */
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import classNames from 'classnames'
 import ChannelName from './ChannelName'
 import sortBy from '../modules/sortBy'
 import { getConversationsForConnection } from '../reducers/selectors'
 import type { IrcState, ConversationT } from '../flow'
-type Props = {
-  onSelectConversation: (arg0: string) => void
-  conversations: Array<ConversationT>
-  selectedConversationId: string | null | undefined
+
+type OwnProps = {
+  connectionId: string
+  selectedConversationId: string | null
+  onSelectConversation: (channelName: string) => void
 }
-const byName = sortBy((c) => c.name)
+
+const connector = connect((state: IrcState, ownProps: OwnProps) => {
+  const { connectionId } = ownProps
+  const conversations = getConversationsForConnection(state, connectionId)
+  return {
+    conversations
+  }
+})
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+type Props = PropsFromRedux & OwnProps
+const byName = sortBy((c: ConversationT) => c.name)
 
 class ConversationList extends React.Component<Props> {
-  selectConversation(channelName) {
+  selectConversation(channelName: string) {
     this.props.onSelectConversation(channelName)
   }
 
-  selectConversationAtIndex(i) {
+  selectConversationAtIndex(i: number) {
     this.selectConversation(this.props.conversations[i].name)
   }
 
-  conversationOrder(convo) {
+  conversationOrder(convo: ConversationT) {
     return convo.name
   }
 
@@ -56,11 +65,4 @@ class ConversationList extends React.Component<Props> {
   }
 }
 
-export default connect((state: IrcState, ownProps): $Shape<Props> => {
-  const { connectionId, selectedConversationId } = ownProps
-  const conversations = getConversationsForConnection(state, connectionId)
-  return {
-    conversations,
-    selectedConversationId
-  }
-})(ConversationList)
+export default connector(ConversationList)

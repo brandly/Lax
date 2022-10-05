@@ -1,8 +1,9 @@
 import net from 'net'
-import irc from 'slate-irc'
+import IrcClient from 'slate-irc'
 import { credentialsToId } from '../reducers/credentials'
 import equalNames from '../modules/equalNames'
-import type { Thunk, CredentialsT } from '../flow'
+import type { CredentialsT, ConnectionT } from '../flow'
+import type { Dispatchable, AppDispatch, GetState } from '../store'
 export const CONNECTION_CLOSED = 'CONNECTION_CLOSED'
 
 function any<A>(list: Array<A>, predicate: (val: A) => boolean): boolean {
@@ -18,22 +19,23 @@ function any<A>(list: Array<A>, predicate: (val: A) => boolean): boolean {
 export const connectToServer = (
   credentials: CredentialsT,
   remember: boolean
-): Thunk => {
+): Dispatchable => {
   const { realName, nickname, server, port } = credentials
-  return (dispatch, getState) => {
+  return (dispatch: AppDispatch, getState: GetState) => {
     const id = credentialsToId(credentials)
 
     if (
       any(
-        getState().connections.list.map((conn) => conn.id),
+        getState().connections.list.map((conn: ConnectionT) => conn.id),
         (connId) => connId === id
       )
     ) {
-      return dispatch({
+      dispatch({
         type: 'REQUEST_CONNECTION_ERROR',
         connectionId: id,
         error: 'Connection already exists'
       })
+      return
     }
 
     const stream = createIrcStream({
@@ -200,7 +202,18 @@ export const connectToServer = (
   }
 }
 
-function createIrcStream({ credentials, dispatch, getState, remember }) {
+type IrcStreamConstructor = {
+  credentials: CredentialsT
+  remember: boolean
+  dispatch: AppDispatch
+  getState: GetState
+}
+function createIrcStream({
+  credentials,
+  dispatch,
+  getState,
+  remember
+}: IrcStreamConstructor): IrcClient {
   const { realName, nickname, password, server, port } = credentials
   const id = credentialsToId(credentials)
   const socket = net.connect({
@@ -215,10 +228,10 @@ function createIrcStream({ credentials, dispatch, getState, remember }) {
         error: 'net.Socket timeout'
       })
     })
-    .on('end', (e) => {
-      console.log('socket end', e)
+    .on('end', () => {
+      console.log('socket end')
     })
-    .on('connect', (e) => {
+    .on('connect', () => {
       const { connection } = getState().creator
       dispatch({
         type: 'REQUEST_CONNECTION_SUCCESS',
@@ -250,7 +263,7 @@ function createIrcStream({ credentials, dispatch, getState, remember }) {
         error: e.message
       })
     })
-  const stream = irc(socket)
+  const stream = new IrcClient(socket)
   if (password) stream.pass(password)
   stream.nick(nickname)
   stream.user(nickname, realName)

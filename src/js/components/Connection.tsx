@@ -1,23 +1,31 @@
-import { $Shape } from 'utility-types'
-
-/* global $Shape */
 import React from 'react'
-import { connect } from 'react-redux'
+import { ConnectedProps, connect } from 'react-redux'
 import ConnectionHeader from './ConnectionHeader'
 import ConversationList from './ConversationList'
 import JoinConversation from './JoinConversation'
 import Conversation from './Conversation'
 import { getConnectionById } from '../reducers/selectors'
 import { commandJoin, createMessage } from '../actions'
-import type { Dispatch, IrcState, ConnectionT, ConversationT } from '../flow'
-type Props = {
-  dispatch: Dispatch
-  connection: ConnectionT | null | undefined
-  conversation: ConversationT | null | undefined
-}
+import type { IrcState, ConnectionT, ConversationT } from '../flow'
+
+const connector = connect((state: IrcState) => {
+  if (state.route.view !== 'CONNECTION') throw new Error()
+  const { connectionId } = state.route
+  const connection = getConnectionById(state, connectionId)
+  const conversation =
+    connection && connection.conversations
+      ? connection.conversations.getSelected()
+      : null
+  return {
+    connection,
+    conversation
+  }
+})
+
+type Props = ConnectedProps<typeof connector>
 
 class Connection extends React.Component<Props> {
-  viewConversation(conversationId) {
+  viewConversation(conversationId: string) {
     const { dispatch, connection } = this.props
     dispatch({
       type: 'SELECT_CONVERSATION',
@@ -41,6 +49,7 @@ class Connection extends React.Component<Props> {
           {connection.isWelcome ? (
             <div className="below-header scrolling-panel">
               <h3 className="channel-list-heading">Conversations</h3>
+              {/* TODO: ConversationList should take a SelectList for conversations */}
               <ConversationList
                 connectionId={connection.id}
                 onSelectConversation={(name) => {
@@ -92,16 +101,4 @@ class Connection extends React.Component<Props> {
   }
 }
 
-export default connect((state: IrcState, ownProps): $Shape<Props> => {
-  if (state.route.view !== 'CONNECTION') throw new Error()
-  const { connectionId } = state.route
-  const connection = getConnectionById(state, connectionId)
-  const conversation =
-    connection && connection.conversations
-      ? connection.conversations.getSelected()
-      : null
-  return {
-    connection,
-    conversation
-  }
-})(Connection)
+export default connector(Connection)

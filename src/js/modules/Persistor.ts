@@ -26,7 +26,9 @@ export default class Persistor<A> {
     }
   }
 
-  wrap(reducer: (state: A, action: Action) => A) {
+  wrap(
+    reducer: (state: A, action: Action) => A
+  ): (state: A, action: Action) => A {
     return (state: A, action: Action) => {
       const after = reducer(state || this.init(), action)
 

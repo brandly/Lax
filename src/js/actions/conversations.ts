@@ -2,7 +2,8 @@ import {
   getConnectionById,
   getConversationsForConnection
 } from '../reducers/selectors'
-import type { ConnectionT, Dispatchable } from '../flow'
+import type { ConnectionT } from '../flow'
+import type { Dispatchable, AppDispatch, GetState } from '../store'
 export function createMessage({
   connectionId,
   conversationName,
@@ -13,7 +14,7 @@ export function createMessage({
   message: string
 }): Dispatchable {
   message = message.trim()
-  return (dispatch, getState) => {
+  return (dispatch: AppDispatch, getState: GetState) => {
     const connection = getConnectionById(getState(), connectionId)
 
     if (connection) {
@@ -26,7 +27,11 @@ export function createMessage({
   }
 }
 
-function sendMessage(connection: ConnectionT, to: string, message: string) {
+function sendMessage(
+  connection: ConnectionT,
+  to: string,
+  message: string
+): Dispatchable {
   connection.stream.send(to, message)
   return {
     type: 'SEND_MESSAGE',
@@ -95,7 +100,7 @@ export function commandJoin(
   connectionId: string,
   names: string[]
 ): Dispatchable {
-  return (dispatch, getState) => {
+  return (dispatch: AppDispatch, getState: GetState) => {
     const connection = getConnectionById(getState(), connectionId)
 
     if (connection) {
@@ -117,7 +122,7 @@ function commandMe(
   target: string,
   message: string
 ): Dispatchable {
-  return (dispatch, getState) => {
+  return (dispatch: AppDispatch, getState: GetState) => {
     const connection = getConnectionById(getState(), connectionId)
 
     if (connection) {
@@ -136,7 +141,7 @@ export function commandNick(
   connectionId: string,
   newNickname: string
 ): Dispatchable {
-  return (dispatch, getState) => {
+  return (dispatch: AppDispatch, getState: GetState) => {
     const connection = getConnectionById(getState(), connectionId)
 
     if (connection) {
@@ -151,7 +156,7 @@ export function commandNick(
 }
 
 function commandPart(connectionId: string, channel: string): Dispatchable {
-  return (dispatch, getState) => {
+  return (dispatch: AppDispatch, getState: GetState) => {
     const connection = getConnectionById(getState(), connectionId)
 
     if (connection) {
@@ -166,7 +171,7 @@ function commandPart(connectionId: string, channel: string): Dispatchable {
 }
 
 function commandPartAll(connectionId: string): Dispatchable {
-  return (dispatch, getState) => {
+  return (dispatch: AppDispatch, getState: GetState) => {
     const connection = getConnectionById(getState(), connectionId)
     const conversations = getConversationsForConnection(
       getState(),
@@ -190,7 +195,7 @@ export function commandNotice(
   to: string,
   message: string
 ): Dispatchable {
-  return (dispatch, getState) => {
+  return (dispatch: AppDispatch, getState: GetState) => {
     const connection = getConnectionById(getState(), connectionId)
 
     if (connection) {

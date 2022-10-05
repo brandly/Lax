@@ -1,6 +1,3 @@
-import { $Shape } from 'utility-types'
-
-/* global $Shape */
 import { v4 as uuid } from 'uuid'
 import SelectList from '../modules/SelectList'
 import equalNames from '../modules/equalNames'
@@ -10,7 +7,7 @@ export default function list(
   action: Action
 ): SelectList<ConversationT> | null | undefined {
   if (action.type === 'REQUEST_CONNECTION_SUCCESS') {
-    const add = {
+    const add: ConversationT = {
       type: 'CONNECTION',
       name: action.connection.id,
       messages: [],
@@ -381,7 +378,7 @@ function applyToListWhere<T>(
   return list.map((item) => (predicate(item) ? update(item) : item))
 }
 
-function makeMessage(data: $Shape<MessageT>): MessageT {
+function makeMessage(data: Partial<MessageT>): MessageT {
   return Object.assign(
     {
       id: uuid(),

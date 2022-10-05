@@ -83,7 +83,7 @@ class ComposeMessage extends React.Component<Props, State> {
     }
   }
 
-  handleKeyDown(event: KeyboardEvent) {
+  handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
     if (this.state.suggestions) {
       switch (event.key) {
         case 'ArrowUp': {
@@ -163,13 +163,18 @@ class ComposeMessage extends React.Component<Props, State> {
 
 const maxSuggestions = 8
 
-const Suggestions = (props) => (
+type SuggestionsProps = {
+  list: SelectList<string>
+  onRequestSelect: (suggestion: string) => void
+}
+
+const Suggestions = (props: SuggestionsProps) => (
   <ul className="pane suggestions-list">
     {props.list
       .map((s, isSelected) => (
         <li
           key={s}
-          className={isSelected ? 'selected' : null}
+          className={isSelected ? 'selected' : undefined}
           onMouseEnter={() => {
             props.onRequestSelect(s)
           }}

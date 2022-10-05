@@ -1,22 +1,23 @@
-import { $Shape } from 'utility-types'
-
-/* global $Shape */
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import Connection from './Connection'
 import Settings from './Settings'
 import ConnectionSelector from './ConnectionSelector'
 import ConnectionCreator from './ConnectionCreator'
 import BodyColor from './BodyColor'
 import { listenToDocumentEvent } from '../actions/document'
-import type { IrcState, RouteT, Dispatch } from '../flow'
-type Props = {
-  route: RouteT
-  dispatch: Dispatch
-}
+import type { IrcState, RouteT } from '../flow'
+
+const connector = connect((state: IrcState, ownProps) => {
+  return {
+    route: state.route
+  }
+})
+
+type Props = ConnectedProps<typeof connector>
 
 class Router extends React.Component<Props> {
-  unlisten: (arg0: void) => void
+  unlisten?: () => void
 
   componentDidMount() {
     this.unlisten = this.props.dispatch(
@@ -30,7 +31,7 @@ class Router extends React.Component<Props> {
   }
 
   componentWillUnmount() {
-    this.unlisten()
+    this.unlisten && this.unlisten()
   }
 
   renderContents() {
@@ -57,8 +58,4 @@ class Router extends React.Component<Props> {
   }
 }
 
-export default connect((state: IrcState, ownProps): $Shape<Props> => {
-  return {
-    route: state.route
-  }
-})(Router)
+export default connector(Router)

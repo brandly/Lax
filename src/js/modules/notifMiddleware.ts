@@ -2,17 +2,18 @@ import {
   getSelectedConversation,
   getConnectionById
 } from '../reducers/selectors'
-import type { Store, Action, Dispatch } from '../flow'
+import type { Action } from '../flow'
+import type { Store, AppDispatch } from '../store'
 declare var Notification: any
 
 const notifMiddleware =
-  (store: Store) => (next: Dispatch) => (action: Action) => {
-    function fireNotif(from, body) {
+  (store: Store) => (next: AppDispatch) => (action: Action) => {
+    function fireNotif(from: string, body: string) {
       const notif = new Notification(from, {
         body
       })
       notif.addEventListener('click', () => {
-        const dispatch: Dispatch = store.dispatch
+        const dispatch: AppDispatch = store.dispatch
         dispatch({
           type: 'NOTIFICATION_CLICK',
           via: action
@@ -36,13 +37,15 @@ const notifMiddleware =
       }
     } else if (action.type === 'RECEIVE_DIRECT_MESSAGE') {
       const state = store.getState()
+      if (state.route.view !== 'CONNECTION')
+        throw new Error('Must have connection to RECEIVE_DIRECT_MESSAGE')
       const currentConvo = getSelectedConversation(
         state,
         state.route.connectionId
       )
 
       if (
-        !state.route.view === 'CONNECTION' ||
+        state.route.view !== 'CONNECTION' ||
         (currentConvo && action.from !== currentConvo.name) ||
         !state.ui.visible
       ) {

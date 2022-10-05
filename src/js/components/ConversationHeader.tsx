@@ -29,7 +29,7 @@ class ConversationHeader extends React.Component<
       <div className="header channel-header">
         <h2 className="channel-heading">
           <ChannelName name={conversation.name} />
-          {isChannel ? (
+          {isChannel && (
             <p
               className="channel-people-count"
               onClick={
@@ -37,14 +37,14 @@ class ConversationHeader extends React.Component<
                   ? () => {
                       this.props.onPeopleClick(people)
                     }
-                  : null
+                  : undefined
               }
             >
               {people.length} {people.length === 1 ? 'person' : 'people'}
             </p>
-          ) : null}
+          )}
         </h2>
-        {dropped ? dropdown : null}
+        {dropped && dropdown}
         <button
           className="icon-btn"
           onClick={(e) => {
@@ -59,10 +59,12 @@ class ConversationHeader extends React.Component<
       </div>
     )
   }
-} // dots vertical menu by Gonzalo Bravo from the Noun Project
+}
+
+// dots vertical menu by Gonzalo Bravo from the Noun Project
 // https://thenounproject.com/term/vertical-menu/1609264/
 
-const VerticalMenuIcon = (props) => (
+const VerticalMenuIcon = (props: Partial<React.SVGProps<SVGSVGElement>>) => (
   <svg viewBox="0 0 100 100" {...props}>
     <g color="#000" fontWeight={400} fontFamily="sans-serif">
       <path
@@ -74,12 +76,12 @@ const VerticalMenuIcon = (props) => (
           textDecorationStyle: 'solid',
           textDecorationColor: '#000',
           textTransform: 'none',
-          blockProgression: 'tb',
+          // blockProgression: 'tb',
           whiteSpace: 'normal',
           isolation: 'auto',
-          mixBlendMode: 'normal',
-          solidColor: '#000',
-          solidOpacity: 1
+          mixBlendMode: 'normal'
+          // solidColor: '#000',
+          // solidOpacity: 1
         }}
         d="M59 50c0-4.953-4.047-9-9-9s-9 4.047-9 9 4.047 9 9 9 9-4.047 9-9zm-3 0c0 3.331-2.669 6-6 6s-6-2.669-6-6 2.669-6 6-6 6 2.669 6 6zM59 26c0-4.953-4.047-9-9-9s-9 4.047-9 9 4.047 9 9 9 9-4.047 9-9zm-3 0c0 3.331-2.669 6-6 6s-6-2.669-6-6 2.669-6 6-6 6 2.669 6 6zM59 74c0-4.953-4.047-9-9-9s-9 4.047-9 9 4.047 9 9 9 9-4.047 9-9zm-3 0c0 3.331-2.669 6-6 6s-6-2.669-6-6 2.669-6 6-6 6 2.669 6 6z"
         overflow="visible"

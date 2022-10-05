@@ -1,9 +1,16 @@
-import { $Shape } from 'utility-types'
 import * as React from 'react'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import type { IrcState } from '../flow'
-type Props = {
-  isDark: boolean
+
+const connector = connect((state: IrcState, ownProps) => {
+  return {
+    isDark: state.settings.isDark
+  }
+})
+
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+type Props = PropsFromRedux & {
   children: React.ReactNode
 }
 const darkClass = 'theme-dark'
@@ -14,7 +21,7 @@ class BodyColor extends React.PureComponent<Props> {
       document.body.classList.toggle(darkClass, this.props.isDark)
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     document.body && document.body.classList.toggle(darkClass, nextProps.isDark)
   }
 
@@ -27,8 +34,4 @@ class BodyColor extends React.PureComponent<Props> {
   }
 }
 
-export default connect((state: IrcState, ownProps): $Shape<Props> => {
-  return {
-    isDark: state.settings.isDark
-  }
-})(BodyColor)
+export default connector(BodyColor)

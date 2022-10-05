@@ -4,7 +4,7 @@ import ConversationHeader from './ConversationHeader'
 import MessageList from './MessageList'
 import ComposeMessage from './ComposeMessage'
 import PeopleList from './PeopleList'
-import type { ConversationT } from '../flow'
+import type { ConversationT, MessageT } from '../flow'
 type Props = {
   conversation: ConversationT
   onMessage: (arg0: string) => void
@@ -39,13 +39,13 @@ class Conversation extends React.PureComponent<Props, State> {
     const { filterStatusUpdates } = this.state
     const showPeopleList =
       this.state.showPeopleList && conversation.people.length > 0
-    const peopleListEl = showPeopleList ? (
+    const peopleListEl = showPeopleList && (
       <PeopleList
         people={conversation.people}
         onCloseRequest={this.togglePeopleList.bind(this)}
         onPersonClick={this.props.onPersonClick}
       />
-    ) : null
+    )
     return (
       <div
         className={classNames('right-panel channel', {
@@ -140,14 +140,15 @@ class Conversation extends React.PureComponent<Props, State> {
 
 const statusUpdates = ['join', 'part', 'away', 'quit']
 
-function notStatusUpdate(message) {
+function notStatusUpdate(message: MessageT) {
   return !statusUpdates.includes(message.type)
 }
 
-export default Conversation // Alert by Wolf Lupus from the Noun Project
-// https://thenounproject.com/term/alert/14055/
+export default Conversation
 
-const AlertIcon = (props) => (
+// Alert by Wolf Lupus from the Noun Project
+// https://thenounproject.com/term/alert/14055/
+const AlertIcon = (props: Partial<React.SVGProps<SVGSVGElement>>) => (
   <svg viewBox="0 0 100 100" {...props}>
     <path d="M-192 0H-7v99h-185zM0-36h100v30H0z" />
     <path stroke="#FFF" strokeMiterlimit={10} d="M8-14.5h10M-179 16.5h17" />

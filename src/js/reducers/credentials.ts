@@ -33,5 +33,5 @@ function list(state: State, action: Action): State {
   }
 }
 
-const persist = new Persistor('past-credentials', [])
+const persist = new Persistor<State>('past-credentials', [])
 export default persist.wrap(list)

@@ -13,7 +13,7 @@ type State = {
 }
 
 class MessageList extends React.PureComponent<Props, State> {
-  scrollListener: EventHandler
+  scrollListener?: EventListener
 
   constructor(props: Props) {
     super(props)
@@ -35,12 +35,16 @@ class MessageList extends React.PureComponent<Props, State> {
       }
     }
 
-    el && el.addEventListener('scroll', this.scrollListener)
+    el &&
+      this.scrollListener &&
+      el.addEventListener('scroll', this.scrollListener)
   }
 
   componentWillUnmount() {
     const el = findDOMNode(this.refs.scroller)
-    el && el.removeEventListener('scroll', this.scrollListener)
+    el &&
+      this.scrollListener &&
+      el.removeEventListener('scroll', this.scrollListener)
   }
 
   scrollToBottom() {
@@ -97,7 +101,7 @@ class Message extends React.PureComponent<MessageProps> {
   renderText(text: string) {
     return text.split('\n').map((text, index) => {
       // TODO: should probably handle this with CSS
-      const Wrap = ({ children }) => {
+      const Wrap = ({ children }: { children: React.ReactNode }) => {
         if (index === 0) {
           return <span className="text">{children}</span>
         } else {
@@ -108,6 +112,8 @@ class Message extends React.PureComponent<MessageProps> {
       return (
         <Wrap key={index}>
           <Linkify
+            // It seems like this isn't defined in the @types ??
+            // @ts-ignore
             properties={{
               onClick: this.handleLink.bind(this)
             }}

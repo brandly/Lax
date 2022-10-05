@@ -1,16 +1,15 @@
-import { $Shape } from 'utility-types'
-
-/* global $Shape */
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { shell } from 'electron'
-import type { Dispatch, IrcState } from '../flow'
+import type { IrcState } from '../flow'
 import pkg from '../../../package.json'
-type Props = {
-  dispatch: Dispatch
-  isDark: boolean
-  quitMessage: string
-}
+
+const connector = connect((state: IrcState, ownProps) => {
+  if (state.route.view !== 'SETTINGS') throw new Error()
+  return state.settings
+})
+
+type Props = ConnectedProps<typeof connector>
 
 class Settings extends React.Component<Props> {
   render() {
@@ -52,9 +51,11 @@ class Settings extends React.Component<Props> {
           {pkg.name} v{pkg.version} ∙{' '}
           <a
             href="https://github.com/brandly/Lax/issues/new"
-            onClick={(e) => {
+            onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
               e.preventDefault()
-              shell.openExternal(e.target.href)
+              if (e.target instanceof HTMLAnchorElement) {
+                shell.openExternal(e.target.href)
+              }
             }}
           >
             Report an issue
@@ -65,7 +66,4 @@ class Settings extends React.Component<Props> {
   }
 }
 
-export default connect((state: IrcState, ownProps): $Shape<Props> => {
-  if (state.route.view !== 'SETTINGS') throw new Error()
-  return state.settings
-})(Settings)
+export default connector(Settings)
