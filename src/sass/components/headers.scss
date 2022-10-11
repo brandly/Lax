@@ -1,17 +1,17 @@
 .header {
-  height: 4.0rem;
-  padding: 0 1.0rem;
+  height: 4rem;
+  padding: 0 1rem;
   cursor: default;
   padding-top: 2px;
 }
 
 .header .vertical-center {
-  line-height: 4.0rem;
+  line-height: 4rem;
 }
 
 .below-header {
   position: relative;
-  height: calc(100% - 4.0rem);
+  height: calc(100% - 4rem);
 }
 
 .connection-header .server {

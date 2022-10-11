@@ -1,0 +1,61 @@
+import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import Connection from './Connection'
+import Settings from './Settings'
+import ConnectionSelector from './ConnectionSelector'
+import ConnectionCreator from './ConnectionCreator'
+import BodyColor from './BodyColor'
+import { listenToDocumentEvent } from '../actions/document'
+import type { IrcState, RouteT } from '../flow'
+
+const connector = connect((state: IrcState, ownProps) => {
+  return {
+    route: state.route
+  }
+})
+
+type Props = ConnectedProps<typeof connector>
+
+class Router extends React.Component<Props> {
+  unlisten?: () => void
+
+  componentDidMount() {
+    this.unlisten = this.props.dispatch(
+      listenToDocumentEvent('visibilitychange', (event) => {
+        return {
+          type: 'VISIBILITY_CHANGE',
+          visible: event.returnValue
+        }
+      })
+    )
+  }
+
+  componentWillUnmount() {
+    this.unlisten && this.unlisten()
+  }
+
+  renderContents() {
+    const { route } = this.props
+
+    switch (route.view) {
+      case 'CONNECTION_CREATOR':
+        return <ConnectionCreator />
+
+      case 'CONNECTION':
+        return <Connection />
+
+      case 'SETTINGS':
+        return <Settings />
+    }
+  }
+
+  render() {
+    return (
+      <BodyColor>
+        <ConnectionSelector>{this.renderContents()}</ConnectionSelector>
+      </BodyColor>
+    )
+  }
+}
+
+export default connector(Router)

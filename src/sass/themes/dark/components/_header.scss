@@ -5,13 +5,13 @@ body.theme-dark {
     }
 
     .channel-prefix {
-      color: #AAABAE
+      color: #aaabae;
     }
   }
 
   .channel-header {
     background: #36393f;
-    box-shadow: 0 1px 0 rgba(0, 0, 0, .2), 0 2px 0 rgba(0, 0, 0, .06);
-    border-bottom: 1px solid hsla(0, 0%, 100%, .04);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 2px 0 rgba(0, 0, 0, 0.06);
+    border-bottom: 1px solid hsla(0, 0%, 100%, 0.04);
   }
 }
