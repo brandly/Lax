@@ -6,4 +6,7 @@ dist/
 build/
 src/static/*.css
 
+# generated from src/ts
+/src/js
+
 coverage/

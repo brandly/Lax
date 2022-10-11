@@ -2,7 +2,9 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { shell } from 'electron'
 import type { IrcState } from '../flow'
-import pkg from '../../../package.json'
+// import pkg from '../../../package.json'
+// TODO: read this file in more manually?
+const pkg = { name: 'Lax', version: 'v0.0.0' }
 
 const connector = connect((state: IrcState, ownProps) => {
   if (state.route.view !== 'SETTINGS') throw new Error()
