@@ -1,4 +1,4 @@
-import { combineReducers, compose } from 'redux'
+import { combineReducers } from 'redux'
 import conversationsList from './conversations'
 import type { ConnectionT, Action } from '../flow'
 
@@ -6,6 +6,7 @@ function list(
   state: Array<ConnectionT> = [],
   action: Action
 ): Array<ConnectionT> {
+  console.debug('connections list reducer', JSON.stringify(action))
   switch (action.type) {
     case 'REQUEST_CONNECTION_SUCCESS':
       return state.concat([action.connection])
@@ -29,6 +30,7 @@ function withConversations(
   state: Array<ConnectionT> = [],
   action: Action
 ): Array<ConnectionT> {
+  console.debug('connections withConversations reducer', JSON.stringify(action))
   return state.map((connection) => {
     if (
       action.type === 'NOTIFICATION_CLICK' ||
@@ -49,6 +51,7 @@ function updateIdInList(
   id: string,
   update: Partial<ConnectionT>
 ): Array<ConnectionT> {
+  console.debug('connections updateIdInList reducer', JSON.stringify(update))
   return state.map((connection) => {
     if (connection.id === id) {
       return Object.assign({}, connection, update)
@@ -59,5 +62,6 @@ function updateIdInList(
 }
 
 export default combineReducers({
-  list: compose(list, withConversations)
+  list: (s: Array<ConnectionT>, a: Action): Array<ConnectionT> =>
+    list(withConversations(s, a), a)
 })
