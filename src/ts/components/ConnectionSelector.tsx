@@ -5,7 +5,7 @@ import type { ConnectionT, RouteT, IrcState } from '../flow'
 
 const connector = connect((state: IrcState, ownProps) => {
   return {
-    connections: state.connections.list,
+    connections: state.connections,
     route: state.route
   }
 })

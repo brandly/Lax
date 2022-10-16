@@ -94,9 +94,7 @@ export type RouteT =
 export type IrcState = {
   creator: CreatorState
   credentials: CredentialsT[]
-  connections: {
-    list: Array<ConnectionT>
-  }
+  connections: Array<ConnectionT>
   route: RouteT
   ui: {
     visible: boolean
@@ -288,5 +286,5 @@ export type Action =
     }
 
 export type Store = ReduxStore<IrcState, Action>
-export type GetState = () => IrcState
+// export type GetState = () => IrcState
 // export type Dispatch = ReduxDispatch<Action>;

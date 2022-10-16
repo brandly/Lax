@@ -61,7 +61,5 @@ function updateIdInList(
   })
 }
 
-export default combineReducers({
-  list: (s: Array<ConnectionT>, a: Action): Array<ConnectionT> =>
-    list(withConversations(s, a), a)
-})
+export default (s: Array<ConnectionT> = [], a: Action): Array<ConnectionT> =>
+  list(withConversations(s, a), a)

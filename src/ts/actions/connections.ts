@@ -26,7 +26,7 @@ export const connectToServer = (
 
     if (
       any(
-        getState().connections.list.map((conn: ConnectionT) => conn.id),
+        getState().connections.map((conn: ConnectionT) => conn.id),
         (connId) => connId === id
       )
     ) {
