@@ -5,22 +5,19 @@ type Props = {
   onClick: (arg0: void) => void
 }
 
-class ConnectionHeader extends React.Component<Props> {
-  render() {
-    const { connection, onClick } = this.props
-    return (
-      <div className="header connection-header">
-        <h2
-          className="vertical-center server"
-          onClick={() => {
-            onClick()
-          }}
-        >
-          {connection.server}
-        </h2>
-      </div>
-    )
-  }
+const ConnectionHeader = ({ connection, onClick }: Props) => {
+  return (
+    <div className="header connection-header">
+      <h2
+        className="vertical-center server"
+        onClick={() => {
+          onClick()
+        }}
+      >
+        {connection.server}
+      </h2>
+    </div>
+  )
 }
 
 export default ConnectionHeader

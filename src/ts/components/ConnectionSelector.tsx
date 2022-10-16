@@ -16,72 +16,74 @@ type Props = PropsFromRedux & {
   children: React.ReactNode
 }
 
-class ConnectionSelector extends React.PureComponent<Props> {
-  render() {
-    const { route, connections, children, dispatch } = this.props
-    return (
-      <React.Fragment>
-        <div className="connection-tabs">
-          <ul>
-            {connections.map((conn, i) => (
-              <Tab
-                key={conn.id}
-                selected={
-                  route.view === 'CONNECTION' && route.connectionId === conn.id
-                }
-                onClick={() => {
-                  dispatch({
-                    type: 'SELECT_CONVERSATION',
-                    connectionId: conn.id,
-                    conversationId: conn.id
-                  })
-                }}
-              >
-                {i + 1}
-              </Tab>
-            ))}
+const ConnectionSelector = ({
+  route,
+  connections,
+  children,
+  dispatch
+}: Props) => {
+  return (
+    <React.Fragment>
+      <div className="connection-tabs">
+        <ul>
+          {connections.map((conn, i) => (
             <Tab
+              key={conn.id}
+              selected={
+                route.view === 'CONNECTION' && route.connectionId === conn.id
+              }
               onClick={() => {
                 dispatch({
-                  type: 'REDIRECT',
-                  route: {
-                    view: 'CONNECTION_CREATOR'
-                  }
+                  type: 'SELECT_CONVERSATION',
+                  connectionId: conn.id,
+                  conversationId: conn.id
                 })
               }}
             >
-              +
+              {i + 1}
             </Tab>
-            <li
-              className="tab tab-settings-link"
+          ))}
+          <Tab
+            onClick={() => {
+              dispatch({
+                type: 'REDIRECT',
+                route: {
+                  view: 'CONNECTION_CREATOR'
+                }
+              })
+            }}
+          >
+            +
+          </Tab>
+          <li
+            className="tab tab-settings-link"
+            style={{
+              background: 'transparent'
+            }}
+          >
+            <button
+              className="icon-btn"
+              onClick={(e) => {
+                e.stopPropagation()
+                dispatch({
+                  type: 'REDIRECT',
+                  route: {
+                    view: 'SETTINGS'
+                  }
+                })
+              }}
               style={{
-                background: 'transparent'
+                padding: 4
               }}
             >
-              <button
-                className="icon-btn"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  dispatch({
-                    type: 'REDIRECT',
-                    route: {
-                      view: 'SETTINGS'
-                    }
-                  })
-                }}
-                style={{
-                  padding: 4
-                }}
-              >
-                <GearIcon color="#AAABAE" />
-              </button>
-            </li>
-          </ul>
-        </div>
-        <div className="connection-view">{children}</div>
-      </React.Fragment>
-    )
-  }
+              <GearIcon color="#AAABAE" />
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div className="connection-view">{children}</div>
+    </React.Fragment>
+  )
 }
 
 export default connector(ConnectionSelector)
