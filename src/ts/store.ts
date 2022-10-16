@@ -19,7 +19,12 @@ const composeEnhancers = inProduction
 if (!inProduction) middleware.push(require('redux-logger').default)
 
 export const store = configureStore({
-  reducer: rootReducer
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      immutableCheck: false,
+      serializableCheck: false
+    })
   // preloadedState: { connections: [], credentials: [] }
   // middleware: [thunk] //: composeEnhancers(applyMiddleware.apply(null, middleware))
 })
