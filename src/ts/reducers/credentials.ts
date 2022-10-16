@@ -1,6 +1,8 @@
 import Persistor from '../modules/Persistor'
 import type { Action, CredentialsT } from '../flow'
+
 type State = CredentialsT[]
+
 export function credentialsToId({
   realName,
   server,

@@ -44,8 +44,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 const connector = connect((state: IrcState) => ({
   ...state.creator,
-  // TODO: does this even work?
-  savedCreds: [state.creator.credentials]
+  savedCreds: state.credentials
 }))
 
 type Props = ConnectedProps<typeof connector>
