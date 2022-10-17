@@ -9,7 +9,7 @@ import { store } from './store'
 
 window.addEventListener('beforeunload', () => {
   const state: IrcState = store.getState()
-  state.connections.list.map((conn) => {
+  state.connections.map((conn) => {
     conn.stream.quit(state.settings.quitMessage)
   })
 })

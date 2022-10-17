@@ -1,6 +1,8 @@
 import Persistor from '../modules/Persistor'
 import type { Action, CredentialsT } from '../flow'
+
 type State = CredentialsT[]
+
 export function credentialsToId({
   realName,
   server,
@@ -9,7 +11,7 @@ export function credentialsToId({
   return `${realName}@${server}:${port}`
 }
 
-function list(state: State, action: Action): State {
+function list(state: State = [], action: Action): State {
   switch (action.type) {
     case 'WORKING_CREDENTIALS': {
       if (action.remember) {

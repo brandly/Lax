@@ -6,7 +6,7 @@ import { rootReducer } from './reducers'
 import { Action } from './flow'
 
 const inProduction = process.env.NODE_ENV === 'production'
-const initialState = {}
+
 const middleware = [notifMiddleware, storeChannelsMiddleware]
 const composeEnhancers = inProduction
   ? compose
@@ -18,14 +18,16 @@ const composeEnhancers = inProduction
     ).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 if (!inProduction) middleware.push(require('redux-logger').default)
 
-export const store = configureStore(
-  {
-    reducer: rootReducer
-    // middleware: composeEnhancers(applyMiddleware.apply(null, middleware))
-  }
-  // , initialState
-  // ,
-)
+export const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      immutableCheck: false,
+      serializableCheck: false
+    })
+  // preloadedState: { connections: [], credentials: [] }
+  // middleware: [thunk] //: composeEnhancers(applyMiddleware.apply(null, middleware))
+})
 
 export type Store = typeof store
 

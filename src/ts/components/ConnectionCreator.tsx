@@ -44,73 +44,75 @@ if (process.env.NODE_ENV !== 'production') {
 
 const connector = connect((state: IrcState) => ({
   ...state.creator,
-  // TODO: does this even work?
-  savedCreds: [state.creator.credentials]
+  savedCreds: state.credentials
 }))
 
 type Props = ConnectedProps<typeof connector>
 
-class ConnectionCreator extends React.Component<Props> {
-  render() {
-    const { isConnecting, credentials, error, savedCreds, dispatch } =
-      this.props
-    const listItems = savedCreds.map((cred) => (
-      <li
-        className="saved-credentials"
-        key={credentialsToId(cred)}
-        onClick={() => {
+const ConnectionCreator = ({
+  isConnecting,
+  credentials,
+  error,
+  savedCreds,
+  dispatch
+}: Props) => {
+  const listItems = savedCreds.map((cred) => (
+    <li
+      className="saved-credentials"
+      key={credentialsToId(cred)}
+      onClick={() => {
+        dispatch({
+          type: 'CREDENTIALS_UPDATE',
+          update: cred
+        })
+      }}
+    >
+      <p className="nickname">{cred.nickname}</p>
+      <small>
+        {cred.server}:{cred.port}
+      </small>
+      <button
+        className="forget"
+        onClick={(e) => {
+          e.stopPropagation()
           dispatch({
-            type: 'CREDENTIALS_UPDATE',
-            update: cred
+            type: 'FORGET_CREDENTIALS',
+            id: credentialsToId(cred)
           })
         }}
       >
-        <p className="nickname">{cred.nickname}</p>
-        <small>
-          {cred.server}:{cred.port}
-        </small>
-        <button
-          className="forget"
-          onClick={(e) => {
-            e.stopPropagation()
+        x
+      </button>
+    </li>
+  ))
+  return (
+    <div className="container connection-creator">
+      <Panels secondary={savedCreds.length ? <ul>{listItems}</ul> : null}>
+        {error && (
+          <div className="connection-error">
+            <p>{error}</p>
+          </div>
+        )}
+        <Login
+          credentials={credentials}
+          disabled={isConnecting}
+          onSubmit={(creds, remember) => {
+            dispatch(connectToServer(creds, remember))
+          }}
+          onChange={(name, value) => {
             dispatch({
-              type: 'FORGET_CREDENTIALS',
-              id: credentialsToId(cred)
+              type: 'CREDENTIALS_UPDATE',
+              update: {
+                [name]: value
+              }
             })
           }}
-        >
-          x
-        </button>
-      </li>
-    ))
-    return (
-      <div className="container connection-creator">
-        <Panels secondary={savedCreds.length ? <ul>{listItems}</ul> : null}>
-          {error && (
-            <div className="connection-error">
-              <p>{error}</p>
-            </div>
-          )}
-          <Login
-            credentials={credentials}
-            disabled={isConnecting}
-            onSubmit={(creds, remember) => {
-              dispatch(connectToServer(creds, remember))
-            }}
-            onChange={(name, value) => {
-              dispatch({
-                type: 'CREDENTIALS_UPDATE',
-                update: {
-                  [name]: value
-                }
-              })
-            }}
-          />
-        </Panels>
-      </div>
-    )
-  }
+        />
+      </Panels>
+    </div>
+  )
 }
+
 export default connector(ConnectionCreator)
 
 const Panels = (props: {

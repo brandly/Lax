@@ -2,10 +2,12 @@ import { v4 as uuid } from 'uuid'
 import SelectList from '../modules/SelectList'
 import equalNames from '../modules/equalNames'
 import type { ConversationT, ConversationType, MessageT, Action } from '../flow'
+
 export default function list(
-  state: SelectList<ConversationT> | null | undefined = null,
+  state: SelectList<ConversationT> | null = null,
   action: Action
-): SelectList<ConversationT> | null | undefined {
+): SelectList<ConversationT> | null {
+  console.debug('conversations list', JSON.stringify(action))
   if (action.type === 'REQUEST_CONNECTION_SUCCESS') {
     const add: ConversationT = {
       type: 'CONNECTION',
@@ -19,11 +21,10 @@ export default function list(
   } else if (!state) {
     return null
   } else {
-    return guaranteedList(state, action).applyToSelected((convo) =>
-      Object.assign({}, convo, {
-        unreadCount: 0
-      })
-    )
+    return guaranteedList(state, action).applyToSelected((convo) => ({
+      ...convo,
+      unreadCount: 0
+    }))
   }
 }
 
@@ -141,49 +142,45 @@ function guaranteedList(
     }
 
     case 'RECEIVE_NAMES': {
-      return updateIdInList(state, action.channel, (convo) =>
-        Object.assign({}, convo, {
-          people: action.names
-        })
-      ).selectWhere((convo) => equalNames(convo.name, action.channel))
+      return updateIdInList(state, action.channel, (convo) => ({
+        ...convo,
+        people: action.names
+      })).selectWhere((convo) => equalNames(convo.name, action.channel))
     }
 
     case 'RECEIVE_JOIN': {
-      return updateIdInList(state, action.channel, (convo) =>
-        Object.assign({}, convo, {
-          receivedJoin: true,
-          people: convo.people.concat({
-            name: action.from,
-            mode: ''
-          }),
-          messages: convo.messages.concat(
-            makeMessage({
-              type: 'join',
-              from: action.from,
-              to: action.channel
-            })
-          )
-        })
-      )
+      return updateIdInList(state, action.channel, (convo) => ({
+        ...convo,
+        receivedJoin: true,
+        people: convo.people.concat({
+          name: action.from,
+          mode: ''
+        }),
+        messages: convo.messages.concat(
+          makeMessage({
+            type: 'join',
+            from: action.from,
+            to: action.channel
+          })
+        )
+      }))
     }
 
     case 'RECEIVE_QUIT': {
       return applyToListWhere(
         state,
         (convo) => convo.people.map((p) => p.name).includes(action.nick),
-        (convo) =>
-          Object.assign({}, convo, {
-            people: convo.people.filter(
-              (person) => person.name !== action.nick
-            ),
-            messages: convo.messages.concat([
-              makeMessage({
-                type: 'quit',
-                text: action.message,
-                from: action.nick
-              })
-            ])
-          })
+        (convo) => ({
+          ...convo,
+          people: convo.people.filter((person) => person.name !== action.nick),
+          messages: convo.messages.concat([
+            makeMessage({
+              type: 'quit',
+              text: action.message,
+              from: action.nick
+            })
+          ])
+        })
       )
     }
 
@@ -191,19 +188,17 @@ function guaranteedList(
       return applyToListWhere(
         state,
         (convo) => action.channels.includes(convo.name),
-        (convo) =>
-          Object.assign({}, convo, {
-            people: convo.people.filter(
-              (person) => person.name !== action.nick
-            ),
-            messages: convo.messages.concat(
-              makeMessage({
-                type: 'part',
-                text: action.message,
-                from: action.nick
-              })
-            )
-          })
+        (convo) => ({
+          ...convo,
+          people: convo.people.filter((person) => person.name !== action.nick),
+          messages: convo.messages.concat(
+            makeMessage({
+              type: 'part',
+              text: action.message,
+              from: action.nick
+            })
+          )
+        })
       )
     }
 
@@ -237,19 +232,19 @@ function guaranteedList(
       return applyToListWhere(
         state,
         (convo) => convo.people.map((p) => p.name).includes(action.oldNickname),
-        (convo) =>
-          Object.assign({}, convo, {
-            people: convo.people.map((person) =>
-              person.name === action.oldNickname
-                ? { ...person, name: action.newNickname }
-                : person
-            ),
-            messages: convo.messages.map((message) =>
-              message.from === action.oldNickname
-                ? { ...message, from: action.newNickname }
-                : message
-            )
-          })
+        (convo) => ({
+          ...convo,
+          people: convo.people.map((person) =>
+            person.name === action.oldNickname
+              ? { ...person, name: action.newNickname }
+              : person
+          ),
+          messages: convo.messages.map((message) =>
+            message.from === action.oldNickname
+              ? { ...message, from: action.newNickname }
+              : message
+          )
+        })
       )
     }
 
@@ -257,16 +252,16 @@ function guaranteedList(
       return applyToListWhere(
         state,
         (convo) => convo.people.map((p) => p.name).includes(action.nick),
-        (convo) =>
-          Object.assign({}, convo, {
-            messages: convo.messages.concat(
-              makeMessage({
-                type: 'away',
-                text: action.message,
-                from: action.nick
-              })
-            )
-          })
+        (convo) => ({
+          ...convo,
+          messages: convo.messages.concat(
+            makeMessage({
+              type: 'away',
+              text: action.message,
+              from: action.nick
+            })
+          )
+        })
       )
     }
 
@@ -316,9 +311,10 @@ function incrementUnreadCount(
 ): SelectList<ConversationT> {
   return convos.map((convo) =>
     equalNames(convo.name, conversation)
-      ? Object.assign({}, convo, {
+      ? {
+          ...convo,
           unreadCount: convo.unreadCount + 1
-        })
+        }
       : convo
   )
 }
@@ -328,11 +324,10 @@ function addMessageToIdInList(
   id: string,
   message: MessageT
 ): SelectList<ConversationT> {
-  return updateIdInList(state, id, (convo) =>
-    Object.assign({}, convo, {
-      messages: convo.messages.concat([message])
-    })
-  )
+  return updateIdInList(state, id, (convo) => ({
+    ...convo,
+    messages: convo.messages.concat([message])
+  }))
 }
 
 function updateIdInList(
@@ -379,15 +374,13 @@ function applyToListWhere<T>(
 }
 
 function makeMessage(data: Partial<MessageT>): MessageT {
-  return Object.assign(
-    {
-      id: uuid(),
-      when: new Date(),
-      from: '',
-      text: '',
-      to: '',
-      type: 'priv'
-    },
-    data
-  )
+  return {
+    id: uuid(),
+    when: new Date(),
+    from: '',
+    text: '',
+    to: '',
+    type: 'priv',
+    ...data
+  }
 }

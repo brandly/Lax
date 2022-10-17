@@ -16,11 +16,10 @@ const connector = connect((state: IrcState, ownProps) => {
 
 type Props = ConnectedProps<typeof connector>
 
-class Router extends React.Component<Props> {
-  unlisten?: () => void
-
-  componentDidMount() {
-    this.unlisten = this.props.dispatch(
+const Router = (props: Props) => {
+  React.useEffect(() => {
+    // TODO: this doesn't seem right, i don't think we would clean up the event on dismount
+    props.dispatch(
       listenToDocumentEvent('visibilitychange', (event) => {
         return {
           type: 'VISIBILITY_CHANGE',
@@ -28,33 +27,27 @@ class Router extends React.Component<Props> {
         }
       })
     )
-  }
+  }, [props.dispatch])
 
-  componentWillUnmount() {
-    this.unlisten && this.unlisten()
-  }
+  return (
+    <BodyColor>
+      <ConnectionSelector>
+        <RouterContents {...props} />
+      </ConnectionSelector>
+    </BodyColor>
+  )
+}
 
-  renderContents() {
-    const { route } = this.props
+const RouterContents = ({ route }: Pick<Props, 'route'>) => {
+  switch (route.view) {
+    case 'CONNECTION_CREATOR':
+      return <ConnectionCreator />
 
-    switch (route.view) {
-      case 'CONNECTION_CREATOR':
-        return <ConnectionCreator />
+    case 'CONNECTION':
+      return <Connection />
 
-      case 'CONNECTION':
-        return <Connection />
-
-      case 'SETTINGS':
-        return <Settings />
-    }
-  }
-
-  render() {
-    return (
-      <BodyColor>
-        <ConnectionSelector>{this.renderContents()}</ConnectionSelector>
-      </BodyColor>
-    )
+    case 'SETTINGS':
+      return <Settings />
   }
 }
 

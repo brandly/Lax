@@ -8,13 +8,12 @@ const defaultCreds = {
 }
 // TODO: call this LoginState
 export function init(): CreatorState {
-  const state = {
+  return {
     isConnecting: false,
     credentials: defaultCreds,
     connection: null,
     error: null
   }
-  return state
 }
 
 function creator(state: CreatorState = init(), action: Action): CreatorState {

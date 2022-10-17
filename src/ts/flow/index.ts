@@ -2,6 +2,7 @@ import type {
   Store as ReduxStore // Dispatch as ReduxDispatch
 } from 'redux'
 import SelectList from '../modules/SelectList'
+
 type IrcConnectionStream = {
   join: (arg0: string) => void
   nick: (arg0: string) => void
@@ -11,10 +12,12 @@ type IrcConnectionStream = {
   part: (channel: Array<string>) => void
   quit: (msg: string) => void
 }
+
 export type PersonT = {
   name: string
   mode: string
 }
+
 type MessageType =
   | 'notice'
   | 'priv'
@@ -28,6 +31,7 @@ type MessageType =
   | 'part'
   | 'quit'
   | 'error'
+
 export type MessageT = {
   id: string
   type: MessageType
@@ -36,6 +40,7 @@ export type MessageT = {
   to: string
   when: Date
 }
+
 export type ConversationType = 'CHANNEL' | 'DIRECT' | 'CONNECTION'
 export type ConversationT = {
   type: ConversationType
@@ -45,6 +50,7 @@ export type ConversationT = {
   receivedJoin: boolean
   unreadCount: number
 }
+
 export type ConnectionT = {
   id: string
   isConnected: boolean
@@ -57,6 +63,7 @@ export type ConnectionT = {
   error: string | null | undefined
   conversations: SelectList<ConversationT> | null
 }
+
 export type CredentialsT = {
   realName: string
   nickname: string
@@ -64,12 +71,14 @@ export type CredentialsT = {
   port: number
   password: string
 }
+
 export type CreatorState = {
   isConnecting: boolean
   credentials: CredentialsT
   connection: ConnectionT | null
   error: string | null
 }
+
 export type RouteT =
   | {
       view: 'CONNECTION_CREATOR'
@@ -81,11 +90,11 @@ export type RouteT =
   | {
       view: 'SETTINGS'
     }
+
 export type IrcState = {
   creator: CreatorState
-  connections: {
-    list: Array<ConnectionT>
-  }
+  credentials: CredentialsT[]
+  connections: Array<ConnectionT>
   route: RouteT
   ui: {
     visible: boolean
@@ -95,6 +104,7 @@ export type IrcState = {
     quitMessage: string
   }
 }
+
 export type Action =
   | {
       type: 'REQUEST_CONNECTION_PENDING'
@@ -274,6 +284,7 @@ export type Action =
       type: 'CREDENTIALS_UPDATE'
       update: Partial<CredentialsT>
     }
+
 export type Store = ReduxStore<IrcState, Action>
-export type GetState = () => IrcState
+// export type GetState = () => IrcState
 // export type Dispatch = ReduxDispatch<Action>;

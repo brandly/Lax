@@ -3,7 +3,7 @@ export function getConnectionById(
   state: IrcState,
   connectionId: string
 ): ConnectionT | null {
-  return state.connections.list.find(({ id }) => id === connectionId) ?? null
+  return state.connections.find(({ id }) => id === connectionId) ?? null
 }
 export function getConversationsForConnection(
   state: IrcState,
