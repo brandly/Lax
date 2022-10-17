@@ -2,11 +2,12 @@ import { v4 as uuid } from 'uuid'
 import SelectList from '../modules/SelectList'
 import equalNames from '../modules/equalNames'
 import type { ConversationT, ConversationType, MessageT, Action } from '../flow'
+
 export default function list(
-  state: SelectList<ConversationT> | null | undefined = null,
+  state: SelectList<ConversationT> | null = null,
   action: Action
 ): SelectList<ConversationT> | null {
-  console.debug('conversation list', JSON.stringify(action))
+  console.debug('conversations list', JSON.stringify(action))
   if (action.type === 'REQUEST_CONNECTION_SUCCESS') {
     const add: ConversationT = {
       type: 'CONNECTION',

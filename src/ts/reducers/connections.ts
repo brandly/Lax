@@ -63,4 +63,4 @@ function updateIdInList(
 }
 
 export default (s: Array<ConnectionT> = [], a: Action): Array<ConnectionT> =>
-  list(withConversations(s, a), a)
+  withConversations(list(s, a), a)
