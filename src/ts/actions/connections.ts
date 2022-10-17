@@ -235,9 +235,7 @@ function createIrcStream({
       const { connection } = getState().creator
       dispatch({
         type: 'REQUEST_CONNECTION_SUCCESS',
-        connection: Object.assign({}, connection, {
-          isConnected: true
-        })
+        connection: { ...connection, isConnected: true }
       })
       dispatch({
         type: 'WORKING_CREDENTIALS',

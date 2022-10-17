@@ -37,9 +37,10 @@ function withConversations(
       ('connectionId' in action && connection.id === action.connectionId) ||
       ('connection' in action && connection.id === action.connection.id)
     ) {
-      return Object.assign({}, connection, {
+      return {
+        ...connection,
         conversations: conversationsList(connection.conversations, action)
-      })
+      }
     } else {
       return connection
     }
@@ -54,7 +55,7 @@ function updateIdInList(
   console.debug('connections updateIdInList reducer', JSON.stringify(update))
   return state.map((connection) => {
     if (connection.id === id) {
-      return Object.assign({}, connection, update)
+      return { ...connection, ...update }
     } else {
       return connection
     }
